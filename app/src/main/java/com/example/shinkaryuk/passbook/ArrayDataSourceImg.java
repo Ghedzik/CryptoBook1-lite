@@ -271,7 +271,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
         images mItem = mPass.get(position);
         holder.nameView.setText(mItem.getName());
         holder.dateCreate.setText(mItem.getDateCreate());
-
+/*
         holder.nameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -281,7 +281,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                 return false;
             }
         });
-
+*/
         holder.imageCrypt.setTag(position);
         holder.imageCrypt.setOnClickListener(new View.OnClickListener() {
             @Override

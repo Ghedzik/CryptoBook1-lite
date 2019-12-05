@@ -34,8 +34,8 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
         implements ItemTouchHelperAdapter{
     private SQLiteDatabase database;
     private DatabaseHelper sqliteHelper;
-    String[] passRow, imgRow, noteRow;
-    Context mContext;
+    private String[] passRow, imgRow, noteRow;
+    private Context mContext;
     private LayoutInflater inflater;
     private List<note> mPass;
     private notesActivity parentActivity;
@@ -346,7 +346,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 notifyDataSetChanged();
             }
         });
-
+/*
         holder.nameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -356,7 +356,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 return false;
             }
         });
-
+*/
 
         holder.imageCrypt.setOnClickListener(new View.OnClickListener() {
             @Override
