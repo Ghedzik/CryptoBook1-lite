@@ -12,13 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -41,14 +39,14 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         implements ItemTouchHelperAdapter {
     private SQLiteDatabase database;
     private DatabaseHelper sqliteHelper;
-    String[] passRow, imgRow, noteRow;
-    Context mContext;
+    private String[] passRow, imgRow, noteRow;
+    private Context mContext;
     private LayoutInflater inflater;
     private List<pass> mPass;
     private MainActivity parentActivity;
     SecretHelper sh;
     private String strPswd;
-    Animation show_view, hide_view, cl_show, click_button_scale;
+    private Animation show_view, hide_view, cl_show, click_button_scale;
 
 
     ArrayDataSourcePass(Context context){
