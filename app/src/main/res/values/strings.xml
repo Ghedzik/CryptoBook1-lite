@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">CryptoBook</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_add">Создать</string>
+    <string name="title_activity_addeditpass">Редактирование</string>
+    <string name="title_activity_addeditimg">Редактирование</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_delete">Удалить</string>
+    <string name="title_activity_img">Изображения</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="main_navigation_drawer_menu_password">Пароли</string>
+    <string name="main_navigation_drawer_menu_images">Сканы/фото</string>
+    <string name="main_navigation_drawer_menu_notes">Заметки</string>
+    <string name="main_navigation_drawer_menu_settings">Настройки</string>
+    <string name="main_navigation_drawer_menu_info">Информация</string>
+    <string name="main_navigation_drawer_menu_about">О программе</string>
+
+    <string name="title_activity_preview_image">preview_image</string>
+    <string name="dummy_button">НАЗАД</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_notes">notes</string>
+
+    <!--Строковые параметры для Activity Camera-->
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+
+    <string name="info_message">
+        <![CDATA[
+
+
+            Данное приложение предназначено для хранения паролей и описаний к ним, изображений и заметок.
+            В нем исключена любая возможность связи с "внешним" миром. Оно не содержит в себе сетевых инструментов.
+            Приложение не позволяет записывать себя и свои данные в резервные копии на облачные сервисы.
+            Вся информация в данном приложении может быть по-вашему желанию зашифрована.
+            При восстановлении защифрованных данных из резервной копии необходимо знать пароль, которым данные были зашифрованы.
+            Ваши данные под надежной защитой!
+
+
+        ]]>
+    </string>
+
+    <string name="about_message">
+        <![CDATA[
+            CryptoBook
+            Shinkaryuk Valerii
+            2017
+
+            Данное приложение предназначено для хранения паролей и описаний к ним, изображений и заметок.
+            В нем исключена любая возможность связи с "внешним" миром. Оно не содержит в себе сетевых инструментов.
+            Приложение не позволяет записывать себя и свои данные в резервные копии на облачные сервисы.
+            Вся информация в данном приложении может быть по-вашему желанию зашифрована.
+            При восстановлении защифрованных данных из резервной копии необходимо знать пароль, которым данные были зашифрованы.
+            Ваши данные под надежной защитой!
+
+            Приложение шифрует пароли, логины, комментарии к ним, а также заметки. Изображения и описания к ним не шифруются и хранятся
+            во внутреннем файловом хранилище приложения. В будущем приложение будет доработано, и изображения и описания к ним будут
+            зашифрованы.
+            Программа позволяет создавать резервные копии и восстанавливать данные из них. Данные выгружаются в том виде, в котором
+            они хранятся в базе: если строка была зашифрована, то в резервной копии она также будет зашифрована. Восстановление (расшифровка
+            восстановленных данных) возможна только в том случае, если пароль приложения сопадает с паролем, которым
+            данные были зашифрованы до того, как попали в резервную копию.
+            Обратите внимание, что удаление изображений/фото/сканов подразумевает удаление информации о записи, но сами файлы не удаляются.
+            Для их удаления необходимо после удаления записи перейти в форму Настройки и выполнить "Удалить неиспользуемые файлы".
+
+
+        ]]>
+    </string>
+
+    <!--Наименования пунктов контекстного меню-->
+    <string name="favOn">Добавить в Избранное</string>
+    <string name="favOff">Удалить из Избранного</string>
+    <string name="cryptoOn">Шифровать</string>
+    <string name="cryptoOff">Не шифровать</string>
+
+    <string name="bottom_sheet_peek">Тест botton_sheet</string>
+    <string name="bottom_sheet_content">Содержимое botton_sheet</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+</resources>

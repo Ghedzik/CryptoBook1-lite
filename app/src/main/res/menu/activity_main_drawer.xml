@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_pass"
+            android:icon="@mipmap/ic_mn_pswd"
+            android:title="@string/main_navigation_drawer_menu_password" />
+        <item
+            android:id="@+id/nav_image"
+            android:icon="@mipmap/ic_mn_img"
+            android:title="@string/main_navigation_drawer_menu_images" />
+        <item
+            android:id="@+id/naw_notes"
+            android:icon="@mipmap/ic_mn_notes"
+            android:title="@string/main_navigation_drawer_menu_notes" />
+        <item
+            android:id="@+id/menuTest"
+            android:title="Test"
+            android:visible="false" />
+    </group>
+
+    <item
+        android:id="@+id/nav_manage"
+        android:icon="@mipmap/ic_mn_settings"
+        android:title="@string/main_navigation_drawer_menu_settings" />
+
+    <item
+        android:id="@+id/nav_info"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/main_navigation_drawer_menu_info" />
+
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/main_navigation_drawer_menu_about" />
+
+</menu>

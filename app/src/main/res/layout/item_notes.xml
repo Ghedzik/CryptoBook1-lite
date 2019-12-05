@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clNotes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/сolorPrimaryBlack"
+    tools:layout_editor_absoluteY="81dp">
+
+    <EditText
+        android:id="@+id/etCommentNoteL"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="Комментарий"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        android:background="@color/сolorBackgroundDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btEditInWindowNote" />
+
+    <ImageButton
+        android:id="@+id/buttonNoteOkL"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/сolorPrimaryBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colNameNotes"
+        app:srcCompat="@android:drawable/ic_menu_save" />
+
+    <ImageButton
+        android:id="@+id/buttonNoteCancelL"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/сolorPrimaryBlack"
+        app:layout_constraintEnd_toStartOf="@+id/buttonNoteOkL"
+        app:layout_constraintTop_toBottomOf="@+id/colNameNotes"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <ImageButton
+        android:id="@+id/btEditInWindowNote"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/сolorPrimaryBlack"
+        app:layout_constraintEnd_toStartOf="@+id/buttonNoteCancelL"
+        app:layout_constraintTop_toBottomOf="@+id/colNameNotes"
+        app:srcCompat="@android:drawable/ic_menu_directions" />
+
+    <TextView
+        android:id="@+id/tvCreateNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Создан:"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/colNameNotes" />
+
+    <TextView
+        android:id="@+id/tvChangeNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="12dp"
+        android:text="Изменен:"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvDateChange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateNote" />
+
+    <TextView
+        android:id="@+id/tvChangeNote3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="tvDateChange"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tvChangeNote"
+        app:layout_constraintTop_toBottomOf="@+id/colNameNotes" />
+
+    <TextView
+        android:id="@+id/tvCreateNote3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="tvDateCreate"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tvCreateNote"
+        app:layout_constraintTop_toBottomOf="@+id/colNameNotes" />
+
+    <ImageView
+        android:id="@+id/colIsCryptoImgNote"
+        android:layout_width="40dp"
+        android:layout_height="80dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:focusable="auto"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="5dp"
+        android:paddingEnd="0dp"
+        android:scaleType="fitCenter"
+        android:tag="101"
+        app:layout_constraintStart_toEndOf="@+id/colFavImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_lock_outline_white_24dp">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/colNameNotes"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/сolorBackgroundBlack"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/сolorTextBlack"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/colIsCryptoImgNote"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvDateCreateNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="TextView"
+        android:textColor="@color/сolorTextBlack"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/colNameNotes"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/dividerNote"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/сolorTextBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivExpandNote"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/colNameNotes"
+        app:layout_constraintTop_toBottomOf="@id/tvDateCreateNote"
+        app:srcCompat="@mipmap/expand_item" />
+
+    <ImageView
+        android:id="@+id/ivIsOpenEditorNote"
+        android:layout_width="wrap_content"
+        android:layout_height="11dp"
+        android:layout_marginTop="75dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/colNameNotes"
+        app:srcCompat="@android:drawable/arrow_down_float" />
+</android.support.constraint.ConstraintLayout>

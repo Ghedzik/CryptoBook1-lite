@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/сolorBackgroundBlack"
+    tools:context="com.example.shinkaryuk.passbook.settings">
+
+    <Button
+        android:id="@+id/btnChangeAppPass"
+        android:layout_width="121dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:onClick="onClickChangePasswd"
+        android:text="Изменить пароль"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintStart_toEndOf="@+id/btnImportData"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnExportData"
+        android:layout_width="121dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:onClick="onClick"
+        android:text="Создать backup"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnImportData"
+        android:layout_width="121dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:onClick="onClickRestoreBackup"
+        android:text="Загрузить из backup"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintStart_toEndOf="@+id/btnExportData"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnClearFiles"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:onClick="onClickClearFiles"
+        android:text="Удалить неиспользуемые файлы"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/btnDelAllData"
+        android:layout_width="121dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:elevation="@dimen/margin_tiny"
+        android:shadowColor="@color/сolorFABDown"
+        android:text="Удалить данные"
+        android:textColor="@color/сolorTextBlack"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnExportData" />
+
+    <ListView
+        android:id="@+id/lvFileList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:divider="@android:drawable/dialog_holo_light_frame"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/btnClearFiles"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbEditOnlyWindow" />
+
+    <Button
+        android:id="@+id/upgradeDB"
+        android:layout_width="121dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/сolorBackgroundBlack"
+        android:onClick="onClickUpgradeDB"
+        android:text="Upgrade DB"
+        android:textColor="@color/сolorTextBlack"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/btnDelAllData"
+        app:layout_constraintTop_toBottomOf="@+id/btnImportData" />
+
+    <TextView
+        android:id="@+id/tvLenghtPass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="Длина генерируемого пароля - "
+        android:textAlignment="center"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDelAllData" />
+
+    <SeekBar
+        android:id="@+id/sbLenghtPass"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:max="20"
+        android:min="8"
+        android:progress="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLenghtPass" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
+        android:text="8"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLenghtPass" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="55dp"
+        android:text="20"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLenghtPass" />
+
+    <CheckBox
+        android:id="@+id/cbEditOnlyWindow"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Редактировать записи в отдельном окне"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sbLenghtPass" />
+
+</android.support.constraint.ConstraintLayout>

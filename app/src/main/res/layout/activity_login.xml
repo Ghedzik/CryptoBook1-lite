@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/passwords"
+    tools:context="com.example.shinkaryuk.passbook.loginActivity"
+    tools:layout_editor_absoluteY="81dp">
+    <!--android:background="@color/сolorBackgroundBlack"-->
+
+    <EditText
+        android:id="@+id/etPasswd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="185dp"
+        android:ems="10"
+        android:hint="Введите пароль"
+        android:inputType="textPassword"
+        android:textColor="@color/сolorTextBlack"
+        android:textColorHint="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnLoginOk"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="67dp"
+        android:onClick="onClickbtnOK"
+        android:shadowColor="@android:color/background_light"
+        android:text="Ok"
+        android:textColor="@color/сolorTextBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cb_show_pass" />
+
+    <CheckBox
+        android:id="@+id/cb_show_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Показать пароль"
+        android:textColor="@color/сolorTextBlack"
+        android:textColorHighlight="@android:color/background_light"
+        android:theme="@style/MyCheckBox"
+        app:layout_constraintStart_toStartOf="@+id/etPasswd"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswd" />
+
+    <ImageButton
+        android:id="@+id/info"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/description_info"
+        android:onClick="onClickInfo"
+        android:padding="20dp"
+        android:src="@android:drawable/ic_menu_info_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

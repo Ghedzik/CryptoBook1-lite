@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.shinkaryuk.passbook.MainActivity">
+    <item
+        android:id="@+id/action_favorites"
+        android:checked="false"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:orderInCategory="100"
+        android:title="Избранное"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:orderInCategory="200"
+        android:title="Обновить"
+        app:showAsAction="always" />
+</menu>

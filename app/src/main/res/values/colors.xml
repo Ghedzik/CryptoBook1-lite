@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF0000</color>
+    <color name="rowListView">#5de9e9e9</color>
+    <color name="сolorPrimaryBlack">#7C7C83</color>
+    <color name="сolorPrimaryDarkBlack">#050505</color>
+    <color name="сolorBackgroundBlack">#494949</color>
+    <color name="сolorBackgroundBlackL">#575757</color>
+    <color name="сolorBackgroundDivider">#414141</color>
+    <color name="сolorTextBlack">#F9F9F9</color>
+    <color name="сolorTextFound">#FFB73B</color>
+
+    <color name="black_overlay">#88000000</color>
+
+    <color name="red_swipe_left_itemholder">#E27272</color>
+    <color name="red_swipe_right_itemholder">#5BB35E</color>
+
+    <color name="control_background">#cc4285f4</color>
+    <color name="colorFAB">#CC4285F4</color>
+
+    <color name="сolorFABDown">#CFCDCD</color>
+
+    <color name="colorAccentNoCrypt">#F37A44</color>
+
+</resources>
