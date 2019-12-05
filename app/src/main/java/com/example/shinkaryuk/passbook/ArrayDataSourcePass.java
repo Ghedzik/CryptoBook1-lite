@@ -42,14 +42,14 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         implements ItemTouchHelperAdapter {
     private SQLiteDatabase database;
     private DatabaseHelper sqliteHelper;
-    String[] passRow, imgRow, noteRow;
-    Context mContext;
+    private String[] passRow, imgRow, noteRow;
+    private Context mContext;
     private LayoutInflater inflater;
     private List<pass> mPass;
     private MainActivity parentActivity;
     SecretHelper sh;
     private String strPswd;
-    Animation show_view, hide_view, cl_show, click_button_scale;
+    private Animation show_view, hide_view, cl_show, click_button_scale;
 
 
     ArrayDataSourcePass(Context context){
@@ -85,7 +85,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
     }
 
     @NonNull
-    public List<pass> fillPassArray(){
+    private List<pass> fillPassArray(){
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
         Integer showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();
         Cursor cursor = sqliteHelper.getAllPass();
@@ -541,7 +541,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //notifyDataSetChanged();
             }
         });
-
+/*
         holder.nameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -552,7 +552,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             }
         });
 
-        holder.showPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+*/        holder.showPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // checkbox status is changed from uncheck to checked.
