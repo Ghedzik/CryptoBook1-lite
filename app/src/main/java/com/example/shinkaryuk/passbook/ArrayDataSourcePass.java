@@ -3,6 +3,7 @@ package com.example.shinkaryuk.passbook;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -622,15 +623,28 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 pass aItem = mPass.get(aInt);
                 //Toast.makeText(mContext, aItem.getName(), Toast.LENGTH_LONG).show();
 
-                //((MainActivity)mContext).showEditForm(aItem);
-                //refreshData();
-                //notifyDataSetChanged();
-
-                if(aItem.getEditing() == 0) {
-                    allPassToNoEdit();
-                    aItem.setEditing(1);
+//Достаем параметр, указывающий открывать окно для редактирования при создании новой записи или создавать прямо в списке, из настроек
+                int isShowWinEdit = 1;
+                SharedPreferences mSettings;
+                String APP_PREFERENCES = "mysettings";
+                String APP_PREFERENCES_SHOW_WIN_EDIT = "showwinedit";
+                mSettings = mContext.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                if (mSettings.contains(APP_PREFERENCES_SHOW_WIN_EDIT)) {
+                    isShowWinEdit = mSettings.getInt(APP_PREFERENCES_SHOW_WIN_EDIT, 1);
+                }
+//////////////////////////////////////////////////////
+                if (isShowWinEdit == 1) {
+                    ((MainActivity) mContext).showEditForm(aItem);
+                    //refreshData();
+                    //notifyDataSetChanged();
                 } else {
-                    aItem.setEditing(0);
+
+                    if (aItem.getEditing() == 0) {
+                        allPassToNoEdit();
+                        aItem.setEditing(1);
+                    } else {
+                        aItem.setEditing(0);
+                    }
                 }
 
                 notifyDataSetChanged();
