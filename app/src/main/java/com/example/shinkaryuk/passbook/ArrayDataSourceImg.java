@@ -2,33 +2,20 @@ package com.example.shinkaryuk.passbook;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,8 +26,8 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
         implements ItemTouchHelperAdapter{
     private SQLiteDatabase database;
     private DatabaseHelper sqliteHelper;
-    String[] passRow, imgRow, noteRow;
-    Context mContext;
+    private String[] passRow, imgRow, noteRow;
+    private Context mContext;
     private LayoutInflater inflater;
     private List<images> mPass;
     private imagesActivity parentActivity;
@@ -365,24 +352,24 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
 
         if (mItem.getCrypt().equals("0") || mItem.getCrypt().equals("")) {
             holder.imageCrypt.setImageResource(R.mipmap.ic_unlock_outline_white_24dp);
-            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt));
-            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt));
+            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent, null));
+            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt, null));
+            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt, null));
         } else if (mItem.getCrypt().equals("1")) {
             holder.imageCrypt.setImageResource(R.mipmap.ic_lock_outline_white_24dp);
-            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.сolorTextBlack));
-            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack));
-            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack));
+            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
+            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
+            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         }
 
         if ((position % 2) != 0) {
-            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
-            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
-            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
+            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
+            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
+            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
         } else {
-            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
-            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
-            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
+            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
+            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
+            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
         }
     }
 
