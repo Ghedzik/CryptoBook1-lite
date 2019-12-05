@@ -6,6 +6,8 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.widget.RecyclerView;
@@ -34,8 +36,8 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
         implements ItemTouchHelperAdapter{
     private SQLiteDatabase database;
     private DatabaseHelper sqliteHelper;
-    String[] passRow, imgRow, noteRow;
-    Context mContext;
+    private String[] passRow, imgRow, noteRow;
+    private Context mContext;
     private LayoutInflater inflater;
     private List<note> mPass;
     private notesActivity parentActivity;
@@ -73,7 +75,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
     }
 
     @NonNull
-    public List<note> fillPassArray(){
+    private List<note> fillPassArray(){
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
         Integer showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();
         Cursor cursor = sqliteHelper.getAllNotes();
@@ -271,6 +273,9 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
             holder.btEditInWindowNote.setVisibility(View.GONE);
             holder.divider5.setVisibility(View.GONE);
             holder.ivExpandNote.setImageResource(R.mipmap.expand_item);
+
+            holder.nameView.setTypeface(null, Typeface.NORMAL);
+            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         } else if (mItem.getEditing() == 1) {
             holder.etCommentNoteL.setVisibility(View.VISIBLE);
             holder.buttonNoteOkL.setVisibility(View.VISIBLE);
@@ -283,6 +288,9 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
             holder.btEditInWindowNote.setVisibility(View.VISIBLE);
             holder.divider5.setVisibility(View.VISIBLE);
             holder.ivExpandNote.setImageResource(R.mipmap.collapse_item);
+
+            holder.nameView.setTypeface(null, Typeface.BOLD);
+            holder.nameView.setTextColor(Color.WHITE);
         }
 
         holder.buttonNoteOkL.setOnClickListener(new View.OnClickListener() {
@@ -427,24 +435,24 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
 
        if (mItem.getCrypt().equals("0") || mItem.getCrypt().equals("")) {
            holder.imageCrypt.setImageResource(R.mipmap.ic_unlock_outline_white_24dp);
-           holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-           holder.nameView.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt));
-           holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt));
+           holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent, null));
+           holder.nameView.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt, null));
+           holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt, null));
         } else if (mItem.getCrypt().equals("1")) {
            holder.imageCrypt.setImageResource(R.mipmap.ic_lock_outline_white_24dp);
-           holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.сolorTextBlack));
-           holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack));
-           holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack));
+           holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
+           holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
+           holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         }
 
         if ((position % 2) != 0) {
-            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
-            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
-            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
+            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
+            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
+            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
         } else {
-            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
-            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
-            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
+            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
+            //holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
+            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -366,6 +367,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             holder.ivExpandItem.setImageResource(R.mipmap.expand_item);
 
             holder.nameView.setTypeface(null, Typeface.NORMAL);
+            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         } else if (mItem.getEditing() == 1) {
 
             //holder.clPass.startAnimation(cl_show);
@@ -434,6 +436,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             holder.ivExpandItem.setImageResource(R.mipmap.collapse_item);
 
             holder.nameView.setTypeface(null, Typeface.BOLD);
+            holder.nameView.setTextColor(Color.WHITE);
         }
 
         holder.imageFav.setTag(position);
@@ -670,24 +673,24 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
 
         if (mItem.getCrypt().equals("0") || mItem.getCrypt().equals("")) {
             holder.imageCrypt.setImageResource(R.mipmap.ic_unlock_outline_white_24dp);
-            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt));
-            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt));
+            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent, null));
+            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt, null));
+            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.colorAccentNoCrypt, null));
         } else if (mItem.getCrypt().equals("1")) {
             holder.imageCrypt.setImageResource(R.mipmap.ic_lock_outline_white_24dp);
-            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.сolorTextBlack));
-            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack));
-            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack));
+            holder.divider.setBackgroundColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
+            holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
+            holder.dateCreate.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         }
 
         if ((position % 2) != 0) {
-            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
-            holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
-            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL));
+            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
+            holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
+            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlackL, null));
         } else {
-            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
-            holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
-            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack));
+            holder.imageCrypt.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
+            holder.imageFav.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
+            holder.nameView.setBackgroundColor(mContext.getResources().getColor(R.color.сolorBackgroundBlack, null));
         }
     }
 
