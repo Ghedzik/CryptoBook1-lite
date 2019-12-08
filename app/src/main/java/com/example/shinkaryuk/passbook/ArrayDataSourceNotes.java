@@ -3,6 +3,7 @@ package com.example.shinkaryuk.passbook;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -10,7 +11,6 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -352,7 +352,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 notifyDataSetChanged();
             }
         });
-
+/*
         holder.nameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -362,7 +362,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 return false;
             }
         });
-
+*/
 
         holder.imageCrypt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -399,14 +399,26 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 int aInt = Integer.parseInt(v.getTag().toString());
                 note aItem = mPass.get(aInt);
                 //Toast.makeText(mContext, aItem.getName(), Toast.LENGTH_LONG).show();
-                //((notesActivity)mContext).showEditForm(aItem);
-                //refreshData();
 
-                if(aItem.getEditing() == 0) {
-                    allItemToNoEdit();
-                    aItem.setEditing(1);
-                } else aItem.setEditing(0);
-
+//Достаем параметр, указывающий открывать окно для редактирования при создании новой записи или создавать прямо в списке, из настроек
+                int isShowWinEdit = 1;
+                SharedPreferences mSettings;
+                String APP_PREFERENCES = "mysettings";
+                String APP_PREFERENCES_SHOW_WIN_EDIT = "showwinedit";
+                mSettings = mContext.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                if (mSettings.contains(APP_PREFERENCES_SHOW_WIN_EDIT)) {
+                    isShowWinEdit = mSettings.getInt(APP_PREFERENCES_SHOW_WIN_EDIT, 1);
+                }
+//////////////////////////////////////////////////////
+                if (isShowWinEdit == 1) {
+                    ((notesActivity) mContext).showEditForm(aItem);
+                    //refreshData();
+                } else {
+                    if (aItem.getEditing() == 0) {
+                        allItemToNoEdit();
+                        aItem.setEditing(1);
+                    } else aItem.setEditing(0);
+                }
                 notifyDataSetChanged();
             }
         });
