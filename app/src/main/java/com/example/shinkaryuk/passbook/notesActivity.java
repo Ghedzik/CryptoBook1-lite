@@ -58,7 +58,7 @@ public class notesActivity extends AppCompatActivity
     private String strFilter = "";
     private Boolean isDialogMode = false;
 
-    private SimpleItemTouchHelperCallback callback;
+    SimpleItemTouchHelperCallback callback;
     private ItemTouchHelper mItemTouchHelper;
     RecyclerView recyclerView;
     Boolean isShowMiniFabs = false;
@@ -67,7 +67,7 @@ public class notesActivity extends AppCompatActivity
     SearchView searchView;
     MenuItem searchMenu;
 
-    int isShowWinEdit = 1;
+    RegUtils mRegUtils;
 
 
     @Override
@@ -76,18 +76,7 @@ public class notesActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         String showAndCreateNew = "";
 
-//Достаем параметр, указывающий открывать окно для редактирования при создании новой записи или создавать прямо в списке, из настроек
-        SharedPreferences mSettings;
-        String APP_PREFERENCES = "mysettings";
-        String APP_PREFERENCES_SHOW_WIN_EDIT = "showwinedit";
-        mSettings = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if (mSettings.contains(APP_PREFERENCES_SHOW_WIN_EDIT)) {
-            isShowWinEdit = mSettings.getInt(APP_PREFERENCES_SHOW_WIN_EDIT, 1);
-        }
-        else {
-            isShowWinEdit = 1;
-        }
-//////////////////////////////////////////////////////
+        mRegUtils = new RegUtils(this);
 
         //Создаем верхний тулбар
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rv);
@@ -427,7 +416,7 @@ public class notesActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.fab_1:
                 //Toast.makeText(this, "FAB1", Toast.LENGTH_LONG).show();
-                if (isShowWinEdit == 1) {
+                if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
                     Intent intent = new Intent(notesActivity.this, addEditPass.class);
 
                     intent.putExtra("idPass", "0");
@@ -469,7 +458,7 @@ public class notesActivity extends AppCompatActivity
                 break;
             case R.id.fab_3:
                 //Toast.makeText(this, "FAB3", Toast.LENGTH_LONG).show();
-                if (isShowWinEdit == 1) {
+                if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
                     Intent intentNoteDlg = new Intent(this, addEditNotes.class);
 
                     intentNoteDlg.putExtra("idNotes", "0");

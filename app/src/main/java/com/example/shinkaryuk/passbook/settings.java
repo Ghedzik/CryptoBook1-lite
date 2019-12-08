@@ -61,10 +61,6 @@ public class settings extends AppCompatActivity {
     private String appPathFiles;
     String textLenPass = "";
     SeekBar sbLenghtPass;
-    private SharedPreferences mSettings;
-    public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_LENPSW = "lenpswd";
-    String APP_PREFERENCES_SHOW_WIN_EDIT = "showwinedit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +68,7 @@ public class settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         appPathFiles = getApplication().getFilesDir().getAbsolutePath();
 
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        RegUtils reg = new RegUtils(this);
 
         TextView tvLenghtPass = (TextView) findViewById(R.id.tvLenghtPass);
         sbLenghtPass = (SeekBar) findViewById(R.id.sbLenghtPass);
@@ -81,34 +77,21 @@ public class settings extends AppCompatActivity {
 
         sbLenghtPass.setOnSeekBarChangeListener(seekBarChangeListener);
 
-        if (mSettings.contains(APP_PREFERENCES_LENPSW)) {
-            tvLenghtPass.setText(mSettings.getString(APP_PREFERENCES_LENPSW, "8"));
-            sbLenghtPass.setProgress(Integer.parseInt(mSettings.getString(APP_PREFERENCES_LENPSW, "8")));
-        }
-        else {
-            tvLenghtPass.setText(textLenPass.concat("8"));
-            sbLenghtPass.setProgress(8);
-        }
+        tvLenghtPass.setText(Integer.toString(reg.getLenghtPass()));
+        sbLenghtPass.setProgress(reg.getLenghtPass());
 
-        if (mSettings.contains(APP_PREFERENCES_SHOW_WIN_EDIT)) {
-            cbEditOnlyWin.setChecked(mSettings.getInt(APP_PREFERENCES_SHOW_WIN_EDIT, 1) == 1);
-        } else {
-            cbEditOnlyWin.setChecked(true);
-        }
+
+        cbEditOnlyWin.setChecked(reg.getHowEdit() == RegUtils.EDIT_IN_WINDOW);
 
         cbEditOnlyWin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // checkbox status is changed from uncheck to checked.
-                SharedPreferences.Editor editor = mSettings.edit();
+                RegUtils reg = new RegUtils(getApplicationContext());
                 if (isChecked) {
-                    editor.putInt(APP_PREFERENCES_SHOW_WIN_EDIT, 1);
-                    editor.apply();
-                    editor.commit();
+                    reg.setHowEdit(RegUtils.EDIT_IN_WINDOW);
                 } else {
-                    editor.putInt(APP_PREFERENCES_SHOW_WIN_EDIT, 0);
-                    editor.apply();
-                    editor.commit();
+                    reg.setHowEdit(RegUtils.EDIT_IN_LIST);
                 }
             }
         });
@@ -575,9 +558,8 @@ public class settings extends AppCompatActivity {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            SharedPreferences.Editor editor = mSettings.edit();
-            editor.putString(APP_PREFERENCES_LENPSW, Integer.toString(seekBar.getProgress()));
-            editor.apply();
+            RegUtils reg = new RegUtils(getApplicationContext());
+            reg.setLenghtPass(seekBar.getProgress());
         }
     };
 
