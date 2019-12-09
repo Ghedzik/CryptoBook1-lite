@@ -473,6 +473,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 if (aItem.getId().equals("0"))
                     mPass.remove(aInt);
 
+                CustomToast.makeText(mContext, "Запись не сохранена!", Toast.LENGTH_LONG).show();
+
                 notifyDataSetChanged();
             }
         });
@@ -508,6 +510,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 holder.etPass.clearFocus();
                 holder.etComment.clearFocus();
                 ((MainActivity)mContext).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+                CustomToast.makeText(mContext, "Запись '" + holder.etName.getText() +"' сохранена!", Toast.LENGTH_LONG).show();
 
                 notifyDataSetChanged();
             }
@@ -572,8 +576,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //passCursor.mo
                 if (aItem.getFavorite().equals("0")) {
                     sqliteHelper.updateFavoritePass(Integer.parseInt(aItem.getId()), 1);
+                    CustomToast.makeText(mContext, "Запись добавлена в избранное!", Toast.LENGTH_LONG).show();
                 } else {
                     sqliteHelper.updateFavoritePass(Integer.parseInt(aItem.getId()), 0);
+                    CustomToast.makeText(mContext, "Запись удалена из избранного!", Toast.LENGTH_LONG).show();
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -590,8 +596,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoPass(Integer.parseInt(aItem.getId()), 1);
+                    CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
                 } else {
                     sqliteHelper.updateIsCryptoPass(Integer.parseInt(aItem.getId()), 0);
+                    CustomToast.makeText(mContext, "ВНИМАНИЕ! Запись расшифрована!", Toast.LENGTH_LONG).show();
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -730,6 +738,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
     public void refreshData(){
         fillPassArray();
         notifyDataSetChanged();
+        //CustomToast.makeText(mContext, "Данные обновлены", Toast.LENGTH_LONG).show();
     }
 
     public void AddEditRecord(int id, String name, String login, String pass, String comment, String fav, String dateCreate, String dateChange, String isCrypto){
@@ -756,6 +765,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                         //resultAlert = true;
 
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "", "", "", "", "");
+                        CustomToast.makeText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
                         refreshData();
                         dialog.dismiss();
                     }
@@ -794,6 +804,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 1);
 
         mPass.add(item);
+        CustomToast.makeText(mContext, "Создание новой записи", Toast.LENGTH_LONG).show();
         notifyDataSetChanged();
     }
 

@@ -293,8 +293,10 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 1);
+                    CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
                 } else {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 0);
+                    CustomToast.makeText(mContext, "ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!", Toast.LENGTH_LONG).show();
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
 

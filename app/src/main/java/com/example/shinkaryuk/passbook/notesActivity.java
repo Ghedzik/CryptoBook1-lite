@@ -38,6 +38,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
@@ -141,6 +142,7 @@ public class notesActivity extends AppCompatActivity
                     int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                     notesDB.insertEditPass(a_id, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
+                    CustomToast.makeText(this, "Запись '" + aName + "' сохранена!", Toast.LENGTH_LONG).show();
                     //((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
                     //showHideMiniFabs();
                     break;
@@ -160,6 +162,7 @@ public class notesActivity extends AppCompatActivity
                     //(ArrayDataSourceImg) AddEditRecord
                     String isCryptoImg = data.getExtras().getString("isCryptoNew");
                     notesDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
+                    CustomToast.makeText(this, "Запись '" + iName + "' сохранена!", Toast.LENGTH_LONG).show();
                     //showHideMiniFabs();
                     break;
                 case NOTES_NEW:
@@ -169,6 +172,7 @@ public class notesActivity extends AppCompatActivity
                     String nDateChange = data.getExtras().getString("notesChangeDateNew");
                     String isCrypto = data.getExtras().getString("isCryptoNew");
                     notesDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
+                    CustomToast.makeText(this, "Запись '" + nName + "' сохранена!", Toast.LENGTH_LONG).show();
                     //showHideMiniFabs();
                     break;
                 case NOTES_EDIT:
@@ -178,6 +182,7 @@ public class notesActivity extends AppCompatActivity
                     String eDateChange = data.getExtras().getString("notesChangeDateNew");
                     String isCryptoE = data.getExtras().getString("isCryptoNew");
                     notesDB.insertEditNotes(a_id, eName, eDateCreate, eDateChange, isCryptoE);
+                    CustomToast.makeText(this, "Запись '" + eName + "' сохранена!", Toast.LENGTH_LONG).show();
                     break;
             }
         } else if (resultCode == RESULT_EDIT_DELETE){

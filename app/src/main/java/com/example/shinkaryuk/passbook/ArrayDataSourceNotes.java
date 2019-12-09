@@ -312,6 +312,8 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 holder.etCommentNoteL.clearFocus();
                 ((notesActivity)mContext).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+                CustomToast.makeText(mContext, "Запись сохранена!", Toast.LENGTH_LONG).show();
+
                 notifyDataSetChanged();
             }
         });
@@ -349,6 +351,8 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 if (aItem.getId().equals("0"))
                     mPass.remove(aInt);
 
+                CustomToast.makeText(mContext, "Запись не сохранена!", Toast.LENGTH_LONG).show();
+
                 notifyDataSetChanged();
             }
         });
@@ -372,8 +376,10 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoNotes(Integer.parseInt(aItem.getId()), 1);
+                    CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
                 } else {
                     sqliteHelper.updateIsCryptoNotes(Integer.parseInt(aItem.getId()), 0);
+                    CustomToast.makeText(mContext, "ВНИМАНИЕ! Запись расшифрована!", Toast.LENGTH_LONG).show();
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -530,6 +536,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "");
+                        CustomToast.makeText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
                         refreshData();
                         dialog.dismiss();
                     }
@@ -562,6 +569,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 1);
 
         mPass.add(item);
+        CustomToast.makeText(mContext, "Создание новой записи", Toast.LENGTH_LONG).show();
         notifyDataSetChanged();
     }
 

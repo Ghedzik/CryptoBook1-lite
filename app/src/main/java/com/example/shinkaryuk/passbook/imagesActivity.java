@@ -120,6 +120,7 @@ public class imagesActivity extends AppCompatActivity
                         int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                         imgDB.insertEditPass(a_id, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
+                        CustomToast.makeText(this, "Запись '" + aName + "' сохранена!", Toast.LENGTH_LONG).show();
                         //((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
                         //showHideMiniFabs();
                         break;
@@ -139,6 +140,7 @@ public class imagesActivity extends AppCompatActivity
                         //(ArrayDataSourceImg) AddEditRecord
                         String isCryptoImg = data.getExtras().getString("isCryptoNew");
                         imgDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
+                        CustomToast.makeText(this, "Запись '" + iName + "' сохранена!", Toast.LENGTH_LONG).show();
                         //showHideMiniFabs();
                         break;
                     case NOTES_NEW:
@@ -148,6 +150,7 @@ public class imagesActivity extends AppCompatActivity
                         String nDateChange = data.getExtras().getString("notesChangeDateNew");
                         String isCrypto = data.getExtras().getString("isCryptoNew");
                         imgDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
+                        CustomToast.makeText(this, "Запись '" + nName + "' сохранена!", Toast.LENGTH_LONG).show();
                         //showHideMiniFabs();
                         break;
                     case IMG_EDIT:
@@ -166,6 +169,7 @@ public class imagesActivity extends AppCompatActivity
                         String isECryptoImg = data.getExtras().getString("isCryptoNew");
 
                         imgDB.insertEditImg(a_id, eName, ePath, eComment, eShortPath, getFilesDir().getPath() + "/s_" + eShortPath, eDateCreate, eDateChange, isECryptoImg);
+                        CustomToast.makeText(this, "Запись '" + eName + "' сохранена!", Toast.LENGTH_LONG).show();
 
                 }
             } else if (resultCode == RESULT_EDIT_DELETE) {
