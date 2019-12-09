@@ -379,7 +379,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
                 } else {
                     sqliteHelper.updateIsCryptoNotes(Integer.parseInt(aItem.getId()), 0);
-                    CustomToast.makeText(mContext, "ВНИМАНИЕ! Запись расшифрована!", Toast.LENGTH_LONG).show();
+                    CustomToast.makeWarningText(mContext, "ВНИМАНИЕ! Запись дешифрована!", Toast.LENGTH_LONG).show();
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -536,7 +536,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "");
-                        CustomToast.makeText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
+                        CustomToast.makeWarningText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
                         refreshData();
                         dialog.dismiss();
                     }

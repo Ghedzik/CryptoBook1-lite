@@ -296,7 +296,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                     CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
                 } else {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 0);
-                    CustomToast.makeText(mContext, "ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!", Toast.LENGTH_LONG).show();
+                    CustomToast.makeWarningText(mContext, "ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!", Toast.LENGTH_LONG).show();
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
 
@@ -436,6 +436,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "", "", "", "", "");
+                        CustomToast.makeWarningText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
                         refreshData();
                         dialog.dismiss();
                     }
