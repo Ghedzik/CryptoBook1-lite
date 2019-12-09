@@ -624,19 +624,22 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 int aInt = Integer.parseInt(v.getTag().toString());
                 pass aItem = mPass.get(aInt);
                 //Toast.makeText(mContext, aItem.getName(), Toast.LENGTH_LONG).show();
-
-                //((MainActivity)mContext).showEditForm(aItem);
-                //refreshData();
-                //notifyDataSetChanged();
-
-                if(aItem.getEditing() == 0) {
-                    allPassToNoEdit();
-                    aItem.setEditing(1);
+                RegUtils reg = new RegUtils(mContext);
+                if (reg.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
+                    ((MainActivity) mContext).showEditForm(aItem);
+                    //refreshData();
+                    notifyDataSetChanged();
                 } else {
-                    aItem.setEditing(0);
-                }
 
-                notifyDataSetChanged();
+                    if (aItem.getEditing() == 0) {
+                        allPassToNoEdit();
+                        aItem.setEditing(1);
+                    } else {
+                        aItem.setEditing(0);
+                    }
+
+                    notifyDataSetChanged();
+                }
             }
         });
 

@@ -429,17 +429,19 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 int aInt = Integer.parseInt(v.getTag().toString());
                 note aItem = mPass.get(aInt);
                 //Toast.makeText(mContext, aItem.getName(), Toast.LENGTH_LONG).show();
+                RegUtils reg = new RegUtils(mContext);
+                if (reg.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
+                    ((notesActivity) mContext).showEditForm(aItem);
+                    //refreshData();
+                    notifyDataSetChanged();
+                } else {
+                    if (aItem.getEditing() == 0) {
+                        allItemToNoEdit();
+                        aItem.setEditing(1);
+                    } else aItem.setEditing(0);
 
-                //((MainActivity)mContext).showEditForm(aItem);
-                //refreshData();
-                //notifyDataSetChanged();
-
-                if(aItem.getEditing() == 0) {
-                    allItemToNoEdit();
-                    aItem.setEditing(1);
-                } else aItem.setEditing(0);
-
-                notifyDataSetChanged();
+                    notifyDataSetChanged();
+                }
             }
         });
 
