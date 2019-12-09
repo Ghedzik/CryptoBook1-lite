@@ -477,6 +477,7 @@ public class notesActivity extends AppCompatActivity
                     //showHideMiniFabs();
                 } else {
                     ((ArrayDataSourceNotes) recyclerView.getAdapter()).addNewEmptyItem();
+                    recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                 }
 
                 break;

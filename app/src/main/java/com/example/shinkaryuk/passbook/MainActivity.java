@@ -427,6 +427,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //showHideMiniFabs();
                 } else {
                     ((ArrayDataSourcePass) recyclerView.getAdapter()).addNewEmptyItem();
+                    recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                 }
                 break;
             case R.id.fab_2:

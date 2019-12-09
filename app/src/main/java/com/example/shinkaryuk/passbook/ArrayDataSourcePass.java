@@ -638,7 +638,6 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                     //refreshData();
                     notifyDataSetChanged();
                 } else {
-
                     if (aItem.getEditing() == 0) {
                         allPassToNoEdit();
                         aItem.setEditing(1);
