@@ -231,7 +231,7 @@ public class addEditImage extends AppCompatActivity {
                     sh.DecodeFile(this, aUri, ((passApp) getApplication()).getPass());
                 }
                 if (aCreateFile) {
-                    CustomToast.makeText(this, "Файлы кэша не могут быть созданы", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, v,"Файлы кэша не могут быть созданы");
                     setResult(RESULT_CANCELED);
                     finish();
                 }
@@ -300,7 +300,7 @@ public class addEditImage extends AppCompatActivity {
                         //Toast.makeText(this, FilePath, Toast.LENGTH_LONG).show();
 
                         String tmpStr = aUri.getAuthority();
-                        CustomToast.makeText(this, tmpStr, Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, tvPathImg, tmpStr);
 
 // можно так устанавливать изображение
 //Сначала вычисляем опции для установки размера изображения, чтобы не тратить лишнюю память и не грузить полноразмерную картинку
@@ -317,7 +317,7 @@ public class addEditImage extends AppCompatActivity {
 //получаем данные от камеры и создаем необходимые файлы в хранилище приложения
                 case REQUEST_TAKE_PHOTO:
                     if (data == null){
-                        CustomToast.makeText(this, "Ошибка! Снимок не сохранен!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, tvPathImg,"Ошибка! Снимок не сохранен!");
                         break;
                     }
                     /*Bitmap photoBitmap = (Bitmap) data.getExtras().get("data");
@@ -335,7 +335,7 @@ public class addEditImage extends AppCompatActivity {
                     //Toast.makeText(this, FilePath, Toast.LENGTH_LONG).show();
 
                     String tmpStr = aUri.getAuthority();
-                    CustomToast.makeText(this, tmpStr, Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, tvPathImg, tmpStr);
 
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     //options.inSampleSize = calculateInSampleSize(options, tmpImageView.getWidth(), tmpImageView.getHeight());
@@ -596,7 +596,7 @@ public class addEditImage extends AppCompatActivity {
         try {
             this.deleteFile(shortFileName);
         } catch (Exception e) {
-            CustomToast.makeText(this, "Большой файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Большой файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
         }
 
         /*try {
@@ -615,7 +615,7 @@ public class addEditImage extends AppCompatActivity {
         try {
             this.deleteFile(shortFileName.substring(0, shortFileName.lastIndexOf(".")) + ".jpg");
         } catch (Exception e) {
-            CustomToast.makeText(this, "JPG-файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "JPG-файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
         }
         ivImageEdit.setImageURI(null);
         //}
@@ -628,7 +628,7 @@ public class addEditImage extends AppCompatActivity {
         try {
             this.deleteFile(smallFileName);
         } catch (Exception e) {
-            CustomToast.makeText(this, "Маленький файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Маленький файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
         }
         //ivImageEdit.setImageURI(null);
         //}

@@ -5,13 +5,10 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,18 +17,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import static com.example.shinkaryuk.passbook.imagesActivity.IMG_NEW;
 import static com.example.shinkaryuk.passbook.notesActivity.NOTES_NEW;
@@ -80,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTestPass);
         // создаем адаптер
-        ArrayDataSourcePass adapter = new ArrayDataSourcePass(this);
+        ArrayDataSourcePass adapter = new ArrayDataSourcePass(this, recyclerView);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -264,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                     ((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
-                    CustomToast.makeText(this, "Запись '" + aName + "' сохранена!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, recyclerView,"Запись '" + aName + "' сохранена!");
                     //showHideMiniFabs();
                     break;
                 case IMG_NEW:
@@ -283,9 +277,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //(ArrayDataSourceImg) AddEditRecord
                     String isCryptoImg = data.getExtras().getString("isCryptoNew");
                     //(ArrayDataSourceImg) AddEditRecord
-                    DatabaseHelper imgDB = new DatabaseHelper(this.getApplicationContext());
+                    DatabaseHelper imgDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
                     imgDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
-                    CustomToast.makeText(this, "Запись '" + iName + "' сохранена!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, recyclerView,"Запись '" + iName + "' сохранена!");
                     //showHideMiniFabs();
                     break;
                 case NOTES_NEW:
@@ -294,9 +288,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String nDateCreate = data.getExtras().getString("notesCreateDateNew");
                     String nDateChange = data.getExtras().getString("notesChangeDateNew");
                     String isCrypto = data.getExtras().getString("isCryptoNew");
-                    DatabaseHelper notesDB = new DatabaseHelper(this.getApplicationContext());
+                    DatabaseHelper notesDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
                     notesDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
-                    CustomToast.makeText(this, "Запись '" + nName + "' сохранена!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, recyclerView,"Запись '" + nName + "' сохранена!");
                     //showHideMiniFabs();
                     break;
                 case PASS_EDIT:
@@ -310,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int isCryptE = data.getExtras().getInt("isCryptoPass");
 
                     ((ArrayDataSourcePass)recyclerView.getAdapter()).AddEditRecord(a_id, eName, eLogin, ePass, eComment, "", eDateCreate, eDateChange, Integer.toString(isCryptE));
-                    CustomToast.makeText(this, "Запись '" + eName + "' сохранена!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, recyclerView,"Запись '" + eName + "' сохранена!");
                     break;
             }
         } else if (resultCode == RESULT_EDIT_DELETE) {
@@ -426,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivityForResult(intent, PASS_NEW);
                     //showHideMiniFabs();
                 } else {
-                    ((ArrayDataSourcePass) recyclerView.getAdapter()).addNewEmptyItem();
+                    ((ArrayDataSourcePass) recyclerView.getAdapter()).addNewEmptyItem(v);
                     recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                 }
                 break;

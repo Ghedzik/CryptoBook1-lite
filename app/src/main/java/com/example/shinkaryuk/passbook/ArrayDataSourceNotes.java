@@ -41,12 +41,13 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
     private notesActivity parentActivity;
     SecretHelper sh;
     private String strPswd;
+    View viewForSnackbar;
 
 
 
-    ArrayDataSourceNotes(Context context){
+    ArrayDataSourceNotes(Context context, View v){
 
-        sqliteHelper = new DatabaseHelper(context.getApplicationContext());
+        sqliteHelper = new DatabaseHelper(context.getApplicationContext(), v);
         passRow = new String[9];
         imgRow = new String[8];
         noteRow = new String[5];
@@ -54,6 +55,8 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
         mContext = context;
         parentActivity = (notesActivity) mContext;
         this.inflater = LayoutInflater.from(context);
+
+        viewForSnackbar = v;
 
         sh = new SecretHelper();
         strPswd = ((passApp)mContext.getApplicationContext()).getPass();
@@ -312,7 +315,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 holder.etCommentNoteL.clearFocus();
                 ((notesActivity)mContext).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-                CustomToast.makeText(mContext, "Запись сохранена!", Toast.LENGTH_LONG).show();
+                SnackbarHelper.show(mContext, v, "Запись сохранена!");
 
                 notifyDataSetChanged();
             }
@@ -351,7 +354,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 if (aItem.getId().equals("0"))
                     mPass.remove(aInt);
 
-                CustomToast.makeText(mContext, "Запись не сохранена!", Toast.LENGTH_LONG).show();
+                SnackbarHelper.show(mContext, v,"Запись не сохранена!");
 
                 notifyDataSetChanged();
             }
@@ -376,10 +379,10 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoNotes(Integer.parseInt(aItem.getId()), 1);
-                    CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(mContext, v, "Запись зашифрована!");
                 } else {
                     sqliteHelper.updateIsCryptoNotes(Integer.parseInt(aItem.getId()), 0);
-                    CustomToast.makeWarningText(mContext, "ВНИМАНИЕ! Запись дешифрована!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.showW(mContext, v,"ВНИМАНИЕ! Запись дешифрована!");
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -489,7 +492,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
-        Toast.makeText(mContext, "Попытка вправо", Toast.LENGTH_LONG).show();
+        SnackbarHelper.showW(mContext, viewForSnackbar,"Попытка вправо");
         refreshData();
     }
 
@@ -536,7 +539,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "");
-                        CustomToast.makeWarningText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.showW(mContext, viewForSnackbar,"Запись удалена!");
                         refreshData();
                         dialog.dismiss();
                     }
@@ -553,7 +556,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
         }
     }
 
-    public void addNewEmptyItem(){
+    public void addNewEmptyItem(View v){
         note item;
         //Вычисляем текущую дату и форматируем ее
         Date currentDate = new Date();
@@ -569,7 +572,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 1);
 
         mPass.add(item);
-        CustomToast.makeText(mContext, "Создание новой записи", Toast.LENGTH_LONG).show();
+        SnackbarHelper.show(mContext, v,"Создание новой записи");
         notifyDataSetChanged();
     }
 

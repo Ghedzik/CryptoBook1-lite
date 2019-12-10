@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.view.View;
 import android.widget.Toast;
 //import android.app.Application;
 
@@ -97,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String prefStrPswd = "";
 
     private Context mContext;
-
+    View viewForSnackbar;
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -242,10 +243,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //конструктор
-    public DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context, View v) {
 
         super(context, dbName, null, DB_VERSION);
         mContext = context;
+        viewForSnackbar = v;
 
     }
 
@@ -423,7 +425,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }catch (Exception e) {
                 e.printStackTrace();
                 String msg = e.getMessage();
-                CustomToast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
             }
 
             //сюда надо добавить удаление временных файлов

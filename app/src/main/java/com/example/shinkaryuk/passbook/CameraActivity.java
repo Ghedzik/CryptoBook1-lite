@@ -146,7 +146,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
-            CustomToast.makeText(CameraActivity.this, "Сохранено:" + "file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraActivity.this, "Сохранено:" + "file", Toast.LENGTH_SHORT).show();
             createCameraPreview();
         }
     };
@@ -237,7 +237,7 @@ public class CameraActivity extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    CustomToast.makeText(CameraActivity.this, "Сохранено:" + imgFile, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivity.this, "Сохранено:" + imgFile, Toast.LENGTH_SHORT).show();
                     createCameraPreview();
                 }
             };
@@ -279,7 +279,7 @@ public class CameraActivity extends AppCompatActivity {
         if (isFinish == 1) {
             finish();
         } else if (isFinish == -1) {
-            CustomToast.makeText(CameraActivity.this, "Ошибка! Что-то пошло не так!" + imgFile, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraActivity.this, "Ошибка! Что-то пошло не так!" + imgFile, Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -304,7 +304,7 @@ public class CameraActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    CustomToast.makeText(CameraActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
                 }
             }, null);
         } catch (CameraAccessException e) {
@@ -357,7 +357,7 @@ public class CameraActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // close the app
-                CustomToast.makeText(CameraActivity.this, "Ууупссс!!!, Вы не можете использовать камеру без соответствующих прав!", Toast.LENGTH_LONG).show();
+                Toast.makeText(CameraActivity.this, "Ууупссс!!!, Вы не можете использовать камеру без соответствующих прав!", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -425,7 +425,7 @@ public class CameraActivity extends AppCompatActivity {
                 Log.e("LOG", "Directory not created");
             }
         } catch (RuntimeException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return file;
     }

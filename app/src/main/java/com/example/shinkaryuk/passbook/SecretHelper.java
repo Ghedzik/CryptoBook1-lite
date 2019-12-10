@@ -363,7 +363,7 @@ public class SecretHelper {
             try {
                 context.deleteFile(shortFileName.substring(0, shortFileName.lastIndexOf(".")) + ".jpg");
             } catch (Exception e) {
-                CustomToast.makeText(context, "JPG-файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"JPG-файл из кэша почему-то не удалился. Может его нет?", Toast.LENGTH_LONG).show();
             }
         }
 

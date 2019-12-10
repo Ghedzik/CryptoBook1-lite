@@ -77,8 +77,9 @@ public class imagesActivity extends AppCompatActivity
         toolbar.setTitle("Документы");
         setSupportActionBar(toolbar);
 
+        recyclerView = (RecyclerView) findViewById(R.id.rvTestPass);
         //создаем базу - класс описан ниже передаем контекст приложения this.getApplicationContext(), чтобы достать глобальную переменную
-        imgDB = new DatabaseHelper(this.getApplicationContext());
+        imgDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,9 +89,9 @@ public class imagesActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        recyclerView = (RecyclerView) findViewById(R.id.rvTestPass);
+
         // создаем адаптер
-        ArrayDataSourceImg adapter = new ArrayDataSourceImg(this);
+        ArrayDataSourceImg adapter = new ArrayDataSourceImg(this, recyclerView);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -120,7 +121,7 @@ public class imagesActivity extends AppCompatActivity
                         int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                         imgDB.insertEditPass(a_id, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
-                        CustomToast.makeText(this, "Запись '" + aName + "' сохранена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, recyclerView,"Запись '" + aName + "' сохранена!");
                         //((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
                         //showHideMiniFabs();
                         break;
@@ -140,7 +141,7 @@ public class imagesActivity extends AppCompatActivity
                         //(ArrayDataSourceImg) AddEditRecord
                         String isCryptoImg = data.getExtras().getString("isCryptoNew");
                         imgDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
-                        CustomToast.makeText(this, "Запись '" + iName + "' сохранена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, recyclerView,"Запись '" + iName + "' сохранена!");
                         //showHideMiniFabs();
                         break;
                     case NOTES_NEW:
@@ -150,7 +151,7 @@ public class imagesActivity extends AppCompatActivity
                         String nDateChange = data.getExtras().getString("notesChangeDateNew");
                         String isCrypto = data.getExtras().getString("isCryptoNew");
                         imgDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
-                        CustomToast.makeText(this, "Запись '" + nName + "' сохранена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, recyclerView,"Запись '" + nName + "' сохранена!");
                         //showHideMiniFabs();
                         break;
                     case IMG_EDIT:
@@ -169,7 +170,7 @@ public class imagesActivity extends AppCompatActivity
                         String isECryptoImg = data.getExtras().getString("isCryptoNew");
 
                         imgDB.insertEditImg(a_id, eName, ePath, eComment, eShortPath, getFilesDir().getPath() + "/s_" + eShortPath, eDateCreate, eDateChange, isECryptoImg);
-                        CustomToast.makeText(this, "Запись '" + eName + "' сохранена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, recyclerView,"Запись '" + eName + "' сохранена!");
 
                 }
             } else if (resultCode == RESULT_EDIT_DELETE) {
@@ -180,22 +181,22 @@ public class imagesActivity extends AppCompatActivity
             ((ArrayDataSourceImg)recyclerView.getAdapter()).refreshData();
         }
         catch (IllegalStateException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch (NullPointerException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch (NumberFormatException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch (SecurityException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch (UnsupportedOperationException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch (ClassCastException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         } finally {
             isDialogMode = false;
         }
@@ -437,7 +438,7 @@ public class imagesActivity extends AppCompatActivity
             if (showFile.exists()){
                 aUri = Uri.parse(internalFileName);//strShortPathImg);
             } else {
-                CustomToast.makeText(this, "Файл не существует", Toast.LENGTH_LONG).show();
+                SnackbarHelper.showW(this, recyclerView,"Файл не существует");
                 return;
             }
         }

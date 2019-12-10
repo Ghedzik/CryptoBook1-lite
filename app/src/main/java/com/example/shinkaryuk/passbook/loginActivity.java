@@ -94,7 +94,7 @@ public class loginActivity extends AppCompatActivity {
     public void onClickbtnOK(View v){
         inputCounter += 1;
         if (inputCounter > 3){
-            CustomToast.makeText(this, "Досвидос!", Toast.LENGTH_LONG).show();
+            SnackbarHelper.showW(this, v,"Досвидос!");
 
             finish();
         }
@@ -107,7 +107,7 @@ public class loginActivity extends AppCompatActivity {
 
         String tmpEmpty = "";
         if (strPswd.equals(tmpEmpty)) {
-            CustomToast.makeText(this, "Введите пароль", Toast.LENGTH_LONG).show();
+            SnackbarHelper.show(this, v,"Введите пароль");
         }
         else if(APP_PSWD_IS_NEW == 1){
             Intent intent = new Intent(this, MainActivity.class);
@@ -126,7 +126,7 @@ public class loginActivity extends AppCompatActivity {
             finish();
         }
         else {
-            CustomToast.makeText(this, "Неверный пароль", Toast.LENGTH_LONG).show();
+            SnackbarHelper.showW(this, v,"Неверный пароль");
 
         }
     }

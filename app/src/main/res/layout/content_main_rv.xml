@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/сolorBackgroundBlack"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_dodgeInsetEdges="top"
     tools:context="com.example.shinkaryuk.passbook.MainActivity"
     tools:showIn="@layout/app_bar_main_rv">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTestPass"
+        layoutManager="LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/сolorBackgroundBlack"
-        layoutManager="LinearLayoutManager" />
+        android:background="@color/сolorBackgroundBlack" />
 
 </android.support.constraint.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -48,11 +49,12 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
     SecretHelper sh;
     private String strPswd;
     private Animation show_view, hide_view, cl_show, click_button_scale;
+    View viewForSnackbar;
 
 
-    ArrayDataSourcePass(Context context){
+    ArrayDataSourcePass(Context context, View v){
 
-        sqliteHelper = new DatabaseHelper(context.getApplicationContext());
+        sqliteHelper = new DatabaseHelper(context.getApplicationContext(), v);
         passRow = new String[9];
         imgRow = new String[8];
         noteRow = new String[5];
@@ -64,6 +66,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         hide_view = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.alpha_hide_view);
         cl_show = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.cl_show);
         click_button_scale = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.click_button_scale);
+        viewForSnackbar = v;
 
         sh = new SecretHelper();
         strPswd = ((passApp)mContext.getApplicationContext()).getPass();
@@ -473,7 +476,9 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 if (aItem.getId().equals("0"))
                     mPass.remove(aInt);
 
-                CustomToast.makeText(mContext, "Запись не сохранена!", Toast.LENGTH_LONG).show();
+                SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                //Snackbar.make(v, "Запись не сохранена", Snackbar.LENGTH_LONG).show();
+                //CustomToast.makeText(mContext, "Запись не сохранена!", Toast.LENGTH_LONG).show();
 
                 notifyDataSetChanged();
             }
@@ -511,7 +516,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 holder.etComment.clearFocus();
                 ((MainActivity)mContext).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-                CustomToast.makeText(mContext, "Запись '" + holder.etName.getText() +"' сохранена!", Toast.LENGTH_LONG).show();
+                SnackbarHelper.show(mContext, holder.etName, "Запись '" + holder.etName.getText() +"' сохранена!");
 
                 notifyDataSetChanged();
             }
@@ -576,10 +581,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //passCursor.mo
                 if (aItem.getFavorite().equals("0")) {
                     sqliteHelper.updateFavoritePass(Integer.parseInt(aItem.getId()), 1);
-                    CustomToast.makeText(mContext, "Запись добавлена в избранное!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(mContext, v, "Запись добавлена в избранное!");
                 } else {
                     sqliteHelper.updateFavoritePass(Integer.parseInt(aItem.getId()), 0);
-                    CustomToast.makeText(mContext, "Запись удалена из избранного!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(mContext, v, "Запись удалена из избранного!");
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -596,10 +601,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoPass(Integer.parseInt(aItem.getId()), 1);
-                    CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(mContext, v, "Запись зашифрована!");
                 } else {
                     sqliteHelper.updateIsCryptoPass(Integer.parseInt(aItem.getId()), 0);
-                    CustomToast.makeWarningText(mContext, "ВНИМАНИЕ! Запись дешифрована!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.showW(mContext, v, "ВНИМАНИЕ! Запись дешифрована!");
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -715,7 +720,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
-        CustomToast.makeText(mContext, "Попытка вправо", Toast.LENGTH_LONG).show();
+        //View v = new View(mContext);
+        SnackbarHelper.show(mContext, viewForSnackbar, "Попытка вправо");
         refreshData();
     }
 
@@ -764,7 +770,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                         //resultAlert = true;
 
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "", "", "", "", "");
-                        CustomToast.makeWarningText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.showW(mContext, viewForSnackbar,"Запись удалена!");
                         refreshData();
                         dialog.dismiss();
                     }
@@ -781,7 +787,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         }
     }
 
-    public void addNewEmptyItem(){
+    public void addNewEmptyItem(View v){
         pass item;
 
         //Вычисляем текущую дату и форматируем ее
@@ -803,7 +809,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 1);
 
         mPass.add(item);
-        CustomToast.makeText(mContext, "Создание новой записи", Toast.LENGTH_LONG).show();
+        SnackbarHelper.show(mContext, v, "Создание новой записи");
         notifyDataSetChanged();
     }
 

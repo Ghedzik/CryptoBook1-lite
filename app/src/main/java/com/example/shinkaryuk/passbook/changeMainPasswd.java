@@ -16,7 +16,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import static com.example.shinkaryuk.passbook.loginActivity.APP_PREFERENCES;
 import static com.example.shinkaryuk.passbook.loginActivity.APP_PREFERENCES_PSW;
@@ -89,7 +88,7 @@ public class changeMainPasswd extends AppCompatActivity {
         SecretHelper sh = new SecretHelper();
 
         DatabaseHelper db;
-        db = new DatabaseHelper(this);
+        db = new DatabaseHelper(this, etNewConfirmPswd);
 
         if (sh.getPswd(oldPasswd).equals(sh.unHashPass(oldMainPasswd, oldPasswd))){
             if (aNewPasswd.equals(aNewConfirmPasswd)){
@@ -103,22 +102,22 @@ public class changeMainPasswd extends AppCompatActivity {
                     editor.putString(APP_PREFERENCES_PSW, sh.hashPass(aNewConfirmPasswd));
                     editor.apply();
 
-                    CustomToast.makeText(this, "Пароль успешно изменен!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(this, v,"Пароль успешно изменен!");
 
                     setResult(RESULT_PASSWD_OK);
                 } else {
-                    CustomToast.makeText(this, "Ошибка! Произошел сбой перешифровки БД!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.showW(this, v,"Ошибка! Произошел сбой перешифровки БД!");
                     setResult(RESULT_PASSWD_CANCELED);
                 }
             }
             else{
-                CustomToast.makeText(this, "Вы не подтвердили новый пароль", Toast.LENGTH_LONG).show();
+                SnackbarHelper.showW(this, v,"Вы не подтвердили новый пароль");
                 setResult(RESULT_PASSWD_CANCELED);
 
             }
         }
         else{
-            CustomToast.makeText(this, "Неверно указан старый пароль", Toast.LENGTH_LONG).show();
+            SnackbarHelper.showW(this, v,"Неверно указан старый пароль");
             setResult(RESULT_PASSWD_CANCELED);
         }
         //вставить код по изменению пароля

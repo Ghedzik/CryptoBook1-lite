@@ -158,7 +158,7 @@ public class settings extends AppCompatActivity {
     }
 
     public void onClick (View v){
-        DatabaseHelper passDB = new DatabaseHelper(this.getApplicationContext());
+        DatabaseHelper passDB = new DatabaseHelper(this.getApplicationContext(), v);
         writeBackupFileSD(passDB.backup_DB_pass());
     }
 
@@ -182,7 +182,7 @@ public class settings extends AppCompatActivity {
                     if (resultCode == RESULT_OK) {
                         String FilePath = data.getData().getPath();
                         //FilePath = data.getData().
-                        CustomToast.makeText(this, FilePath, Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, sbLenghtPass, FilePath);
                     }
                     break;
                 case READ_REQUEST_CODE:
@@ -193,7 +193,7 @@ public class settings extends AppCompatActivity {
                         String FilePath = aPathUtils.getPath(this, aUri); //data.getData().getPath();
 
                         restoreBackup(aUri);
-                        CustomToast.makeText(this, "Бэкап " + FilePath + " успешно восстановлен.", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.show(this, sbLenghtPass, "Бэкап " + FilePath + " успешно восстановлен.");
 
                     }
                     break;
@@ -222,7 +222,7 @@ public class settings extends AppCompatActivity {
                 Log.e(LOG_TAG, "Directory not created");
             }
         } catch (RuntimeException e){
-            CustomToast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return file;
     }
@@ -255,7 +255,7 @@ public class settings extends AppCompatActivity {
 
         //копируем все файлы с изображениями
         backupFilesImg(backup_File);
-        CustomToast.makeText(this, "Файл: " + sdFile.getAbsolutePath() + " успешно создан!", Toast.LENGTH_LONG).show();
+        SnackbarHelper.show(this, sbLenghtPass,"Файл: " + sdFile.getAbsolutePath() + " успешно создан!");
     }
 
     public void restoreBackup(Uri aUri){
@@ -270,7 +270,7 @@ public class settings extends AppCompatActivity {
         File sdFile = new File(fullPath);
         int countCols;
 
-        DatabaseHelper passDB = new DatabaseHelper(this.getApplicationContext());
+        DatabaseHelper passDB = new DatabaseHelper(this.getApplicationContext(), sbLenghtPass);
 
 
         try {
@@ -406,7 +406,7 @@ public class settings extends AppCompatActivity {
 
     public void onClickClearFiles(View v){
         DatabaseHelper imgDB;
-        imgDB = new DatabaseHelper(this);
+        imgDB = new DatabaseHelper(this, v);
         Cursor whereCursor;
         String whereStr = "";
         String[] fldList = new String[3];
@@ -439,7 +439,7 @@ public class settings extends AppCompatActivity {
     //копируем файлы изображений из приложения во внешнюю папку
     public void backupFilesImg(File dirBackup){
         DatabaseHelper imgDB;
-        imgDB = new DatabaseHelper(this);
+        imgDB = new DatabaseHelper(this, sbLenghtPass);
         Cursor whereCursor;
         String whereStr = "";
         for (int i  = 0; i <= fList.length - 1; i++){
@@ -502,7 +502,7 @@ public class settings extends AppCompatActivity {
 
     public void onClickUpgradeDB(View v) {
         DatabaseHelper wholeDB;
-        wholeDB = new DatabaseHelper(this);
+        wholeDB = new DatabaseHelper(this, v);
         wholeDB.altertable(wholeDB.getWritableDatabase());
         //wholeDB.updateWholeDB(wholeDB.getWritableDatabase());
 

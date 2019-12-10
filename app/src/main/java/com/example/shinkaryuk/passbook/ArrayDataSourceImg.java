@@ -33,12 +33,13 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
     SecretHelper sh;
     private String strPswd;
     DbBitmapUtility dbBmp;
+    View viewForSnackbar;
 
 
 
-    ArrayDataSourceImg(Context context){
+    ArrayDataSourceImg(Context context, View v){
 
-        sqliteHelper = new DatabaseHelper(context.getApplicationContext());
+        sqliteHelper = new DatabaseHelper(context.getApplicationContext(), v);
         dbBmp = new DbBitmapUtility();
         passRow = new String[9];
         imgRow = new String[8];
@@ -47,6 +48,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
         mContext = context;
         parentActivity = (imagesActivity) mContext;
         this.inflater = LayoutInflater.from(context);
+        viewForSnackbar = v;
 
         sh = new SecretHelper();
         strPswd = ((passApp)mContext.getApplicationContext()).getPass();
@@ -293,10 +295,10 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 1);
-                    CustomToast.makeText(mContext, "Запись зашифрована!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.show(mContext, v, "Запись зашифрована!");
                 } else {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 0);
-                    CustomToast.makeWarningText(mContext, "ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!", Toast.LENGTH_LONG).show();
+                    SnackbarHelper.showW(mContext, v,"ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!");
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
 
@@ -389,7 +391,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
-        CustomToast.makeText(mContext, "Попытка вправо", Toast.LENGTH_LONG).show();
+        SnackbarHelper.show(mContext, viewForSnackbar,"Попытка вправо");
         refreshData();
     }
 
@@ -436,7 +438,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "", "", "", "", "");
-                        CustomToast.makeWarningText(mContext, "Запись удалена!", Toast.LENGTH_LONG).show();
+                        SnackbarHelper.showW(mContext, viewForSnackbar,"Запись удалена!");
                         refreshData();
                         dialog.dismiss();
                     }

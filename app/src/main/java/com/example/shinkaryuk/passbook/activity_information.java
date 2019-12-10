@@ -29,7 +29,7 @@ public class activity_information extends AppCompatActivity {
         TextView tViewImgNoCrypt = (TextView) findViewById(R.id.tvCountImgNoCrypt);
 
         //создаем базу - класс описан ниже
-        passDB = new DatabaseHelper(this);
+        passDB = new DatabaseHelper(this, toolbar);
 /*
         passCursor = passDB.getAllPass();
         aCount = passCursor.getCount();
