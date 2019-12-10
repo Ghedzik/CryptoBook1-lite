@@ -34,6 +34,6 @@ public class FAB_Utils extends FloatingActionButton.Behavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
-        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
+        return false;//nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL; //не пряем FAB при скролировании, т.к. криво реагирует на Snackbar
     }
 }
