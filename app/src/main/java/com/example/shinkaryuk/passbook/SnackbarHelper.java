@@ -14,7 +14,7 @@ public class SnackbarHelper {
 
     public SnackbarHelper(Context context, View v, String msg){
         mContext = context;
-        snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_LONG);
+        snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_SHORT);
         //addMargins();
         setRoundBorders();
         ViewCompat.setElevation(snackbar.getView(), 6f);
@@ -22,7 +22,7 @@ public class SnackbarHelper {
 
     public SnackbarHelper(Context context, View v, String msg, boolean isWarning){
         mContext = context;
-        snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_LONG);
+        snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_SHORT);
         //addMargins();
         setRoundBordersWarning();
         ViewCompat.setElevation(snackbar.getView(), 6f);

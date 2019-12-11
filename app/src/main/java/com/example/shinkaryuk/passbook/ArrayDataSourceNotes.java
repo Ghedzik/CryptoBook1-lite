@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,6 +44,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
     SecretHelper sh;
     private String strPswd;
     View viewForSnackbar;
+    private Animation show_view, hide_view, cl_show, click_button_scale;
 
 
 
@@ -55,6 +58,12 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
         mContext = context;
         parentActivity = (notesActivity) mContext;
         this.inflater = LayoutInflater.from(context);
+
+        show_view = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.alpha_show_view);
+        hide_view = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.alpha_hide_view);
+        cl_show = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.cl_show);
+        click_button_scale = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.click_button_scale);
+
 
         viewForSnackbar = v;
 
@@ -279,15 +288,35 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
             holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         } else if (mItem.getEditing() == 1) {
             holder.etCommentNoteL.setVisibility(View.VISIBLE);
+            holder.etCommentNoteL.startAnimation(show_view);
+
             holder.buttonNoteOkL.setVisibility(View.VISIBLE);
+            holder.buttonNoteOkL.startAnimation(show_view);
+
             holder.buttonNoteCancelL.setVisibility(View.VISIBLE);
+            holder.buttonNoteCancelL.startAnimation(show_view);
+
             holder.tvCreateNote.setVisibility(View.VISIBLE);
+            holder.tvCreateNote.startAnimation(show_view);
+
             holder.tvCreateNote3.setVisibility(View.VISIBLE);
+            holder.tvCreateNote3.startAnimation(show_view);
+
             holder.tvChangeNote.setVisibility(View.VISIBLE);
+            holder.tvChangeNote.startAnimation(show_view);
+
             holder.tvChangeNote3.setVisibility(View.VISIBLE);
+            holder.tvChangeNote3.startAnimation(show_view);
+
             holder.ivIsOpenEditorNote.setVisibility(View.VISIBLE);
+            holder.ivIsOpenEditorNote.startAnimation(show_view);
+
             holder.btEditInWindowNote.setVisibility(View.VISIBLE);
+            holder.btEditInWindowNote.startAnimation(show_view);
+
             holder.divider5.setVisibility(View.VISIBLE);
+            holder.divider5.startAnimation(show_view);
+
             holder.ivExpandNote.setImageResource(R.mipmap.collapse_item);
 
             holder.nameView.setTypeface(null, Typeface.BOLD);
@@ -421,6 +450,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     } else {
                         if (Integer.parseInt(aItem.getId()) > 0) {
                             aItem.setEditing(0);
+                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
                         } else if (aItem.getId().equals("0")){
                             mPass.remove(aInt);
                             SnackbarHelper.show(mContext, v, "Запись не сохранена!");
@@ -449,6 +479,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     } else {
                         if (Integer.parseInt(aItem.getId()) > 0) {
                             aItem.setEditing(0);
+                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
                         } else if (aItem.getId().equals("0")){
                             mPass.remove(aInt);
                             SnackbarHelper.show(mContext, v, "Запись не сохранена!");

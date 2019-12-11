@@ -9,7 +9,7 @@ android {
         versionCode 3
         versionName '4.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionNameSuffix '1'
+        versionNameSuffix '2'
     }
     buildTypes {
         release {
