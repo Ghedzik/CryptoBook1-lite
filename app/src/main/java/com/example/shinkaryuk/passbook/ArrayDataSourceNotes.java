@@ -409,24 +409,23 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                 note aItem = mPass.get(aInt);
                 //Toast.makeText(mContext, aItem.getName(), Toast.LENGTH_LONG).show();
 
-//Достаем параметр, указывающий открывать окно для редактирования при создании новой записи или создавать прямо в списке, из настроек
-                int isShowWinEdit = 1;
-                SharedPreferences mSettings;
-                String APP_PREFERENCES = "mysettings";
-                String APP_PREFERENCES_SHOW_WIN_EDIT = "showwinedit";
-                mSettings = mContext.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-                if (mSettings.contains(APP_PREFERENCES_SHOW_WIN_EDIT)) {
-                    isShowWinEdit = mSettings.getInt(APP_PREFERENCES_SHOW_WIN_EDIT, 1);
-                }
-//////////////////////////////////////////////////////
-                if (isShowWinEdit == 1) {
+                RegUtils reg = new RegUtils(mContext);
+
+                if (reg.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
                     ((notesActivity) mContext).showEditForm(aItem);
                     //refreshData();
                 } else {
                     if (aItem.getEditing() == 0) {
                         allItemToNoEdit();
                         aItem.setEditing(1);
-                    } else aItem.setEditing(0);
+                    } else {
+                        if (Integer.parseInt(aItem.getId()) > 0) {
+                            aItem.setEditing(0);
+                        } else if (aItem.getId().equals("0")){
+                            mPass.remove(aInt);
+                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                        }
+                    }
                 }
                 notifyDataSetChanged();
             }
@@ -447,7 +446,14 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
                     if (aItem.getEditing() == 0) {
                         allItemToNoEdit();
                         aItem.setEditing(1);
-                    } else aItem.setEditing(0);
+                    } else {
+                        if (Integer.parseInt(aItem.getId()) > 0) {
+                            aItem.setEditing(0);
+                        } else if (aItem.getId().equals("0")){
+                            mPass.remove(aInt);
+                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                        }
+                    }
 
                     notifyDataSetChanged();
                 }

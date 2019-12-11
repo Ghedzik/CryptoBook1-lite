@@ -647,7 +647,12 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                         allPassToNoEdit();
                         aItem.setEditing(1);
                     } else {
-                        aItem.setEditing(0);
+                        if (Integer.parseInt(aItem.getId()) > 0) {
+                            aItem.setEditing(0);
+                        } else if (aItem.getId().equals("0")){
+                            mPass.remove(aInt);
+                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                        }
                     }
 
                     notifyDataSetChanged();
@@ -670,7 +675,12 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                     allPassToNoEdit();
                     aItem.setEditing(1);
                 } else {
-                    aItem.setEditing(0);
+                    if (Integer.parseInt(aItem.getId()) > 0) {
+                        aItem.setEditing(0);
+                    } else if (aItem.getId().equals("0")){
+                        mPass.remove(aInt);
+                        SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                    }
                 }
 
                 notifyDataSetChanged();
