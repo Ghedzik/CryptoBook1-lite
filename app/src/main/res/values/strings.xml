@@ -32,6 +32,18 @@
     <string name="hint_password">Password</string>
     <string name="hint_login">Login</string>
     <string name="hint_comment">Comments</string>
+    <string name="hint_full_file_name">Полное наименование файла</string>
+
+<!--Нименования управляющих элементов-->
+    <string name="control_save">Save</string>
+    <string name="control_delete">Delete</string>
+    <string name="control_cancel">Cancel</string>
+    <string name="control_encode">Encode</string>
+    <string name="control_create_backup">Create backup</string>
+    <string name="control_restore_backup">Restore</string>
+    <string name="control_change_password">Change password</string>
+    <string name="control_create">Create</string>
+    <string name="control_ok">OK</string>
 
 
     <string name="title_activity_preview_image">Preview</string>
