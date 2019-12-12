@@ -39,6 +39,9 @@
     <string name="label_length_of_generate_password">Длина генерируемого пароля - </string>
     <string name="label_volume_data">Общий объем хранилища</string>
     <string name="label_list_of_files">Список файлов хранилища</string>
+    <string name="label_comments">Комментарий</string>
+    <string name="label_Login">Логин</string>
+    <string name="label_password">Пароль</string>
 
 <!--Hints для элементов-->
     <string name="hint_name">Наименование</string>
@@ -66,6 +69,7 @@
     <string name="control_show_passwords">Показать пароли</string>
     <string name="control_edit_in_window">Редактировать в отдельном окне</string>
     <string name="control_delete_unused_files">Удалить неиспользуемые файлы</string>
+    <string name="control_show">Показать</string>
 
     <string name="title_activity_preview_image">preview_image</string>
     <string name="dummy_button">НАЗАД</string>

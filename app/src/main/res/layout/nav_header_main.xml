@@ -26,7 +26,7 @@
         android:baselineAligned="false"
         android:paddingTop="5dp"
         android:paddingBottom="20dp"
-        android:text="CryptoBook"
+        android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <View
