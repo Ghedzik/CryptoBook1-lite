@@ -125,5 +125,13 @@
     <string name="favOff">Удалить из Избранного</string>
     <string name="cryptoOn">Шифровать</string>
     <string name="cryptoOff">Не шифровать</string>
+    <string name="search">Поиск</string>
+
+<!--Alerts strings-->
+    <string name="alert_yes">Да</string>
+    <string name="alert_no">Нет</string>
+    <string name="alert_delete">Удаление!</string>
+    <string name="alert_do_delete">Удалить </string>
+    <string name="alert_record_deleted">Запись удалена!</string>
 
 </resources>

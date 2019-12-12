@@ -124,5 +124,14 @@
     <string name="favOff">Delete from favorites</string>
     <string name="cryptoOn">Encode</string>
     <string name="cryptoOff">Do not encode</string>
+    <string name="search">Search</string>
+
+<!--Alerts strings-->
+    <string name="alert_yes">Yes</string>
+    <string name="alert_no">No</string>
+    <string name="alert_delete">Delete!</string>
+    <string name="alert_do_delete">Do delete </string>
+    <string name="alert_record_deleted">Record deleted!</string>
+
 
 </resources>

@@ -423,10 +423,10 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
     public void showAlert(final String itemName, final Integer pos){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("Удаление!")
-                .setMessage("Удалить " + itemName + "?")
+                .setMessage(mContext.getResources().getString(R.string.alert_do_delete) + itemName + "?")
                 .setIcon(android.R.drawable.ic_delete)
                 .setCancelable(false)
-                .setNegativeButton("Нет",
+                .setNegativeButton(mContext.getResources().getString(R.string.alert_no),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //resultAlert = false;
@@ -434,11 +434,11 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                                 dialog.cancel();
                             }
                         })
-                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                .setPositiveButton(mContext.getResources().getString(R.string.alert_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "", "", "", "", "");
-                        SnackbarHelper.showW(mContext, viewForSnackbar,"Запись удалена!");
+                        SnackbarHelper.showW(mContext, viewForSnackbar, mContext.getResources().getString(R.string.alert_record_deleted));
                         refreshData();
                         dialog.dismiss();
                     }
