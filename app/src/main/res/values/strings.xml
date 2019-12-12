@@ -47,6 +47,7 @@
     <string name="hint_enter_old_password">Enter old password</string>
     <string name="hint_enter_new_password">Enter new password</string>
     <string name="hint_accept_new_password">Accept new password</string>
+    <string name="hint_enter_password">Enter password</string>
 
 <!--Нименования управляющих элементов-->
     <string name="control_save">Save</string>
