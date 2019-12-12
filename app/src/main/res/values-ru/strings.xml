@@ -2,8 +2,9 @@
     <string name="app_name">CryptoBook</string>
     <string name="action_settings">Настройки</string>
     <string name="action_add">Создать</string>
-    <string name="title_activity_addeditpass">Редактирование</string>
-    <string name="title_activity_addeditimg">Редактирование</string>
+    <string name="title_activity_addeditpass">Редактирование пароля</string>
+    <string name="title_activity_addeditimg">Редактирование изображения</string>
+    <string name="title_activity_addeditnote">Редактирование заметки</string>
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
     <string name="action_delete">Удалить</string>
@@ -11,12 +12,27 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+<!--строки для бокового меню-->
     <string name="main_navigation_drawer_menu_password">Пароли</string>
     <string name="main_navigation_drawer_menu_images">Сканы/фото</string>
     <string name="main_navigation_drawer_menu_notes">Заметки</string>
     <string name="main_navigation_drawer_menu_settings">Настройки</string>
     <string name="main_navigation_drawer_menu_info">Информация</string>
     <string name="main_navigation_drawer_menu_about">О программе</string>
+
+<!--наименования labels-->
+    <string name="label_name">Наименование</string>
+    <string name="label_create_date">Создана</string>
+    <string name="label_change_date">Изменена</string>
+    <string name="label_show_pass">Показать пароль</string>
+    <string name="label_encode">Зашифровать</string>
+
+<!--Hints для элементов-->
+    <string name="hint_name">Наименование</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_login">Логин</string>
+    <string name="hint_comment">Комментарии</string>
+
 
     <string name="title_activity_preview_image">preview_image</string>
     <string name="dummy_button">НАЗАД</string>

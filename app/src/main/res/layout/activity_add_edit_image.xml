@@ -49,9 +49,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppDarkTheme.PopupOverlay"
-        app:title="Изображения"
-        app:titleTextColor="@color/сolorTextBlack">
-    </android.support.v7.widget.Toolbar>
+        app:title="@string/title_activity_addeditimg"
+        app:titleTextColor="@color/сolorTextBlack"></android.support.v7.widget.Toolbar>
 
 
     <EditText
