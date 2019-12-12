@@ -44,6 +44,7 @@
     <string name="control_change_password">Изменить пароль</string>
     <string name="control_create">Создать</string>
     <string name="control_ok">OK</string>
+    <string name="control_generate_password">Сгенерировать пароль</string>
 
     <string name="title_activity_preview_image">preview_image</string>
     <string name="dummy_button">НАЗАД</string>

@@ -44,7 +44,7 @@
     <string name="control_change_password">Change password</string>
     <string name="control_create">Create</string>
     <string name="control_ok">OK</string>
-
+    <string name="control_generate_password">Generate password</string>
 
     <string name="title_activity_preview_image">Preview</string>
     <string name="dummy_button">Back</string>
