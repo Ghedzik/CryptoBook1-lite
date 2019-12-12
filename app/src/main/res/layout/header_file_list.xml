@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="@color/сolorPrimaryDarkBlack"
         android:gravity="center"
-        android:text="Список файлов внутреннего хранилища"
+        android:text="@string/label_list_of_files"
         android:textAlignment="center"
         android:textColor="@color/сolorTextBlack"
         android:textSize="18sp"

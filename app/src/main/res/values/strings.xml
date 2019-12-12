@@ -38,6 +38,8 @@
     <string name="label_count_of_notes">Count of notes</string>
     <string name="label_count_of_notes_does_not_encode">Of which are unencrypted</string>
     <string name="label_length_of_generate_password">Length of generate password - </string>
+    <string name="label_volume_data">Volume data</string>
+    <string name="label_list_of_files">List of files</string>
 
 <!--Hints для элементов-->
     <string name="hint_name">Name</string>

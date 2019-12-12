@@ -37,6 +37,8 @@
     <string name="label_count_of_notes">Количество заметок</string>
     <string name="label_count_of_notes_does_not_encode">Из них незашифрованных</string>
     <string name="label_length_of_generate_password">Длина генерируемого пароля - </string>
+    <string name="label_volume_data">Общий объем хранилища</string>
+    <string name="label_list_of_files">Список файлов хранилища</string>
 
 <!--Hints для элементов-->
     <string name="hint_name">Наименование</string>
