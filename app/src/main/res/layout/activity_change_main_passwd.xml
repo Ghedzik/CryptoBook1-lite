@@ -15,7 +15,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Введите старый пароль"
+        android:hint="@string/hint_enter_old_password"
         android:inputType="textPassword"
         android:textColor="@android:color/white"
         android:textColorHint="@color/сolorTextBlack"
@@ -29,7 +29,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="44dp"
         android:ems="10"
-        android:hint="Введите новый пароль"
+        android:hint="@string/hint_enter_new_password"
         android:inputType="textPassword"
         android:textColor="@android:color/white"
         android:textColorHint="@color/сolorTextBlack"
@@ -43,7 +43,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Подтвердите новый пароль"
+        android:hint="@string/hint_accept_new_password"
         android:inputType="textPassword"
         android:textColor="@android:color/white"
         android:textColorHint="@color/сolorTextBlack"
@@ -65,9 +65,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Отмена"
-            android:textColor="@android:color/holo_red_dark"
-            android:onClick="cancelChangeMainPasswd"/>
+            android:onClick="cancelChangeMainPasswd"
+            android:text="@string/control_cancel"
+            android:textColor="@android:color/holo_red_dark" />
 
         <Button
             android:id="@+id/dtnOkNewPasswd"
@@ -75,9 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="OK"
-            android:textColor="@android:color/holo_green_dark"
-            android:onClick="okChangeMainPasswd"/>
+            android:onClick="okChangeMainPasswd"
+            android:text="@string/control_ok"
+            android:textColor="@android:color/holo_green_dark" />
     </LinearLayout>
 
     <CheckBox
@@ -86,10 +86,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
-        android:text="Показать пароли"
-        android:theme="@style/MyCheckBox"
+        android:text="@string/control_show_passwords"
         android:textColor="@color/сolorTextBlack"
         android:textColorHighlight="@android:color/background_light"
+        android:theme="@style/MyCheckBox"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etConfirmNewPasswd" />
 

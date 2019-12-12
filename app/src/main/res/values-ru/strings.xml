@@ -2,9 +2,13 @@
     <string name="app_name">CryptoBook</string>
     <string name="action_settings">Настройки</string>
     <string name="action_add">Создать</string>
+
+<!--title activity-->
     <string name="title_activity_addeditpass">Редактирование пароля</string>
     <string name="title_activity_addeditimg">Редактирование изображения</string>
     <string name="title_activity_addeditnote">Редактирование заметки</string>
+    <string name="title_activity_info">Сводная информация</string>
+
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
     <string name="action_delete">Удалить</string>
@@ -26,13 +30,22 @@
     <string name="label_change_date">Изменена</string>
     <string name="label_show_pass">Показать пароль</string>
     <string name="label_encode">Зашифровать</string>
+    <string name="label_count_of_passwords">Количество паролей</string>
+    <string name="label_count_of_passwords_does_not_encode">Из них незашифрованных</string>
+    <string name="label_count_of_images">Количество сканоф/фото</string>
+    <string name="label_count_of_images_does_not_encode">Из них незашифрованных</string>
+    <string name="label_count_of_notes">Количество заметок</string>
+    <string name="label_count_of_notes_does_not_encode">Из них незашифрованных</string>
 
 <!--Hints для элементов-->
     <string name="hint_name">Наименование</string>
     <string name="hint_password">Пароль</string>
     <string name="hint_login">Логин</string>
     <string name="hint_comment">Комментарии</string>
-    <string name="hint_full_file_name">Full file name</string>
+    <string name="hint_full_file_name">Полное наименование файла</string>
+    <string name="hint_enter_old_password">Введите старый пароль</string>
+    <string name="hint_enter_new_password">Введите новый пароль</string>
+    <string name="hint_accept_new_password">Подтвердите новый пароль</string>
 
 <!--Нименования управляющих элементов-->
     <string name="control_save">Сохранить</string>
@@ -45,6 +58,8 @@
     <string name="control_create">Создать</string>
     <string name="control_ok">OK</string>
     <string name="control_generate_password">Сгенерировать пароль</string>
+    <string name="control_show_password">Показать пароль</string>
+    <string name="control_show_passwords">Показать пароли</string>
 
     <string name="title_activity_preview_image">preview_image</string>
     <string name="dummy_button">НАЗАД</string>

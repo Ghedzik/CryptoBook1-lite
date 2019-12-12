@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/AppDarkTheme.PopupOverlay"
-        app:title="Изображения"
+        app:title="@string/title_activity_img"
         app:titleTextColor="@color/сolorTextBlack">
 
     </android.support.v7.widget.Toolbar>
