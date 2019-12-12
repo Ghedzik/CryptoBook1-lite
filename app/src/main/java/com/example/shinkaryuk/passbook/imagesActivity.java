@@ -74,7 +74,7 @@ public class imagesActivity extends AppCompatActivity
 
         //Создаем верхний тулбар
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rv);
-        toolbar.setTitle("Документы");
+        toolbar.setTitle(getResources().getString(R.string.title_activity_img));
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTestPass);
@@ -121,7 +121,8 @@ public class imagesActivity extends AppCompatActivity
                         int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                         imgDB.insertEditPass(a_id, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
-                        SnackbarHelper.show(this, recyclerView,"Запись '" + aName + "' сохранена!");
+                        SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + aName + "'"
+                                + getResources().getString(R.string.message_item_save2));
                         //((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
                         //showHideMiniFabs();
                         break;
@@ -141,7 +142,8 @@ public class imagesActivity extends AppCompatActivity
                         //(ArrayDataSourceImg) AddEditRecord
                         String isCryptoImg = data.getExtras().getString("isCryptoNew");
                         imgDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
-                        SnackbarHelper.show(this, recyclerView,"Запись '" + iName + "' сохранена!");
+                        SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + iName + "'"
+                                + getResources().getString(R.string.message_item_save2));
                         //showHideMiniFabs();
                         break;
                     case NOTES_NEW:
@@ -151,7 +153,8 @@ public class imagesActivity extends AppCompatActivity
                         String nDateChange = data.getExtras().getString("notesChangeDateNew");
                         String isCrypto = data.getExtras().getString("isCryptoNew");
                         imgDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
-                        SnackbarHelper.show(this, recyclerView,"Запись '" + nName + "' сохранена!");
+                        SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + nName + "'"
+                                + getResources().getString(R.string.message_item_save2));
                         //showHideMiniFabs();
                         break;
                     case IMG_EDIT:
@@ -170,7 +173,8 @@ public class imagesActivity extends AppCompatActivity
                         String isECryptoImg = data.getExtras().getString("isCryptoNew");
 
                         imgDB.insertEditImg(a_id, eName, ePath, eComment, eShortPath, getFilesDir().getPath() + "/s_" + eShortPath, eDateCreate, eDateChange, isECryptoImg);
-                        SnackbarHelper.show(this, recyclerView,"Запись '" + eName + "' сохранена!");
+                        SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + eName + "'"
+                                + getResources().getString(R.string.message_item_save2));
 
                 }
             } else if (resultCode == RESULT_EDIT_DELETE) {
@@ -438,7 +442,7 @@ public class imagesActivity extends AppCompatActivity
             if (showFile.exists()){
                 aUri = Uri.parse(internalFileName);//strShortPathImg);
             } else {
-                SnackbarHelper.showW(this, recyclerView,"Файл не существует");
+                SnackbarHelper.showW(this, recyclerView,getResources().getString(R.string.message_file_not_found));
                 return;
             }
         }

@@ -124,9 +124,9 @@ public class settings extends AppCompatActivity {
             fileArrayList.add(hashMap);
         }
         if (fStorageSize < (1024 * 1024)){
-            fStr = "Общий размер файлового хранилища приложения -- " + Double.toString(round(fStorageSize / 1024)) + " kB";
+            fStr = getResources().getString(R.string.message_total_app_files_size) + " -- " + Double.toString(round(fStorageSize / 1024)) + " kB";
         } else {
-            fStr = "Общий размер файлового хранилища приложения -- " + Double.toString(round(fStorageSize / (1024 * 1024))) + " MB";
+            fStr = getResources().getString(R.string.message_total_app_files_size) + " -- " + Double.toString(round(fStorageSize / (1024 * 1024))) + " MB";
         }
 
         SimpleAdapter adapter = new SimpleAdapter(this, fileArrayList,
@@ -193,7 +193,8 @@ public class settings extends AppCompatActivity {
                         String FilePath = aPathUtils.getPath(this, aUri); //data.getData().getPath();
 
                         restoreBackup(aUri);
-                        SnackbarHelper.show(this, sbLenghtPass, "Бэкап " + FilePath + " успешно восстановлен.");
+                        SnackbarHelper.show(this, sbLenghtPass, getResources().getString(R.string.message_restore_backup_successfully1) + FilePath
+                                + getResources().getString(R.string.message_restore_backup_successfully2));
 
                     }
                     break;
@@ -255,7 +256,8 @@ public class settings extends AppCompatActivity {
 
         //копируем все файлы с изображениями
         backupFilesImg(backup_File);
-        SnackbarHelper.show(this, sbLenghtPass,"Файл: " + sdFile.getAbsolutePath() + " успешно создан!");
+        SnackbarHelper.show(this, sbLenghtPass,getResources().getString(R.string.message_file_create_successfully1) + sdFile.getAbsolutePath()
+                + getResources().getString(R.string.message_file_create_successfully2));
     }
 
     public void restoreBackup(Uri aUri){

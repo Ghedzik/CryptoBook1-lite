@@ -146,7 +146,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
-            Toast.makeText(CameraActivity.this, "Сохранено:" + "file", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CameraActivity.this, "Сохранено:" + "file", Toast.LENGTH_SHORT).show();
             createCameraPreview();
         }
     };
@@ -237,7 +237,7 @@ public class CameraActivity extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(CameraActivity.this, "Сохранено:" + imgFile, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivity.this, getResources().getString(R.string.message_saved) + imgFile, Toast.LENGTH_SHORT).show();
                     createCameraPreview();
                 }
             };
@@ -279,7 +279,7 @@ public class CameraActivity extends AppCompatActivity {
         if (isFinish == 1) {
             finish();
         } else if (isFinish == -1) {
-            Toast.makeText(CameraActivity.this, "Ошибка! Что-то пошло не так!" + imgFile, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraActivity.this, getResources().getString(R.string.message_unknown_error) + " " + imgFile, Toast.LENGTH_SHORT).show();
             finish();
         }
     }

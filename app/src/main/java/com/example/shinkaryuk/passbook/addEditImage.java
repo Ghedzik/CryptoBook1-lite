@@ -62,7 +62,7 @@ public class addEditImage extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_image);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.addEditImgToolbar);
-        toolbar.setTitle("Изображения");
+        toolbar.setTitle(getResources().getString(R.string.title_activity_addeditimg));
         setSupportActionBar(toolbar);
 
         appPathFiles = getApplication().getFilesDir().getAbsolutePath();

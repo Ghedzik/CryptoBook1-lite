@@ -26,8 +26,6 @@ public class addEditNotes extends AppCompatActivity {
     public final static int RESULT_EDIT_DELETE = -2;
     String intIdNotes;
     String strNotesNote;
-    Button btnOk;
-    Button btnCancel;
     String strDateCreate = "";
     String strDateChange = "";
     Boolean isCrypto;
@@ -38,11 +36,9 @@ public class addEditNotes extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_notes);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.addEditNotesToolbar);
-        toolbar.setTitle("Заметки");
+        toolbar.setTitle(getResources().getString(R.string.title_activity_addeditnote));
         setSupportActionBar(toolbar);
 
-        Button btnOk = (Button) findViewById(R.id.btnSave);
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
         Button btnDel = (Button) findViewById(R.id.btnDelete);
         CheckBox cbIsCrypto = (CheckBox) findViewById(R.id.cb_IsCryptNotes);
 

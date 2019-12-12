@@ -18,7 +18,7 @@ public class activity_information extends AppCompatActivity {
         setContentView(R.layout.activity_information);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.infoToolbar);
-        toolbar.setTitle("Сводная информация");
+        toolbar.setTitle(getResources().getString(R.string.title_activity_info));
         setSupportActionBar(toolbar);
 
         TextView tViewPswd = (TextView) findViewById(R.id.tvCountPswd);

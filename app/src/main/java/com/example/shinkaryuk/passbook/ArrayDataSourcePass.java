@@ -476,7 +476,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 if (aItem.getId().equals("0"))
                     mPass.remove(aInt);
 
-                SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
                 //Snackbar.make(v, "Запись не сохранена", Snackbar.LENGTH_LONG).show();
                 //CustomToast.makeText(mContext, "Запись не сохранена!", Toast.LENGTH_LONG).show();
 
@@ -516,7 +516,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 holder.etComment.clearFocus();
                 ((MainActivity)mContext).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-                SnackbarHelper.show(mContext, holder.etName, "Запись '" + holder.etName.getText() +"' сохранена!");
+                SnackbarHelper.show(mContext, holder.etName, mContext.getResources().getString(R.string.message_item_save1) + "'" + holder.etName.getText() + "'"
+                            + mContext.getResources().getString(R.string.message_item_save2));
 
                 notifyDataSetChanged();
             }
@@ -581,10 +582,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //passCursor.mo
                 if (aItem.getFavorite().equals("0")) {
                     sqliteHelper.updateFavoritePass(Integer.parseInt(aItem.getId()), 1);
-                    SnackbarHelper.show(mContext, v, "Запись добавлена в избранное!");
+                    SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_record_add_fav));
                 } else {
                     sqliteHelper.updateFavoritePass(Integer.parseInt(aItem.getId()), 0);
-                    SnackbarHelper.show(mContext, v, "Запись удалена из избранного!");
+                    SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_record_del_fav));
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -601,10 +602,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoPass(Integer.parseInt(aItem.getId()), 1);
-                    SnackbarHelper.show(mContext, v, "Запись зашифрована!");
+                    SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_record_encrypted));
                 } else {
                     sqliteHelper.updateIsCryptoPass(Integer.parseInt(aItem.getId()), 0);
-                    SnackbarHelper.showW(mContext, v, "ВНИМАНИЕ! Запись дешифрована!");
+                    SnackbarHelper.showW(mContext, v, mContext.getResources().getString(R.string.message_record_decrypted));
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
                 fillPassArray();//swapCursor(cCur);
@@ -649,10 +650,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                     } else {
                         if (Integer.parseInt(aItem.getId()) > 0) {
                             aItem.setEditing(0);
-                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                            SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
                         } else if (aItem.getId().equals("0")){
                             mPass.remove(aInt);
-                            SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                            SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
                         }
                     }
 
@@ -678,10 +679,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 } else {
                     if (Integer.parseInt(aItem.getId()) > 0) {
                         aItem.setEditing(0);
-                        SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                        SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
                     } else if (aItem.getId().equals("0")){
                         mPass.remove(aInt);
-                        SnackbarHelper.show(mContext, v, "Запись не сохранена!");
+                        SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
                     }
                 }
 
@@ -726,14 +727,14 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
 
     @Override
     public void onItemDismiss(int position) {
-        showAlert("запись", position);
+        showAlert("", position);
         //notifyItemRemoved(position);
     }
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
         //View v = new View(mContext);
-        SnackbarHelper.show(mContext, viewForSnackbar, "Попытка вправо");
+        //SnackbarHelper.show(mContext, viewForSnackbar, "Попытка вправо");
         refreshData();
     }
 
@@ -765,11 +766,11 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
 
     public void showAlert(final String itemName, final Integer pos){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("Удаление!")
-                .setMessage("Запись будет безвозвратно удалена! \nУдалить " + itemName + "?")
+        builder.setTitle(mContext.getResources().getString(R.string.alert_delete))
+                .setMessage(mContext.getResources().getString(R.string.alert_do_delete) + itemName + "?")
                 .setIcon(android.R.drawable.ic_delete)
                 .setCancelable(false)
-                .setNegativeButton("Нет",
+                .setNegativeButton(mContext.getResources().getString(R.string.control_no),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //resultAlert = false;
@@ -777,12 +778,12 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                                 dialog.cancel();
                             }
                         })
-                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                .setPositiveButton(mContext.getResources().getString(R.string.control_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int arg1) {
                         //resultAlert = true;
 
                         AddEditRecord(Integer.parseInt(mPass.get(pos).getId()) * (-1), "", "", "", "", "", "", "", "");
-                        SnackbarHelper.showW(mContext, viewForSnackbar,"Запись удалена!");
+                        SnackbarHelper.showW(mContext, viewForSnackbar,mContext.getResources().getString(R.string.alert_record_deleted));
                         refreshData();
                         dialog.dismiss();
                     }
@@ -821,7 +822,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                 1);
 
         mPass.add(item);
-        SnackbarHelper.show(mContext, v, "Создание новой записи");
+        SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_create_new_item));
         notifyDataSetChanged();
     }
 

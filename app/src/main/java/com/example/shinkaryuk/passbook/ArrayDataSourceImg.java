@@ -295,10 +295,10 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
                 //passCursor.mo
                 if (aItem.getCrypt().equals("0")) {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 1);
-                    SnackbarHelper.show(mContext, v, "Запись зашифрована!");
+                    SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_record_encrypted));
                 } else {
                     sqliteHelper.updateIsCryptoImg(Integer.parseInt(aItem.getId()), 0);
-                    SnackbarHelper.showW(mContext, v,"ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!");
+                    SnackbarHelper.showW(mContext, v,mContext.getResources().getString(R.string.message_record_decrypted));
                 }
                 //Cursor cCur = sqliteHelper.getAllPassFav(((passApp)mContext).getShowFavorites());
 
@@ -385,13 +385,13 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
     public void onItemDismiss(int position) {
         //mItems.remove(position);
         //Toast.makeText(mContext, "Попытка удалить", Toast.LENGTH_LONG).show();
-        showAlert("запись", position);
+        showAlert("", position);
         //notifyItemRemoved(position);
     }
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
-        SnackbarHelper.show(mContext, viewForSnackbar,"Попытка вправо");
+        //SnackbarHelper.show(mContext, viewForSnackbar,"Попытка вправо");
         refreshData();
     }
 
@@ -422,7 +422,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
 
     public void showAlert(final String itemName, final Integer pos){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("Удаление!")
+        builder.setTitle(mContext.getResources().getString(R.string.alert_delete))
                 .setMessage(mContext.getResources().getString(R.string.alert_do_delete) + itemName + "?")
                 .setIcon(android.R.drawable.ic_delete)
                 .setCancelable(false)

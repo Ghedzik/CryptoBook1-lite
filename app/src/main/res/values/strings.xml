@@ -8,12 +8,11 @@
     <string name="title_activity_addeditimg">Edit document</string>
     <string name="title_activity_addeditnote">Edit note</string>
     <string name="title_activity_info">Summary information</string>
-
+    <string name="title_activity_img">Documents</string>
 
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
-    <string name="title_activity_img">Images</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -71,6 +70,8 @@
     <string name="control_edit_in_window">Edit in window</string>
     <string name="control_delete_unused_files">Delete unused files</string>
     <string name="control_show">Show</string>
+    <string name="control_yes">Yes</string>
+    <string name="control_no">No</string>
 
     <string name="title_activity_preview_image">Preview</string>
     <string name="dummy_button">Back</string>
@@ -103,18 +104,10 @@
             2017\n\n
 
             \t\tThis application save passwords and its information, also save images, photo and notes.
-            The app do not have network tools. It does not send information to network, cloud and any open network services.\n
+            The app does not have network tools. It does not send information to network, cloud and any open network services.\n
             \t\tAll data endocde with AES 265 default. You may to decode any record or file/document/image/photo.
             You may to create backup or restore data use your password.
             Your data under reliable protected!\n\n
-
-            \t\tПриложение шифрует пароли, логины, комментарии к ним, а также заметки и изображения.
-            Программа позволяет создавать резервные копии и восстанавливать данные из них. Данные выгружаются в том виде, в котором
-            они хранятся в базе: если строка была зашифрована, то в резервной копии она также будет зашифрована. Восстановление (расшифровка
-            восстановленных данных) возможна только в том случае, если пароль приложения сопадает с паролем, которым
-            данные были зашифрованы до того, как попали в резервную копию.\n
-            \t\tОбратите внимание, что удаление изображений/фото/сканов подразумевает удаление информации о записи, но сами файлы не удаляются.
-            Для их удаления необходимо после удаления записи перейти в форму Настройки и выполнить "Удалить неиспользуемые файлы".
 
         ]]>
     </string>
@@ -131,7 +124,33 @@
     <string name="alert_no">No</string>
     <string name="alert_delete">Delete!</string>
     <string name="alert_do_delete">Do delete </string>
-    <string name="alert_record_deleted">Record deleted!</string>
+    <string name="alert_record_deleted">Item deleted!</string>
 
+<!--Сообщения для Toast и Snackbar-->
+    <string name="message_file_not_found">File not found!</string>
+    <string name="message_item_save1">Item </string>
+    <string name="message_item_save2"> saved!</string>
+    <string name="message_enter_password">Enter password</string>
+    <string name="message_goodbuy">Adios!</string>
+    <string name="message_invalid_password">Invalid password!</string>
+    <string name="message_saved">Saved: </string>
+    <string name="message_unknown_error">Unknown error!</string>
+    <string name="message_password_changed_successfully">Password changed successfully!</string>
+    <string name="message_database_encryption_error">Database encryption error!</string>
+    <string name="message_not_confirm_new_password">You did not confirm the new password</string>
+    <string name="message_invalid_old_password">Invalid old password</string>
+    <string name="message_delete_error">Delete error!</string>
+    <string name="message_total_app_files_size">Total application file storage size</string>
+    <string name="message_restore_backup_successfully1">Restore backup </string>
+    <string name="message_restore_backup_successfully2"> successfully</string>
+    <string name="message_file_create_successfully1">File </string>
+    <string name="message_file_create_successfully2"> create successfully</string>
+    <string name="message_record_encrypted">The record is encrypted</string>
+    <string name="message_record_decrypted">Warning! The record is decrypted.</string>
+    <string name="message_record_add_fav">The record added to favorites</string>
+    <string name="message_record_del_fav">The record deleted from favorites</string>
+    <string name="message_item_save">Item saved</string>
+    <string name="message_item_not_save">Item not saved</string>
+    <string name="message_create_new_item">Create new item</string>
 
 </resources>

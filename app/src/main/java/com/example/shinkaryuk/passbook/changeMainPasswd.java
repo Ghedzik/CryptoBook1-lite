@@ -102,22 +102,22 @@ public class changeMainPasswd extends AppCompatActivity {
                     editor.putString(APP_PREFERENCES_PSW, sh.hashPass(aNewConfirmPasswd));
                     editor.apply();
 
-                    SnackbarHelper.show(this, v,"Пароль успешно изменен!");
+                    SnackbarHelper.show(this, v,getResources().getString(R.string.message_password_changed_successfully));
 
                     setResult(RESULT_PASSWD_OK);
                 } else {
-                    SnackbarHelper.showW(this, v,"Ошибка! Произошел сбой перешифровки БД!");
+                    SnackbarHelper.showW(this, v,getResources().getString(R.string.message_database_encryption_error));
                     setResult(RESULT_PASSWD_CANCELED);
                 }
             }
             else{
-                SnackbarHelper.showW(this, v,"Вы не подтвердили новый пароль");
+                SnackbarHelper.showW(this, v,getResources().getString(R.string.message_not_confirm_new_password));
                 setResult(RESULT_PASSWD_CANCELED);
 
             }
         }
         else{
-            SnackbarHelper.showW(this, v,"Неверно указан старый пароль");
+            SnackbarHelper.showW(this, v,getResources().getString(R.string.message_invalid_old_password));
             setResult(RESULT_PASSWD_CANCELED);
         }
         //вставить код по изменению пароля

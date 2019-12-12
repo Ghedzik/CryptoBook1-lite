@@ -81,7 +81,7 @@ public class notesActivity extends AppCompatActivity
 
         //Создаем верхний тулбар
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rv);
-        toolbar.setTitle("Заметки");
+        toolbar.setTitle(getResources().getString(R.string.title_activity_notes));
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTestPass);
@@ -142,7 +142,8 @@ public class notesActivity extends AppCompatActivity
                     int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                     notesDB.insertEditPass(a_id, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + aName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + aName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     //((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
                     //showHideMiniFabs();
                     break;
@@ -162,7 +163,8 @@ public class notesActivity extends AppCompatActivity
                     //(ArrayDataSourceImg) AddEditRecord
                     String isCryptoImg = data.getExtras().getString("isCryptoNew");
                     notesDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + iName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + iName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
                     break;
                 case NOTES_NEW:
@@ -172,7 +174,8 @@ public class notesActivity extends AppCompatActivity
                     String nDateChange = data.getExtras().getString("notesChangeDateNew");
                     String isCrypto = data.getExtras().getString("isCryptoNew");
                     notesDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + nName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + nName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
                     break;
                 case NOTES_EDIT:
@@ -182,7 +185,8 @@ public class notesActivity extends AppCompatActivity
                     String eDateChange = data.getExtras().getString("notesChangeDateNew");
                     String isCryptoE = data.getExtras().getString("isCryptoNew");
                     notesDB.insertEditNotes(a_id, eName, eDateCreate, eDateChange, isCryptoE);
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + eName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + eName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     break;
             }
         } else if (resultCode == RESULT_EDIT_DELETE){

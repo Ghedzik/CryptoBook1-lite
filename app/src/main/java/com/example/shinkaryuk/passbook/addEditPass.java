@@ -34,8 +34,6 @@ public class addEditPass extends AppCompatActivity {
     String strCommentPass;
     String strDateCreate;
     String strDateChange;
-    Button btnOk;
-    Button btnCancel;
     Boolean isCrypto;
 
     @Override
@@ -44,11 +42,9 @@ public class addEditPass extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_pass);
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.addEditPassToolbar);
-        toolbar.setTitle("Пароль");
+        toolbar.setTitle(getResources().getString(R.string.title_activity_addeditpass));
         setSupportActionBar(toolbar);
 
-        Button btnOk = (Button) findViewById(R.id.btnSave);
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
         Button btnDel = (Button) findViewById(R.id.btnDelete);
         CheckBox cbIsCrypto = (CheckBox) findViewById(R.id.cb_IsCryptPass);
 

@@ -8,11 +8,11 @@
     <string name="title_activity_addeditimg">Редактирование изображения</string>
     <string name="title_activity_addeditnote">Редактирование заметки</string>
     <string name="title_activity_info">Сводная информация</string>
+    <string name="title_activity_img">Документы</string>
 
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
     <string name="action_delete">Удалить</string>
-    <string name="title_activity_img">Изображения</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -70,6 +70,8 @@
     <string name="control_edit_in_window">Редактировать в отдельном окне</string>
     <string name="control_delete_unused_files">Удалить неиспользуемые файлы</string>
     <string name="control_show">Показать</string>
+    <string name="control_yes">Да</string>
+    <string name="control_no">Нет</string>
 
     <string name="title_activity_preview_image">preview_image</string>
     <string name="dummy_button">НАЗАД</string>
@@ -120,7 +122,7 @@
         ]]>
     </string>
 
-    <!--Наименования пунктов контекстного меню-->
+<!--Наименования пунктов контекстного меню-->
     <string name="favOn">Добавить в Избранное</string>
     <string name="favOff">Удалить из Избранного</string>
     <string name="cryptoOn">Шифровать</string>
@@ -131,7 +133,34 @@
     <string name="alert_yes">Да</string>
     <string name="alert_no">Нет</string>
     <string name="alert_delete">Удаление!</string>
-    <string name="alert_do_delete">Удалить </string>
+    <string name="alert_do_delete">Удалить будет безвозвратно удалена. \nУдалить </string>
     <string name="alert_record_deleted">Запись удалена!</string>
+
+    <!--Сообщения для Toast и Snackbar-->
+    <string name="message_file_not_found">Файл не найден!</string>
+    <string name="message_item_save1">Запись </string>
+    <string name="message_item_save2"> сохранена!</string>
+    <string name="message_enter_password">Введите пароль</string>
+    <string name="message_goodbuy">Досвидос!</string>
+    <string name="message_invalid_password">Неверный пароль!</string>
+    <string name="message_saved">Сохранено: </string>
+    <string name="message_unknown_error">Ошибка! Что-то пошло не так!</string>
+    <string name="message_password_changed_successfully">Пароль успешно изменен!</string>
+    <string name="message_database_encryption_error">Ошибка! Произошел сбой перешифровки БД!</string>
+    <string name="message_not_confirm_new_password">Вы не подтвердили новый пароль!</string>
+    <string name="message_invalid_old_password">Неверно указан старый пароль</string>
+    <string name="message_delete_error">JPG-файл из кэша почему-то не удалился. Может его нет?</string>
+    <string name="message_total_app_files_size">Общий размер файлового хранилища приложения</string>
+    <string name="message_restore_backup_successfully1">Данные из резервной копии </string>
+    <string name="message_restore_backup_successfully2"> успешно восстановлены</string>
+    <string name="message_file_create_successfully1">Файл </string>
+    <string name="message_file_create_successfully2"> успешно создан!</string>
+    <string name="message_record_encrypted">Запись зашифрована</string>
+    <string name="message_record_decrypted">ВНИМАНИЕ! Запись расшифрована! \nОна будет храниться в открытом виде!</string>
+    <string name="message_record_add_fav">Запись добавлена в избранное</string>
+    <string name="message_record_del_fav">Запись удалена из избранного</string>
+    <string name="message_item_save">Запись сохранена</string>
+    <string name="message_item_not_save">Запись не сохранена</string>
+    <string name="message_create_new_item">Создание новой записи</string>
 
 </resources>

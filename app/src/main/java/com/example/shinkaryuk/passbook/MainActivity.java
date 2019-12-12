@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int isCrypt = data.getExtras().getInt("isCryptoPass");
 
                     ((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + aName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + aName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
                     break;
                 case IMG_NEW:
@@ -279,7 +280,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //(ArrayDataSourceImg) AddEditRecord
                     DatabaseHelper imgDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
                     imgDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + iName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + iName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
                     break;
                 case NOTES_NEW:
@@ -290,7 +292,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String isCrypto = data.getExtras().getString("isCryptoNew");
                     DatabaseHelper notesDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
                     notesDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + nName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + nName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
                     break;
                 case PASS_EDIT:
@@ -304,7 +307,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int isCryptE = data.getExtras().getInt("isCryptoPass");
 
                     ((ArrayDataSourcePass)recyclerView.getAdapter()).AddEditRecord(a_id, eName, eLogin, ePass, eComment, "", eDateCreate, eDateChange, Integer.toString(isCryptE));
-                    SnackbarHelper.show(this, recyclerView,"Запись '" + eName + "' сохранена!");
+                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + eName + "'"
+                            + getResources().getString(R.string.message_item_save2));
                     break;
             }
         } else if (resultCode == RESULT_EDIT_DELETE) {
