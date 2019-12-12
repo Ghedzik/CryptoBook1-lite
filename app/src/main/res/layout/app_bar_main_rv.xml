@@ -20,7 +20,7 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppDarkTheme.PopupOverlay"
-            app:title="Пароли" />
+            app:title="@string/app_name" />
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main_rv" />
