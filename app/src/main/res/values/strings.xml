@@ -37,6 +37,7 @@
     <string name="label_count_of_images_does_not_encode">Of which are unencrypted</string>
     <string name="label_count_of_notes">Count of notes</string>
     <string name="label_count_of_notes_does_not_encode">Of which are unencrypted</string>
+    <string name="label_length_of_generate_password">Length of generate password - </string>
 
 <!--Hints для элементов-->
     <string name="hint_name">Name</string>
@@ -62,6 +63,8 @@
     <string name="control_generate_password">Generate password</string>
     <string name="control_show_password">Show password</string>
     <string name="control_show_passwords">Show passwords</string>
+    <string name="control_edit_in_window">Edit in window</string>
+    <string name="control_delete_unused_files">Delete unused files</string>
 
     <string name="title_activity_preview_image">Preview</string>
     <string name="dummy_button">Back</string>

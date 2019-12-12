@@ -36,6 +36,7 @@
     <string name="label_count_of_images_does_not_encode">Из них незашифрованных</string>
     <string name="label_count_of_notes">Количество заметок</string>
     <string name="label_count_of_notes_does_not_encode">Из них незашифрованных</string>
+    <string name="label_length_of_generate_password">Длина генерируемого пароля - </string>
 
 <!--Hints для элементов-->
     <string name="hint_name">Наименование</string>
@@ -61,6 +62,8 @@
     <string name="control_generate_password">Сгенерировать пароль</string>
     <string name="control_show_password">Показать пароль</string>
     <string name="control_show_passwords">Показать пароли</string>
+    <string name="control_edit_in_window">Редактировать в отдельном окне</string>
+    <string name="control_delete_unused_files">Удалить неиспользуемые файлы</string>
 
     <string name="title_activity_preview_image">preview_image</string>
     <string name="dummy_button">НАЗАД</string>
