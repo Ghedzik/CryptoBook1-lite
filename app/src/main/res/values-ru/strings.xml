@@ -1,27 +1,27 @@
 <resources>
     <string name="app_name">CryptoBook</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_add">New</string>
-    <string name="title_activity_addeditpass">Edit</string>
-    <string name="title_activity_addeditimg">Edit</string>
-    <string name="action_save">Save</string>
-    <string name="action_cancel">Cancel</string>
-    <string name="action_delete">Delete</string>
-    <string name="title_activity_img">Images</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_add">Создать</string>
+    <string name="title_activity_addeditpass">Редактирование</string>
+    <string name="title_activity_addeditimg">Редактирование</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_delete">Удалить</string>
+    <string name="title_activity_img">Изображения</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="main_navigation_drawer_menu_password">Passwords</string>
-    <string name="main_navigation_drawer_menu_images">Scan/photo</string>
-    <string name="main_navigation_drawer_menu_notes">Notes</string>
-    <string name="main_navigation_drawer_menu_settings">Settings</string>
-    <string name="main_navigation_drawer_menu_info">Information</string>
-    <string name="main_navigation_drawer_menu_about">About</string>
+    <string name="main_navigation_drawer_menu_password">Пароли</string>
+    <string name="main_navigation_drawer_menu_images">Сканы/фото</string>
+    <string name="main_navigation_drawer_menu_notes">Заметки</string>
+    <string name="main_navigation_drawer_menu_settings">Настройки</string>
+    <string name="main_navigation_drawer_menu_info">Информация</string>
+    <string name="main_navigation_drawer_menu_about">О программе</string>
 
-    <string name="title_activity_preview_image">Preview</string>
-    <string name="dummy_button">Back</string>
+    <string name="title_activity_preview_image">preview_image</string>
+    <string name="dummy_button">НАЗАД</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_notes">Notes</string>
+    <string name="title_activity_notes">notes</string>
 
     <!--Строковые параметры для Activity Camera-->
     <string name="picture">Picture</string>
@@ -68,9 +68,9 @@
     </string>
 
     <!--Наименования пунктов контекстного меню-->
-    <string name="favOn">Add to favorites в Избранное</string>
-    <string name="favOff">Delete from favorites</string>
-    <string name="cryptoOn">Encode</string>
-    <string name="cryptoOff">Do not encode</string>
+    <string name="favOn">Добавить в Избранное</string>
+    <string name="favOff">Удалить из Избранного</string>
+    <string name="cryptoOn">Шифровать</string>
+    <string name="cryptoOff">Не шифровать</string>
 
 </resources>
