@@ -63,7 +63,7 @@ public class SecretHelper {
             mCipher.init(Cipher.ENCRYPT_MODE, sks);
             encodedBytes = mCipher.doFinal(encodeStr.getBytes("UTF-8"));
         } catch (Exception e) {
-            Log.e("Crypto", "AES encryption error");
+            Log.e("Crypto", "AES encryption string error");
         } finally {
             if (encodedBytes == null) return "";
         }
@@ -93,7 +93,7 @@ public class SecretHelper {
             byte[] decryptedValue64 = Base64.decode(decodeString, Base64.DEFAULT);
             decodedBytes = mCipher.doFinal(decryptedValue64);
         } catch (Exception e) {
-            Log.e("Crypto", "AES decryption error");
+            Log.e("Crypto", "AES decryption string error");
         } finally {
             if (decodedBytes == null) return "";
         }
@@ -126,7 +126,7 @@ public class SecretHelper {
             //byte[] decryptedValue64 = Base64.decode(decodeString, Base64.DEFAULT);
             decodedBytes = mCipher.doFinal(decodedBytes);
         } catch (Exception e) {
-            Log.e("Crypto", "AES decryption error");
+            Log.e("Crypto", "AES decryption byte error");
         } finally {
             if (decodedBytes == null) return "";
         }
@@ -173,7 +173,7 @@ public class SecretHelper {
             mCipher.init(Cipher.ENCRYPT_MODE, sks);
             encodedBytes = mCipher.doFinal(encodeStr.getBytes("UTF-8"));
         } catch (Exception e) {
-            Log.e("Crypto", "AES encryption error");
+            Log.e("Crypto", "AES encryption hash error");
         } finally {
             if (encodedBytes == null) return "";
         }
@@ -207,7 +207,7 @@ public class SecretHelper {
             byte[] decryptedValue64 = Base64.decode(decodeString, Base64.DEFAULT);
             decodedBytes = mCipher.doFinal(decryptedValue64);
         } catch (Exception e) {
-            Log.e("Crypto", "AES decryption error");
+            Log.e("Crypto", "AES decryption hash error");
         } finally {
             if (decodedBytes == null) return "";
         }
@@ -217,7 +217,7 @@ public class SecretHelper {
 
     }
 
-    public void DecodeFile(Context context, Uri aUri, String pswd){
+    public boolean DecodeFile(Context context, Uri aUri, String pswd){
         Bitmap bitmap;
         DbBitmapUtility dbu = new DbBitmapUtility();
         String fileName = aUri.getLastPathSegment();//no .png or .jpg needed
@@ -252,14 +252,16 @@ public class SecretHelper {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
 //            Toast.makeText(this, "что-то сломалось" + e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         } finally {
-
+            return true;
         }
     }
 
-    public void EncodeFile(Context context, Uri aUri, String pswd){
+    public boolean EncodeFile(Context context, Uri aUri, String pswd){
         DbBitmapUtility dbu = new DbBitmapUtility();
         String fileName = aUri.getLastPathSegment();//no .png or .jpg needed
         PathUtils aPathUtils = new PathUtils();
@@ -281,10 +283,12 @@ public class SecretHelper {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
 //            Toast.makeText(this, "что-то сломалось" + e.getMessage(), Toast.LENGTH_LONG).show();
+                return false;
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             } finally {
-
+                return true;
             }
 
     }

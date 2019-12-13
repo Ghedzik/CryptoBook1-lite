@@ -10,6 +10,7 @@ public class RegUtils {
     final static String APP_PREFERENCES = "mysettings";
     final static String APP_PREFERENCES_SHOW_WIN_EDIT = "showwinedit";
     final static String APP_PREFERENCES_LENPSW = "lenpswd";
+    public static final String APP_PREFERENCES_PSW = "pswd";
 
     private int howEdit = this.EDIT_IN_LIST; //как редактировать записи паролей и записок
     private int lenghtPass; //длина пароля, который генерирует программа
@@ -71,5 +72,18 @@ public class RegUtils {
         else {
             lenghtPass = 8;
         }
+    }
+
+
+    public void writeNewPass(String var){
+        String hashPswd;
+        SecretHelper sh;
+        sh = new SecretHelper();
+        hashPswd = sh.hashPass(var);
+        String unHashStr = sh.unHashPass(hashPswd, var);
+
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(APP_PREFERENCES_PSW, hashPswd);
+        editor.apply();
     }
 }

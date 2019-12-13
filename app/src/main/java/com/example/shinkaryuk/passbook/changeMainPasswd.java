@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.example.shinkaryuk.passbook.loginActivity.APP_PREFERENCES;
 import static com.example.shinkaryuk.passbook.loginActivity.APP_PREFERENCES_PSW;
@@ -102,16 +103,20 @@ public class changeMainPasswd extends AppCompatActivity {
                     editor.putString(APP_PREFERENCES_PSW, sh.hashPass(aNewConfirmPasswd));
                     editor.apply();
 
-                    SnackbarHelper.show(this, v,getResources().getString(R.string.message_password_changed_successfully));
+                    //SnackbarHelper.show(this, v,getResources().getString(R.string.message_password_changed_successfully));
 
+                    Toast.makeText(this, getResources().getString(R.string.message_password_changed_successfully), Toast.LENGTH_LONG);
                     setResult(RESULT_PASSWD_OK);
                 } else {
-                    SnackbarHelper.showW(this, v,getResources().getString(R.string.message_database_encryption_error));
+                    //SnackbarHelper.showW(this, v,getResources().getString(R.string.message_database_encryption_error));
+                    Toast.makeText(this, getResources().getString(R.string.message_database_encryption_error), Toast.LENGTH_LONG);
+
                     setResult(RESULT_PASSWD_CANCELED);
                 }
             }
             else{
-                SnackbarHelper.showW(this, v,getResources().getString(R.string.message_not_confirm_new_password));
+                //SnackbarHelper.showW(this, v,getResources().getString(R.string.message_not_confirm_new_password));
+                Toast.makeText(this, getResources().getString(R.string.message_not_confirm_new_password), Toast.LENGTH_LONG);
                 setResult(RESULT_PASSWD_CANCELED);
 
             }

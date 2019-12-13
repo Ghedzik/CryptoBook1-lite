@@ -919,8 +919,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "passName = '" + sh.EncodeStr(sh.DecodeStr(passCur.getString(1), oldPass), newPass)
                         + "', passLogin = '" + sh.EncodeStr(sh.DecodeStr(passCur.getString(2), oldPass), newPass)
                         + "', passPass = '" + sh.EncodeStr(sh.DecodeStr(passCur.getString(3), oldPass), newPass)
-                        + "', passComment = '" + sh.EncodeStr(sh.DecodeStr(passCur.getString(4), oldPass), newPass)
-                        + "' WHERE _id = " + passCur.getString(0);
+                        + "', passComment = '" + sh.EncodeStr(sh.DecodeStr(passCur.getString(4), oldPass), newPass) + "'"
+                        + " WHERE _id = " + passCur.getString(0);
                 db.execSQL(strSQL);
 
                 passCur.moveToNext();
@@ -928,29 +928,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             while (!notesCur.isAfterLast()){
                 strSQL = "UPDATE notes SET "
-                        + "notesNoteName = '" + sh.EncodeStr(sh.DecodeStr(notesCur.getString(1), oldPass), newPass)
-                        + "' WHERE _id = " + notesCur.getString(0);
+                        + "notesNoteName = '" + sh.EncodeStr(sh.DecodeStr(notesCur.getString(1), oldPass), newPass) + "'"
+                        + " WHERE _id = " + notesCur.getString(0);
                 db.execSQL(strSQL);
 
                 notesCur.moveToNext();
             }
 
+            boolean isDecode = true;
+            boolean isEncode = true;
             while (!imgCur.isAfterLast()){
                 //сюда вставить код по перешифрованию файла
                 String fileName = imgCur.getString(imgCur.getColumnIndex("imgFileName"));
-                sh.DecodeFile(mContext, Uri.parse(fileName), oldPass);
-                sh.EncodeFile(mContext, Uri.parse(fileName), newPass);
+                isDecode = isDecode && sh.DecodeFile(mContext, Uri.parse(fileName), oldPass);
+                isEncode = isEncode && sh.EncodeFile(mContext, Uri.parse(fileName), newPass);
                 strSQL = "UPDATE images SET "
                         + "imgName = '" + sh.EncodeStr(sh.DecodeStr(imgCur.getString(imgCur.getColumnIndex("imgName")), oldPass), newPass)
                         + "', imgComment = '" + sh.EncodeStr(sh.DecodeStr(imgCur.getString(imgCur.getColumnIndex("imgComment")), oldPass), newPass)
-                        + "', imgSmallFile = '" + sh.EncodeStr(sh.DecodeStr(imgCur.getString(imgCur.getColumnIndex("imgSmallFile")), oldPass), newPass)
-                        + "' WHERE _id = " + imgCur.getString(0);
+                        + "', imgSmallFile = '"
+                        + sh.EncodeStr(sh.DecodeStr(imgCur.getString(imgCur.getColumnIndex("imgSmallFile")), oldPass), newPass) + "'"
+                        + " WHERE _id = " + imgCur.getString(0);
                 db.execSQL(strSQL);
                 imgCur.moveToNext();
             }
-
-            db.setTransactionSuccessful();
-            succesTransaction = true;
+            if (isDecode && isEncode) {
+                db.setTransactionSuccessful();
+                succesTransaction = true;
+            }
         }
         finally {
             db.endTransaction();
