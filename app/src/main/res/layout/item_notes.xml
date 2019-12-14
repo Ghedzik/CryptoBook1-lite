@@ -147,7 +147,6 @@
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingStart="10dp"
         android:paddingEnd="5dp"
-        android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/сolorTextBlack"
         android:textSize="14sp"
