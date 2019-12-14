@@ -11,6 +11,8 @@
     <string name="title_activity_img">Документы</string>
     <string name="title_activity_change_app_pswd">Изменение пароля приложения</string>
     <string name="title_activity_settings">Настройки</string>
+    <string name="title_activity_notes">Заметки</string>
+    <string name="title_activity_pass">Пароли</string>
 
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
@@ -76,13 +78,12 @@
     <string name="control_yes">Да</string>
     <string name="control_no">Нет</string>
 
-    <string name="title_activity_preview_image">preview_image</string>
+    <string name="title_activity_preview_image">Просмотр</string>
     <string name="dummy_button">НАЗАД</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_notes">notes</string>
 
     <!--Строковые параметры для Activity Camera-->
-    <string name="picture">Picture</string>
+    <string name="picture">Изображение</string>
     <string name="description_info">Info</string>
 
     <string name="info_message">

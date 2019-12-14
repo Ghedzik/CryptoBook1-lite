@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Создаем верхний тулбар
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rv);
+        toolbar.setTitle(getResources().getString(R.string.title_activity_pass));
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
