@@ -18,7 +18,7 @@
         android:text="@string/control_change_password"
         android:textColor="@color/сolorTextBlack"
         app:layout_constraintStart_toEndOf="@+id/btnImportData"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsToolbar" />
 
     <Button
         android:id="@+id/btnExportData"
@@ -31,7 +31,7 @@
         android:text="@string/control_create_backup"
         android:textColor="@color/сolorTextBlack"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsToolbar" />
 
     <Button
         android:id="@+id/btnImportData"
@@ -44,7 +44,7 @@
         android:text="@string/control_restore_backup"
         android:textColor="@color/сolorTextBlack"
         app:layout_constraintStart_toEndOf="@+id/btnExportData"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsToolbar" />
 
     <Button
         android:id="@+id/btnClearFiles"
@@ -170,5 +170,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbLenghtPass" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/AppDarkTheme.PopupOverlay"
+        app:title="@string/title_activity_settings"
+        app:titleTextColor="@color/сolorTextBlack">
+
+    </android.support.v7.widget.Toolbar>
 
 </android.support.constraint.ConstraintLayout>

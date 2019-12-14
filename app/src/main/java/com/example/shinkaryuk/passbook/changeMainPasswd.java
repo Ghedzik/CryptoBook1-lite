@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
@@ -24,16 +25,21 @@ import static com.example.shinkaryuk.passbook.loginActivity.APP_PREFERENCES_PSW;
 public class changeMainPasswd extends AppCompatActivity {
 
     public final static int RESULT_PASSWD_CANCELED = -1;
-    public final static int RESULT_PASSWD_OK = 0;
+    public final static int RESULT_PASSWD_OK = 10;
     String oldMainPasswd = "";
     private SharedPreferences mSettings;
     public static String prefStrPswd = "";
+    Button btOk, btCancel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_main_passwd);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.changePassToolbar);
+        //toolbar.setTitle(getResources().getString(R.string.title_activity_addeditimg));
+        setSupportActionBar(toolbar);
 
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
@@ -46,6 +52,8 @@ public class changeMainPasswd extends AppCompatActivity {
         final EditText etOldPasswd = (EditText) findViewById(R.id.etOldPasswd);
         final EditText etNewPasswd = (EditText) findViewById(R.id.etNewPasswd);
         final EditText etNewConfirmPasswd = (EditText) findViewById(R.id.etConfirmNewPasswd);
+        btOk = (Button) findViewById(R.id.btnOkNewPasswd);
+        btCancel = (Button) findViewById(R.id.btnCancelNewPasswd);
         // get the show/hide password Checkbox
         CheckBox cbShowPasssmb = (CheckBox) findViewById(R.id.cbShowPswds);
 
@@ -71,11 +79,19 @@ public class changeMainPasswd extends AppCompatActivity {
     }
 
     public void cancelChangeMainPasswd(View v){
+        View v1;
+        if (v == null){
+            v1 = btCancel;
+        } else v1 = v;
         setResult(RESULT_PASSWD_CANCELED);
         finish();
     }
 
     public void okChangeMainPasswd(View v){
+        View v1;
+        if (v == null){
+            v1 = btOk;
+        } else v1 = v;
         TextView etOldPswd = findViewById(R.id.etOldPasswd);
         TextView etNewPswd = findViewById(R.id.etNewPasswd);
         TextView etNewConfirmPswd = findViewById(R.id.etConfirmNewPasswd);
@@ -103,32 +119,33 @@ public class changeMainPasswd extends AppCompatActivity {
                     editor.putString(APP_PREFERENCES_PSW, sh.hashPass(aNewConfirmPasswd));
                     editor.apply();
 
-                    //SnackbarHelper.show(this, v,getResources().getString(R.string.message_password_changed_successfully));
+                    //SnackbarHelper.show(this, v1, getResources().getString(R.string.message_password_changed_successfully));
 
-                    Toast.makeText(this, getResources().getString(R.string.message_password_changed_successfully), Toast.LENGTH_LONG);
+                    //Toast.makeText(this, getResources().getString(R.string.message_password_changed_successfully), Toast.LENGTH_LONG);
                     setResult(RESULT_PASSWD_OK);
-                } else {
-                    //SnackbarHelper.showW(this, v,getResources().getString(R.string.message_database_encryption_error));
-                    Toast.makeText(this, getResources().getString(R.string.message_database_encryption_error), Toast.LENGTH_LONG);
+                    finish();
+                } else {//ошибка шифрования базы
+                    SnackbarHelper.showW(this, v1, getResources().getString(R.string.message_database_encryption_error));
+                    //Toast.makeText(this, getResources().getString(R.string.message_database_encryption_error), Toast.LENGTH_LONG);
 
-                    setResult(RESULT_PASSWD_CANCELED);
+                    //setResult(RESULT_PASSWD_CANCELED);
                 }
             }
-            else{
-                //SnackbarHelper.showW(this, v,getResources().getString(R.string.message_not_confirm_new_password));
-                Toast.makeText(this, getResources().getString(R.string.message_not_confirm_new_password), Toast.LENGTH_LONG);
-                setResult(RESULT_PASSWD_CANCELED);
+            else{ // не подтвердили новый пароль
+                etNewConfirmPswd.setText("");
+                SnackbarHelper.showW(this, v1, getResources().getString(R.string.message_not_confirm_new_password));
+                //Toast.makeText(this, getResources().getString(R.string.message_not_confirm_new_password), Toast.LENGTH_LONG);
+                //setResult(RESULT_PASSWD_CANCELED);
 
             }
         }
-        else{
-            SnackbarHelper.showW(this, v,getResources().getString(R.string.message_invalid_old_password));
-            setResult(RESULT_PASSWD_CANCELED);
+        else{//не верно указан старый пароль
+            etOldPswd.setText("");
+            SnackbarHelper.showW(this, v1, getResources().getString(R.string.message_invalid_old_password));
+            //setResult(RESULT_PASSWD_CANCELED);
         }
-        //вставить код по изменению пароля
-//        setResult(RESULT_PASSWD_OK);
         pb.setVisibility(ProgressBar.INVISIBLE);
-        finish();
+//        finish();
     }
 
     @Override
@@ -143,7 +160,7 @@ public class changeMainPasswd extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuSave:
-                okChangeMainPasswd(null);
+                okChangeMainPasswd(btOk);
                 return true;
             case R.id.menuCancel:
                 cancelChangeMainPasswd(null);

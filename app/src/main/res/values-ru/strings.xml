@@ -9,10 +9,13 @@
     <string name="title_activity_addeditnote">Редактирование заметки</string>
     <string name="title_activity_info">Сводная информация</string>
     <string name="title_activity_img">Документы</string>
+    <string name="title_activity_change_app_pswd">Изменение пароля приложения</string>
+    <string name="title_activity_settings">Настройки</string>
 
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
     <string name="action_delete">Удалить</string>
+    <string name="action_back">Назад</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

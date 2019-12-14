@@ -55,6 +55,7 @@ public class SecretHelper {
             sks = generateKey(pswd);//new SecretKeySpec((kg.generateKey()).getEncoded(), "AES");
         } catch (Exception e) {
             Log.e("Crypto", "AES secret key spec error");
+            Log.e("Crypto", "Ошибка генерации ключа для шифрования на основе пароля " + pswd);
         }
 
         try {
@@ -86,6 +87,7 @@ public class SecretHelper {
             sks = generateKey(pswd); //new SecretKeySpec((kg.generateKey()).getEncoded(), "AES");
         } catch (Exception e) {
             Log.e("Crypto", "AES secret key spec error");
+            Log.e("Crypto", "Ошибка генерации ключа для дешифрования на основе пароля " + pswd);
         }
         try {
             mCipher = Cipher.getInstance("AES");
@@ -161,23 +163,29 @@ public class SecretHelper {
         byte[] encodedBytes = null;
         String encodeStr = getPswd(pswd); //добиваем кодируемую строку до 16 символов
         SecretKeySpec sks = null;
+        boolean isErrorKey = false;
         try {
             sks = generateKey(pswd);//new SecretKeySpec((kg.generateKey()).getEncoded(), "AES");
         } catch (Exception e) {
             Log.e("Crypto", "AES secret key spec error");
+            Log.e("Crypto", "Ошибка генерации ключа для хэша на основе пароля " + pswd);
+            isErrorKey = true;
         }
 
-        try {
-            mCipher = Cipher.getInstance("AES");
+        if (!isErrorKey) {
+            try {
+                mCipher = Cipher.getInstance("AES");
 
-            mCipher.init(Cipher.ENCRYPT_MODE, sks);
-            encodedBytes = mCipher.doFinal(encodeStr.getBytes("UTF-8"));
-        } catch (Exception e) {
-            Log.e("Crypto", "AES encryption hash error");
-        } finally {
-            if (encodedBytes == null) return "";
-        }
-        return Base64.encodeToString(encodedBytes, Base64.DEFAULT);
+                mCipher.init(Cipher.ENCRYPT_MODE, sks);
+                encodedBytes = mCipher.doFinal(encodeStr.getBytes("UTF-8"));
+            } catch (Exception e) {
+                Log.e("Crypto", "AES encryption hash error");
+            } finally {
+                if (encodedBytes == null) return "";
+            }
+            return Base64.encodeToString(encodedBytes, Base64.DEFAULT);
+        } else
+            return "";
 
     }
 
@@ -187,6 +195,7 @@ public class SecretHelper {
 
         byte[] decodedBytes = null;
         Key sks = null;
+        boolean isErrorKey = false;
         //Cipher mCipher;
 
         //sks = new SecretKeySpec(pswd.getBytes(), "AES");
@@ -200,21 +209,25 @@ public class SecretHelper {
             sks = generateKey(pswd); //new SecretKeySpec((kg.generateKey()).getEncoded(), "AES");
         } catch (Exception e) {
             Log.e("Crypto", "AES secret key spec error");
+            Log.e("Crypto", "Ошибка генерации ключа для извлечения пароля из хэша на основе пароля " + pswd);
+            isErrorKey = true;
         }
-        try {
-            mCipher = Cipher.getInstance("AES");
-            mCipher.init(Cipher.DECRYPT_MODE, sks);
-            byte[] decryptedValue64 = Base64.decode(decodeString, Base64.DEFAULT);
-            decodedBytes = mCipher.doFinal(decryptedValue64);
-        } catch (Exception e) {
-            Log.e("Crypto", "AES decryption hash error");
-        } finally {
-            if (decodedBytes == null) return "";
-        }
+        if (!isErrorKey) {
+            try {
+                mCipher = Cipher.getInstance("AES");
+                mCipher.init(Cipher.DECRYPT_MODE, sks);
+                byte[] decryptedValue64 = Base64.decode(decodeString, Base64.DEFAULT);
+                decodedBytes = mCipher.doFinal(decryptedValue64);
+            } catch (Exception e) {
+                Log.e("Crypto", "AES decryption hash error");
+            } finally {
+                if (decodedBytes == null) return "";
+            }
 
-        String dStr = new String(decodedBytes);
-        return dStr;
-
+            String dStr = new String(decodedBytes);
+            return dStr;
+        } else
+            return "";
     }
 
     public boolean DecodeFile(Context context, Uri aUri, String pswd){

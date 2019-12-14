@@ -68,6 +68,7 @@
             android:theme="@style/AppDarkTheme.NoActionBar" />
         <activity
             android:name=".changeMainPasswd"
+            android:theme="@style/AppDarkTheme.NoActionBar"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

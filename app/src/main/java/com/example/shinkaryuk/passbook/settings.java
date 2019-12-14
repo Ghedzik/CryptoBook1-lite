@@ -14,9 +14,12 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,6 +69,11 @@ public class settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.settingsToolbar);
+        //toolbar.setTitle(getResources().getString(R.string.title_activity_addeditimg));
+        setSupportActionBar(toolbar);
+
         appPathFiles = getApplication().getFilesDir().getAbsolutePath();
 
         RegUtils reg = new RegUtils(this);
@@ -97,6 +105,23 @@ public class settings extends AppCompatActivity {
         });
 
         ShowFilesIntenalStorage();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_back, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuBack:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void ShowFilesIntenalStorage(){
@@ -197,6 +222,9 @@ public class settings extends AppCompatActivity {
                                 + getResources().getString(R.string.message_restore_backup_successfully2));
 
                     }
+                    break;
+                case changeMainPasswd.RESULT_PASSWD_OK:
+                    SnackbarHelper.show(this, sbLenghtPass, getResources().getString(R.string.message_password_changed_successfully));
                     break;
             }
         }
@@ -402,7 +430,7 @@ public class settings extends AppCompatActivity {
 
     public void onClickChangePasswd(View v){
         Intent intent = new Intent(this, changeMainPasswd.class);
-        startActivity(intent);
+        startActivityForResult(intent, changeMainPasswd.RESULT_PASSWD_OK);
 
     }
 

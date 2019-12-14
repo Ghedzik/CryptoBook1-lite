@@ -9,10 +9,13 @@
     <string name="title_activity_addeditnote">Edit note</string>
     <string name="title_activity_info">Summary information</string>
     <string name="title_activity_img">Documents</string>
+    <string name="title_activity_change_app_pswd">Change app\'s password</string>
+    <string name="title_activity_settings">Settings</string>
 
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
+    <string name="action_back">Back</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -51,7 +54,7 @@
     <string name="hint_full_file_name">Full name file</string>
     <string name="hint_enter_old_password">Enter old password</string>
     <string name="hint_enter_new_password">Enter new password</string>
-    <string name="hint_accept_new_password">Accept new password</string>
+    <string name="hint_accept_new_password">Confirm new password</string>
     <string name="hint_enter_password">Enter password</string>
 
 <!--Нименования управляющих элементов-->
