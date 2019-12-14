@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public final static int RESULT_EDIT_DELETE = -2;
     public final static int PASS_NEW = 0;
     public final static int PASS_EDIT = 1;
-    Boolean isDialogMode = false; //данная переменная нужня для того чтобы не закрывать данное окно при вызове редактирования или настроек
+    Boolean isDialogMode = false; //данная переменная нужна для того чтобы не закрывать данное окно при вызове редактирования или настроек
 
     private SimpleItemTouchHelperCallback callback;
     private ItemTouchHelper mItemTouchHelper;
