@@ -109,12 +109,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
         if (dX<=0){
             if (Math.abs(dX) <= recyclerView.getWidth() / 3) {
-                mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_left_itemholder));//Color.RED);
+                mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_left_itemholder, null));//Color.RED);
             } else {
                 mPaint.setColor(Color.RED);
             }
         } else if (Math.abs(dX) <= recyclerView.getWidth() / 3) {
-            mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_right_itemholder));
+            mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_right_itemholder, null));
         } else mPaint.setColor(Color.GREEN);
 
         c.drawRect(mRect, mPaint);
@@ -129,11 +129,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (dX <= 0) {
             mPaint.setColor(Color.WHITE);
             mPaint.setTextSize(40F);//viewHolder.itemView.getHeight()/2);
-            c.drawText("УДАЛЕНИЕ", recyclerView.getWidth() - viewHolder.itemView.getHeight() - 220F, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
+            c.drawText(mContext.getResources().getString(R.string.action_swipe_delete), recyclerView.getWidth() - viewHolder.itemView.getHeight() - 220F,
+                    viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
         } else {
             mPaint.setColor(Color.WHITE);
             mPaint.setTextSize(40F);//viewHolder.itemView.getHeight()/2);
-            c.drawText("АРХИВИРОВАНИЕ", 30F, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
+            c.drawText(mContext.getResources().getString(R.string.action_swipe_archive), 30F, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
         }
         if (dX <= 0) viewHolder.itemView.setTranslationX(dX);
     }

@@ -18,6 +18,9 @@
     <string name="action_cancel">Отмена</string>
     <string name="action_delete">Удалить</string>
     <string name="action_back">Назад</string>
+    <string name="action_swipe_delete">УДАЛЕНИЕ</string>
+    <string name="action_swipe_archive">АРХИВИРОВАНИЕ</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
