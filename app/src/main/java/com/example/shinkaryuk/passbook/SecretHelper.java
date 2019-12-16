@@ -138,12 +138,10 @@ public class SecretHelper {
 
     }
 
-    private static SecretKeySpec generateKey(String pswd) {
+    private SecretKeySpec generateKey(String pswd) {
         //SecretKeySpec key = new SecretKeySpec(pswd.getBtes(), "AES");
         String aPswd = pswd;
-        for (int i = pswd.length(); i < 16; i++) {
-            aPswd = aPswd + "X";//Integer.toString(i);
-        }
+        aPswd = getPswd(pswd);
         return new SecretKeySpec(aPswd.getBytes(), "AES");
     }
 

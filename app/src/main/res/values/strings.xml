@@ -95,12 +95,11 @@
         <![CDATA[
 
 
-            Данное приложение предназначено для хранения паролей и описаний к ним, изображений и заметок.
-            В нем исключена любая возможность связи с "внешним" миром. Оно не содержит в себе сетевых инструментов.
-            Приложение не позволяет записывать себя и свои данные в резервные копии на облачные сервисы.
-            Вся информация в данном приложении может быть по-вашему желанию зашифрована.
-            При восстановлении защифрованных данных из резервной копии необходимо знать пароль, которым данные были зашифрованы.
-            Ваши данные под надежной защитой!
+            \t\tThis application save passwords and its information, also save images, photo and notes.
+            The app does not have network tools. It does not send information to network, cloud and any open network services.\n
+            \t\tAll data endocde with AES 265 default. You may to decode any record or file/document/image/photo.
+            You may to create backup or restore data use your password.
+            Your data under reliable protected!\n
 
 
         ]]>
