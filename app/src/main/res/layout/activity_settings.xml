@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/сolorBackgroundBlack"
-    tools:context="com.example.shinkaryuk.passbook.settings">
+    tools:context="com.shinkaryuk.passbook.settings">
 
     <Button
         android:id="@+id/btnChangeAppPass"

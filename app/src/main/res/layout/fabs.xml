@@ -12,7 +12,7 @@
         android:src="@mipmap/ic_mn_pswd"
         android:visibility="invisible"
         app:backgroundTint="@color/colorFAB"
-        app:layout_behavior="com.example.shinkaryuk.passbook.FAB_Utils"
+        app:layout_behavior="com.shinkaryuk.passbook.FAB_Utils"
         app:fabSize="mini" />
 
     <android.support.design.widget.FloatingActionButton
@@ -24,7 +24,7 @@
         android:src="@mipmap/ic_mn_img"
         android:visibility="invisible"
         app:backgroundTint="@color/colorFAB"
-        app:layout_behavior="com.example.shinkaryuk.passbook.FAB_Utils"
+        app:layout_behavior="com.shinkaryuk.passbook.FAB_Utils"
         app:fabSize="mini" />
 
     <android.support.design.widget.FloatingActionButton
@@ -36,6 +36,6 @@
         android:src="@mipmap/ic_mn_notes"
         android:visibility="invisible"
         app:backgroundTint="@color/colorFAB"
-        app:layout_behavior="com.example.shinkaryuk.passbook.FAB_Utils"
+        app:layout_behavior="com.shinkaryuk.passbook.FAB_Utils"
         app:fabSize="mini" />
 </FrameLayout>

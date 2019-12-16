@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/сolorBackgroundBlack"
     android:theme="@style/AppDarkTheme.NoActionBar"
-    tools:context="com.example.shinkaryuk.passbook.activity_information"
+    tools:context="com.shinkaryuk.passbook.activity_information"
     tools:layout_editor_absoluteY="81dp">
 
     <TextView
@@ -120,6 +120,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/AppDarkTheme.PopupOverlay"
         app:title="@string/title_activity_info"
         app:titleTextColor="@color/сolorTextBlack"></android.support.v7.widget.Toolbar>
@@ -220,7 +223,8 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/labelCountNotesNoCrypt"
-        tools:layout_editor_absoluteX="2dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelCountNotesNoCrypt" />
 
 </android.support.constraint.ConstraintLayout>

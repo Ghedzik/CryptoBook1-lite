@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/сolorBackgroundBlack"
     android:theme="@style/AppDarkTheme.NoActionBar"
-    tools:context="com.example.shinkaryuk.passbook.addEditPass"
+    tools:context="com.shinkaryuk.passbook.addEditPass"
     tools:layout_editor_absoluteY="81dp">
 
     <Button

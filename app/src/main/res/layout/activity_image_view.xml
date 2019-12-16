@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppDarkTheme.NoActionBar"
-    tools:context="com.example.shinkaryuk.passbook.image_view">
+    tools:context="com.shinkaryuk.passbook.image_view">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/ImgViewToolbar"
@@ -19,7 +19,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.example.shinkaryuk.passbook.ZoomableImageView
+    <com.shinkaryuk.passbook.ZoomableImageView
         android:id="@+id/zivPreview"
         android:layout_width="0dp"
         android:layout_height="0dp"

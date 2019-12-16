@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/сolorBackgroundBlack"
     android:theme="@style/AppDarkTheme.NoActionBar"
-    tools:context="com.example.shinkaryuk.passbook.changeMainPasswd">
+    tools:context="com.shinkaryuk.passbook.changeMainPasswd">
 
     <Button
         android:id="@+id/btnCancelNewPasswd"

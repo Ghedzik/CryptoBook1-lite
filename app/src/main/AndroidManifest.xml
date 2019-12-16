@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.shinkaryuk.passbook">
+    package="com.shinkaryuk.passbook">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -37,7 +37,7 @@
     Нельзя так делать. Иначе вызываемая форма возвращается к родителю, создавая его заново
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.shinkaryuk.passbook.MainActivity" />
+                android:value="com.shinkaryuk.passbook.MainActivity" />
             -->
         </activity>
         <activity
@@ -50,7 +50,7 @@
     Нельзя так делать. Иначе вызываемая форма возвращается к родителю, создавая его заново
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.shinkaryuk.passbook.imgActivity" />
+                android:value="com.shinkaryuk.passbook.imgActivity" />
             -->
         </activity>
         <activity
@@ -72,7 +72,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.shinkaryuk.passbook.settings" />
+                android:value="com.shinkaryuk.passbook.settings" />
         </activity> <!-- android:theme="@style/FullscreenTheme" -->
         <activity
             android:name=".notesActivity"
@@ -108,7 +108,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.shinkaryuk.passbook.addEditImage" />
+                android:value="com.shinkaryuk.passbook.addEditImage" />
         </activity>
         <activity
             android:name=".activity_information"
@@ -123,7 +123,7 @@
             android:theme="@style/AppDarkTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.shinkaryuk.passbook.addEditImage" />
+                android:value="com.shinkaryuk.passbook.addEditImage" />
         </activity>
     </application>
 

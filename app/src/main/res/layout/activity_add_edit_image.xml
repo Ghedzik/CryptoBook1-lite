@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/сolorBackgroundBlack"
-    tools:context="com.example.shinkaryuk.passbook.addEditImage"
+    tools:context="com.shinkaryuk.passbook.addEditImage"
     tools:layout_editor_absoluteY="81dp">
 
     <Button
@@ -61,6 +61,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/AppDarkTheme.PopupOverlay"
         app:title="@string/title_activity_addeditimg"
         app:titleTextColor="@color/сolorTextBlack"></android.support.v7.widget.Toolbar>
