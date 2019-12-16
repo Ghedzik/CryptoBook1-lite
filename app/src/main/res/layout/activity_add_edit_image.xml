@@ -66,7 +66,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/AppDarkTheme.PopupOverlay"
         app:title="@string/title_activity_addeditimg"
-        app:titleTextColor="@color/сolorTextBlack"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/сolorTextBlack">
+
+    </android.support.v7.widget.Toolbar>
 
 
     <EditText

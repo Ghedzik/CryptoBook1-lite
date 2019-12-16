@@ -250,12 +250,12 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
 
         public ViewHolder(View view){
             super(view);
-            imageSmall = (ImageView)view.findViewById(R.id.colImg);
-            nameView = (TextView) view.findViewById(R.id.colNameImg);
-            dateCreate = (TextView) view.findViewById(R.id.tvDateCreateImg);
-            imageCrypt = (ImageView)view.findViewById(R.id.colIsCryptoImgImg);
-            pb = (ProgressBar) view.findViewById(R.id.pbImg);
-            divider = (View) view.findViewById(R.id.dividerImg);
+            imageSmall = view.findViewById(R.id.colImg);
+            nameView = view.findViewById(R.id.colNameImg);
+            dateCreate = view.findViewById(R.id.tvDateCreateImg);
+            imageCrypt = view.findViewById(R.id.colIsCryptoImgImg);
+            pb = view.findViewById(R.id.pbImg);
+            divider = view.findViewById(R.id.dividerImg);
 
             //delete = (ImageButton) view.findViewById(R.id.btDelRV);
             //edit = (ImageButton) view.findViewById(R.id.btEditRV);

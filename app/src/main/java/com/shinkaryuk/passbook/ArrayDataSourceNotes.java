@@ -227,22 +227,22 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
 
         public ViewHolder(View view){
             super(view);
-            imageCrypt = (ImageView)view.findViewById(R.id.colIsCryptoImgNote);
-            nameView = (TextView) view.findViewById(R.id.colNameNotes);
-            dateCreate = (TextView) view.findViewById(R.id.tvDateCreateNote);
-            divider = (View) view.findViewById(R.id.dividerNote);
+            imageCrypt = view.findViewById(R.id.colIsCryptoImgNote);
+            nameView = view.findViewById(R.id.colNameNotes);
+            dateCreate = view.findViewById(R.id.tvDateCreateNote);
+            divider = view.findViewById(R.id.dividerNote);
 
-            tvCreateNote = (TextView) view.findViewById(R.id.tvCreateNote);
-            tvChangeNote = (TextView) view.findViewById(R.id.tvChangeNote);
-            tvCreateNote3 = (TextView) view.findViewById(R.id.tvCreateNote3);
-            tvChangeNote3 = (TextView) view.findViewById(R.id.tvChangeNote3);
-            etCommentNoteL = (EditText) view.findViewById(R.id.etCommentNoteL);
-            divider5 = (View) view.findViewById(R.id.divider5);
-            buttonNoteOkL = (ImageButton) view.findViewById(R.id.buttonNoteOkL);
-            buttonNoteCancelL = (ImageButton) view.findViewById(R.id.buttonNoteCancelL);
-            btEditInWindowNote = (ImageButton) view.findViewById(R.id.btEditInWindowNote);
-            ivExpandNote = (ImageView) view.findViewById(R.id.ivExpandNote);
-            ivIsOpenEditorNote = (ImageView) view.findViewById(R.id.ivIsOpenEditorNote);
+            tvCreateNote = view.findViewById(R.id.tvCreateNote);
+            tvChangeNote = view.findViewById(R.id.tvChangeNote);
+            tvCreateNote3 = view.findViewById(R.id.tvCreateNote3);
+            tvChangeNote3 = view.findViewById(R.id.tvChangeNote3);
+            etCommentNoteL = view.findViewById(R.id.etCommentNoteL);
+            divider5 = view.findViewById(R.id.divider5);
+            buttonNoteOkL = view.findViewById(R.id.buttonNoteOkL);
+            buttonNoteCancelL = view.findViewById(R.id.buttonNoteCancelL);
+            btEditInWindowNote = view.findViewById(R.id.btEditInWindowNote);
+            ivExpandNote = view.findViewById(R.id.ivExpandNote);
+            ivIsOpenEditorNote = view.findViewById(R.id.ivIsOpenEditorNote);
 
             //delete = (ImageButton) view.findViewById(R.id.btDelRV);
             //edit = (ImageButton) view.findViewById(R.id.btEditRV);
