@@ -55,6 +55,8 @@ public class imagesActivity extends AppCompatActivity
     SearchView searchView;
     MenuItem searchMenu;
 
+    RegUtils mRegUtils;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,8 @@ public class imagesActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rv);
         toolbar.setTitle(getResources().getString(R.string.title_activity_img));
         setSupportActionBar(toolbar);
+
+        mRegUtils = new RegUtils(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTestPass);
         //создаем базу - класс описан ниже передаем контекст приложения this.getApplicationContext(), чтобы достать глобальную переменную
@@ -450,20 +454,28 @@ public class imagesActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.fab_1:
                 //Toast.makeText(this, "FAB1", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(imagesActivity.this, addEditPass.class);
+                if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
+                    Intent intent = new Intent(imagesActivity.this, addEditPass.class);
 
-                intent.putExtra("idPass", "0");
-                intent.putExtra("namePass", "");
-                intent.putExtra("loginPass", "");
-                intent.putExtra("passPass", "");
-                intent.putExtra("commentPass", "");
-                intent.putExtra("dateCreatePass", "");
-                intent.putExtra("dateChangePass", "");
-                intent.putExtra("isCryptoPass", "");
+                    intent.putExtra("idPass", "0");
+                    intent.putExtra("namePass", "");
+                    intent.putExtra("loginPass", "");
+                    intent.putExtra("passPass", "");
+                    intent.putExtra("commentPass", "");
+                    intent.putExtra("dateCreatePass", "");
+                    intent.putExtra("dateChangePass", "");
+                    intent.putExtra("isCryptoPass", "");
 
-                isDialogMode = true;
-                startActivityForResult(intent, PASS_NEW);
-                //showHideMiniFabs();
+                    isDialogMode = true;
+                    startActivityForResult(intent, PASS_NEW);
+                    //showHideMiniFabs();
+                } else {
+                    Intent intent = new Intent(imagesActivity.this, MainActivity.class);
+                    intent.putExtra("showAndNew", "1");
+                    isDialogMode = false;
+                    startActivity(intent);
+                    finish();
+                }
 
                 break;
             case R.id.fab_2:
@@ -484,18 +496,26 @@ public class imagesActivity extends AppCompatActivity
 
                 break;
             case R.id.fab_3:
-                //Toast.makeText(this, "FAB3", Toast.LENGTH_LONG).show();
-                Intent intentNoteDlg = new Intent(this, addEditNotes.class);
+                if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
+                    //Toast.makeText(this, "FAB3", Toast.LENGTH_LONG).show();
+                    Intent intentNoteDlg = new Intent(this, addEditNotes.class);
 
-                intentNoteDlg.putExtra("idNotes", "0");
-                intentNoteDlg.putExtra("notesNote", "");
-                intentNoteDlg.putExtra("dateCreateNote", "");
-                intentNoteDlg.putExtra("dateChangeNote", "");
-                intentNoteDlg.putExtra("isCryptoNote", "");
+                    intentNoteDlg.putExtra("idNotes", "0");
+                    intentNoteDlg.putExtra("notesNote", "");
+                    intentNoteDlg.putExtra("dateCreateNote", "");
+                    intentNoteDlg.putExtra("dateChangeNote", "");
+                    intentNoteDlg.putExtra("isCryptoNote", "");
 
-                isDialogMode = true;
-                startActivityForResult(intentNoteDlg, NOTES_NEW);
-                //showHideMiniFabs();
+                    isDialogMode = true;
+                    startActivityForResult(intentNoteDlg, NOTES_NEW);
+                    //showHideMiniFabs();
+                } else {
+                    Intent intent = new Intent(imagesActivity.this, notesActivity.class);
+                    intent.putExtra("showAndNew", "1");
+                    isDialogMode = false;
+                    startActivity(intent);
+                    finish();
+                }
 
                 break;
         }
