@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -48,8 +49,10 @@ public class settings extends AppCompatActivity {
     private static final String LOG_TAG = "Настройки";
     String[] fList;
     private String appPathFiles;
-    String textLenPass = "";
+    //String textLenPass = "";
     SeekBar sbLenghtPass;
+
+    int countClickForVisibleItemsOfFiles = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +70,12 @@ public class settings extends AppCompatActivity {
         TextView tvLenghtPass = (TextView) findViewById(R.id.tvLenghtPass);
         sbLenghtPass = (SeekBar) findViewById(R.id.sbLenghtPass);
         CheckBox cbEditOnlyWin = (CheckBox) findViewById(R.id.cbEditOnlyWindow);
-        textLenPass = tvLenghtPass.getText().toString();
+        //textLenPass = tvLenghtPass.getText().toString();
 
         sbLenghtPass.setOnSeekBarChangeListener(seekBarChangeListener);
 
-        tvLenghtPass.setText(Integer.toString(reg.getLenghtPass()));
+        tvLenghtPass.setText(getResources().getString(R.string.label_length_of_generate_password) +
+                " " +Integer.toString(reg.getLenghtPass()));
         sbLenghtPass.setProgress(reg.getLenghtPass());
 
 
@@ -564,7 +568,8 @@ public class settings extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             TextView tvLenghtPass = (TextView) findViewById(R.id.tvLenghtPass);
-            tvLenghtPass.setText(textLenPass.concat(Integer.toString(progress)));
+            tvLenghtPass.setText(getResources().getString(R.string.label_length_of_generate_password) +
+                    " " +Integer.toString(progress));
         }
 
         @Override
@@ -578,6 +583,17 @@ public class settings extends AppCompatActivity {
             reg.setLenghtPass(seekBar.getProgress());
         }
     };
+
+    public void onClickForVisibleFiles (View v){
+        if (countClickForVisibleItemsOfFiles < 5) {
+            countClickForVisibleItemsOfFiles += 1;
+        } else {
+            ListView fileList = findViewById(R.id.lvFileList);
+            Button delAllFiles = findViewById(R.id.btnClearFiles);
+            fileList.setVisibility(View.VISIBLE);
+            delAllFiles.setVisibility(View.VISIBLE);
+        }
+    }
 
 }
 

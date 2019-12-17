@@ -422,6 +422,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (db != null & !strSQL.equals("")) {
             try {
                 db.execSQL(strSQL);
+                deleteUnUsedFiles();
             }catch (Exception e) {
                 e.printStackTrace();
                 String msg = e.getMessage();
@@ -589,6 +590,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();
         String strSQL = "DELETE FROM " + imgTable;
         db.execSQL(strSQL);
+        deleteUnUsedFiles();
     }
 
     public void deleteNotesAll(){
@@ -979,6 +981,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         String dateText = dateFormat.format(currentDate);
         return dateText;
+    }
+
+    public void deleteUnUsedFiles(){
+        //SQLiteDatabase imgDB = this.getWritableDatabase();
+        String[] fList = mContext.fileList();;
+        Cursor whereCursor;
+        String whereStr = "";
+        String[] fldList = new String[3];
+        fldList[0] = this.colImgSmallFileName;
+        fldList[1] = this.colImgFileName;
+        fldList[2] = this.colImgShortFileName;
+        for (int i  = 0; i <= fList.length - 1; i++){
+            whereStr = fList[i];
+            whereCursor = this.getAllImgWhere(fldList, whereStr);
+            if (whereCursor.getCount() == 0){
+                mContext.deleteFile(whereStr);
+            }
+        }
     }
 
 }

@@ -55,6 +55,7 @@
         android:onClick="onClickClearFiles"
         android:text="@string/control_delete_unused_files"
         android:textColor="@color/сolorTextBlack"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -84,6 +85,7 @@
         android:dividerHeight="1dp"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/btnClearFiles"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -112,6 +114,7 @@
         android:layout_marginEnd="16dp"
         android:clickable="false"
         android:focusable="false"
+        android:onClick="onClickForVisibleFiles"
         android:text="@string/label_length_of_generate_password"
         android:textAlignment="center"
         android:textColor="@color/сolorTextBlack"
