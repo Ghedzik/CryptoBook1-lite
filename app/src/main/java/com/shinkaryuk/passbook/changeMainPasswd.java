@@ -174,4 +174,11 @@ public class changeMainPasswd extends AppCompatActivity {
         this.finish();
     }
 
+    public void createBackup(View v){
+        DatabaseHelper passDB = new DatabaseHelper(this.getApplicationContext(), v);
+        settings mS = new settings();
+        //((settings) this.getParent()).writeBackupFileSD(passDB.backup_DB_pass());
+        mS.writeBackupFileSD(passDB.backup_DB_pass());
+    }
+
 }

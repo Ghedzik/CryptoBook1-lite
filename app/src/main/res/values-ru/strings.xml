@@ -169,5 +169,6 @@
     <string name="message_item_save">Запись сохранена</string>
     <string name="message_item_not_save">Запись не сохранена</string>
     <string name="message_create_new_item">Создание новой записи</string>
+    <string name="message_change_password">Перед изменением пароля, рекомендуем выполнить резервное копирование. Обращаем ваше внимание, что восстановление данных возможно только с тем паролем, с которым производилось резервное копирование.</string>
 
 </resources>

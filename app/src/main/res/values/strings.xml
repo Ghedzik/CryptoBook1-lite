@@ -160,5 +160,6 @@
     <string name="message_item_save">Item saved</string>
     <string name="message_item_not_save">Item not saved</string>
     <string name="message_create_new_item">Create new item</string>
+    <string name="message_change_password">Before changing your password, we recommend back up. Please note that data recovery from a backup is possible only with the password with which the backup was performed.</string>
 
 </resources>

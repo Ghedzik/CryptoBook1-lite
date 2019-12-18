@@ -246,7 +246,7 @@ public class settings extends AppCompatActivity {
         return file;
     }
 
-    void writeBackupFileSD(String aStrTable) {
+    public void writeBackupFileSD(String aStrTable) {
         // проверяем доступность SD
         if (!Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
