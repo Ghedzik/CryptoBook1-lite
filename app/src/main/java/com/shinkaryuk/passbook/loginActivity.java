@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 //import android.widget.ToggleButton;
 
 public class loginActivity extends AppCompatActivity {
@@ -46,6 +48,8 @@ public class loginActivity extends AppCompatActivity {
 
         if (!mSettings.contains(APP_PREFERENCES_PSW)) {
             Button btnOk = findViewById(R.id.btnLoginOk);
+            TextView tvForgot = findViewById((R.id.tvForgotPass));
+            tvForgot.setVisibility(View.VISIBLE);
             btnOk.setText(getResources().getString(R.string.control_create));
             APP_PSWD_IS_NEW = 1;
         }
@@ -114,6 +118,10 @@ public class loginActivity extends AppCompatActivity {
             finish();
         }
         else if (sh.unHashPass(prefStrPswd, strPswd).equals(sh.getPswd(strPswd))){
+            TextView tvForgot = findViewById((R.id.tvForgotPass));
+            tvForgot.setText(getResources().getString(R.string.message_if_successfully_pass));
+            tvForgot.setTextColor(Color.GREEN);
+            tvForgot.setVisibility(View.VISIBLE);
 //устанавливаем глобальную переменную
             String unHashStr = sh.unHashPass(prefStrPswd, strPswd);
             ((passApp)getApplicationContext()).setPass(unHashStr);
@@ -124,7 +132,11 @@ public class loginActivity extends AppCompatActivity {
             finish();
         }
         else {
-            SnackbarHelper.showW(this, v,getResources().getString(R.string.message_invalid_password));
+            SnackbarHelper.showW(this, v, getResources().getString(R.string.message_invalid_password));
+            TextView tvForgot = findViewById((R.id.tvForgotPass));
+            tvForgot.setText(getResources().getString(R.string.message_invalid_password));
+            tvForgot.setTextColor(Color.RED);
+            tvForgot.setVisibility(View.VISIBLE);
 
         }
     }

@@ -376,6 +376,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             //searchManager.getGlobalSearchActivity().
             //searchView.setVisibility(View.GONE);
+        } else if (((ArrayDataSourcePass)recyclerView.getAdapter()).isEditing()) {
+            ((ArrayDataSourcePass)recyclerView.getAdapter()).allPassToNoEdit();
+            ((ArrayDataSourcePass)recyclerView.getAdapter()).refreshData();
         } else {
             super.onBackPressed();
         }

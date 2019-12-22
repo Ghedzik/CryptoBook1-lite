@@ -70,12 +70,12 @@
     <string name="control_create_backup">Создать резервную копию</string>
     <string name="control_restore_backup">Восстановить из резервной копии</string>
     <string name="control_change_password">Изменить пароль</string>
-    <string name="control_create">Создать</string>
+    <string name="control_create">Создать пароль</string>
     <string name="control_ok">OK</string>
     <string name="control_generate_password">Сгенерировать пароль</string>
     <string name="control_show_password">Показать пароль</string>
     <string name="control_show_passwords">Показать пароли</string>
-    <string name="control_edit_in_window">Редактировать в отдельном окне</string>
+    <string name="control_edit_in_window">Редактировать записи в отдельном окне</string>
     <string name="control_delete_unused_files">Удалить неиспользуемые файлы</string>
     <string name="control_show">Показать</string>
     <string name="control_yes">Да</string>
@@ -170,5 +170,7 @@
     <string name="message_item_not_save">Запись не сохранена</string>
     <string name="message_create_new_item">Создание новой записи</string>
     <string name="message_change_password">Перед изменением пароля, рекомендуем выполнить резервное копирование. Обращаем ваше внимание, что восстановление данных возможно только с тем паролем, с которым производилось резервное копирование.</string>
+    <string name="message_if_forgot_pass">Внимание!!! Если Вы забудете пароль, восстановить данные будет невозможно!</string>
+    <string name="message_if_successfully_pass">Пароль верен!</string>
 
 </resources>

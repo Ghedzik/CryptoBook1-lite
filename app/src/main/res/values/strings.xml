@@ -71,12 +71,12 @@
     <string name="control_create_backup">Create backup</string>
     <string name="control_restore_backup">Restore</string>
     <string name="control_change_password">Change password</string>
-    <string name="control_create">Create</string>
+    <string name="control_create">New password</string>
     <string name="control_ok">OK</string>
     <string name="control_generate_password">Generate password</string>
     <string name="control_show_password">Show password</string>
     <string name="control_show_passwords">Show passwords</string>
-    <string name="control_edit_in_window">Edit in window</string>
+    <string name="control_edit_in_window">Edit items in window</string>
     <string name="control_delete_unused_files">Delete unused files</string>
     <string name="control_show">Show</string>
     <string name="control_yes">Yes</string>
@@ -131,7 +131,7 @@
     <string name="alert_yes">Yes</string>
     <string name="alert_no">No</string>
     <string name="alert_delete">Delete!</string>
-    <string name="alert_do_delete">Do delete </string>
+    <string name="alert_do_delete">Delete </string>
     <string name="alert_record_deleted">Item deleted!</string>
 
 <!--Сообщения для Toast и Snackbar-->
@@ -161,5 +161,7 @@
     <string name="message_item_not_save">Item not saved</string>
     <string name="message_create_new_item">Create new item</string>
     <string name="message_change_password">Before changing your password, we recommend back up. Please note that data recovery from a backup is possible only with the password with which the backup was performed.</string>
+    <string name="message_if_forgot_pass">Warning!!! If you will forgot your password of this application, then you will cannot restore data.</string>
+    <string name="message_if_successfully_pass">Successfully!</string>
 
 </resources>

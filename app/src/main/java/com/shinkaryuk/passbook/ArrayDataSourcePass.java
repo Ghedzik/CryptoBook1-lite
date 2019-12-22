@@ -792,7 +792,15 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         //if (builder.)
     }
 
-    private void allPassToNoEdit(){
+    public void allPassToNoEdit(){
+        for (int i = 0; i < mPass.size(); i++) {
+            if (mPass.get(i).getId().equals("0")) {
+                mPass.remove(i);
+                SnackbarHelper.showW(mContext, viewForSnackbar, mContext.getResources().getString(R.string.message_item_not_save));
+                break;
+            }
+        }
+
         for (int i = 0; i < mPass.size(); i++) {
             mPass.get(i).setEditing(0);
         }
@@ -824,6 +832,28 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         notifyDataSetChanged();
     }
 
+    //Проверяем находится ли хотя бы одна запись в режиме редактирования
+    public boolean isEditing(){
+        boolean isEd = false;
+        for (int i = 0; i < mPass.size(); i++) {
+            if (mPass.get(i).getEditing() == 1) {
+                isEd = true;
+                break;
+            }
+        }
+        return isEd;
+    }
+
+    public void cancelEdit(int index, View v){
+        pass aItem = mPass.get(index);
+        if (Integer.parseInt(aItem.getId()) > 0) {
+            aItem.setEditing(0);
+            SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
+        } else if (aItem.getId().equals("0")){
+            mPass.remove(index);
+            SnackbarHelper.show(mContext, v, mContext.getResources().getString(R.string.message_item_not_save));
+        }
+    }
 }
 
 

@@ -298,6 +298,9 @@ public class notesActivity extends AppCompatActivity
 
             //searchManager.getGlobalSearchActivity().
             //searchView.setVisibility(View.GONE);
+        } else if (((ArrayDataSourceNotes)recyclerView.getAdapter()).isEditing()) {
+            ((ArrayDataSourceNotes)recyclerView.getAdapter()).allItemToNoEdit();
+            ((ArrayDataSourceNotes)recyclerView.getAdapter()).refreshData();
         } else {
             super.onBackPressed();
         }
