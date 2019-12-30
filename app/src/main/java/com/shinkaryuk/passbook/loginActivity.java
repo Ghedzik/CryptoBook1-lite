@@ -1,11 +1,15 @@
 package com.shinkaryuk.passbook;
 
 //import android.app.Activity;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -29,6 +33,8 @@ public class loginActivity extends AppCompatActivity {
     public static String strPswd = "";
     private SharedPreferences mSettings;
     private int APP_PSWD_IS_NEW = 0;
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int STORAGE_PERMISSION_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,8 @@ public class loginActivity extends AppCompatActivity {
         String dStr = sh.DecodeStr(eStr, "1234567890abcdef");
         Toast.makeText(this, eStr, Toast.LENGTH_LONG).show();
 */
+        checkPermission(STORAGE_PERMISSION_CODE);
+
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         if (!mSettings.contains(APP_PREFERENCES_PSW)) {
@@ -164,5 +172,24 @@ public class loginActivity extends AppCompatActivity {
         new AlertDialog.Builder(this) .setMessage(R.string.info_message) .setPositiveButton(android.R.string.ok, null) .show();
     }
 
+    // Function to check and request permission.
+    public void checkPermission(int requestCode) {
+        if(ContextCompat.checkSelfPermission(loginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED ||
+                ContextCompat.checkSelfPermission(loginActivity.this, Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(loginActivity.this,
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA },
+            requestCode);
+        }
+        /*else{
+            TextView tvForgot = findViewById((R.id.tvForgotPass));
+            tvForgot.setText("Все права предоставлены");//getResources().getString(R.string.message_if_successfully_pass));
+            tvForgot.setTextColor(Color.GREEN);
+            tvForgot.setVisibility(View.VISIBLE);
+        }*/
+    }
 
 }
