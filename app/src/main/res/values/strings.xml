@@ -39,7 +39,7 @@
     <string name="label_change_date">Changed</string>
     <string name="label_show_pass">Show password</string>
     <string name="label_encode">Encode</string>
-    <string name="label_count_of_passwords">Count of passwords</string>
+    <string name="label_count_of_passwords">Number of passwords</string>
     <string name="label_count_of_passwords_does_not_encode">Of which are unencrypted</string>
     <string name="label_count_of_images">Count of documents</string>
     <string name="label_count_of_images_does_not_encode">Of which are unencrypted</string>
@@ -121,7 +121,7 @@
     </string>
 
     <!--Наименования пунктов контекстного меню-->
-    <string name="favOn">Add to favorites в Избранное</string>
+    <string name="favOn">Add to favorites</string>
     <string name="favOff">Delete from favorites</string>
     <string name="cryptoOn">Encode</string>
     <string name="cryptoOff">Do not encode</string>
@@ -164,4 +164,8 @@
     <string name="message_if_forgot_pass">Warning!!! If you will forgot your password of this application, then you will cannot restore data.</string>
     <string name="message_if_successfully_pass">Successfully!</string>
 
+    <!--Наименования пунктов menu_main-->
+    <string name="favorites_menu_main">Favorites</string>
+    <string name="search_menu_main">Search</string>
+    <string name="refresh_menu_main">Refresh</string>
 </resources>
