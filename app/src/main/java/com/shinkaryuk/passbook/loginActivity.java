@@ -35,6 +35,7 @@ public class loginActivity extends AppCompatActivity {
     private int APP_PSWD_IS_NEW = 0;
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 101;
+    private TextView tvForgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class loginActivity extends AppCompatActivity {
 
         if (!mSettings.contains(APP_PREFERENCES_PSW)) {
             Button btnOk = findViewById(R.id.btnLoginOk);
-            TextView tvForgot = findViewById((R.id.tvForgotPass));
+            tvForgot = findViewById((R.id.tvForgotPass));
             tvForgot.setVisibility(View.VISIBLE);
             btnOk.setText(getResources().getString(R.string.control_create));
             APP_PSWD_IS_NEW = 1;
@@ -105,7 +106,9 @@ public class loginActivity extends AppCompatActivity {
         inputCounter += 1;
         if (inputCounter > 3){
             SnackbarHelper.showW(this, v,getResources().getString(R.string.message_goodbuy));
-
+            tvForgot.setText(getResources().getString(R.string.message_goodbuy));
+            tvForgot.setTextColor(Color.RED);
+            tvForgot.setVisibility(View.VISIBLE);
             finish();
         }
 
@@ -118,6 +121,8 @@ public class loginActivity extends AppCompatActivity {
         String tmpEmpty = "";
         if (strPswd.equals(tmpEmpty)) {
             SnackbarHelper.show(this, v,getResources().getString(R.string.message_enter_password));
+            tvForgot.setText(getResources().getString(R.string.message_enter_password));
+            tvForgot.setVisibility(View.VISIBLE);
         }
         else if(APP_PSWD_IS_NEW == 1){
             Intent intent = new Intent(this, MainActivity.class);
@@ -126,7 +131,7 @@ public class loginActivity extends AppCompatActivity {
             finish();
         }
         else if (sh.unHashPass(prefStrPswd, strPswd).equals(sh.getPswd(strPswd))){
-            TextView tvForgot = findViewById((R.id.tvForgotPass));
+            tvForgot = findViewById((R.id.tvForgotPass));
             tvForgot.setText(getResources().getString(R.string.message_if_successfully_pass));
             tvForgot.setTextColor(Color.GREEN);
             tvForgot.setVisibility(View.VISIBLE);
@@ -141,7 +146,6 @@ public class loginActivity extends AppCompatActivity {
         }
         else {
             SnackbarHelper.showW(this, v, getResources().getString(R.string.message_invalid_password));
-            TextView tvForgot = findViewById((R.id.tvForgotPass));
             tvForgot.setText(getResources().getString(R.string.message_invalid_password));
             tvForgot.setTextColor(Color.RED);
             tvForgot.setVisibility(View.VISIBLE);
