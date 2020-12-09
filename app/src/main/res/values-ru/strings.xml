@@ -80,6 +80,7 @@
     <string name="control_show">Показать</string>
     <string name="control_yes">Да</string>
     <string name="control_no">Нет</string>
+    <string name="control_export">Выгрузить</string>
 
     <string name="title_activity_preview_image">Просмотр</string>
     <string name="dummy_button">НАЗАД</string>
@@ -172,5 +173,10 @@
     <string name="message_change_password">Перед изменением пароля, рекомендуем выполнить резервное копирование. Обращаем ваше внимание, что восстановление данных возможно только с тем паролем, с которым производилось резервное копирование.</string>
     <string name="message_if_forgot_pass">Внимание!!! Если Вы забудете пароль, восстановить данные будет невозможно!</string>
     <string name="message_if_successfully_pass">Пароль верен!</string>
+
+    <!--Наименования пунктов menu_main-->
+    <string name="favorites_menu_main">Избранные</string>
+    <string name="search_menu_main">Поиск</string>
+    <string name="refresh_menu_main">Обновить</string>
 
 </resources>
