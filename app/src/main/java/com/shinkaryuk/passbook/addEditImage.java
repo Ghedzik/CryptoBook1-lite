@@ -671,5 +671,9 @@ public class addEditImage extends AppCompatActivity {
         if (!isEdit) this.finish();
     }
 
+    public void exportImgEdit(View v){
+
+    }
+
 }
 
