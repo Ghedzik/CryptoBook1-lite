@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
@@ -265,6 +266,53 @@ public class SecretHelper {
             return true;
         }
     }
+
+    public boolean DecodeFileToPath(Context context, Uri aUri, String pswd, File newFile){
+        Bitmap bitmap;
+        DbBitmapUtility dbu = new DbBitmapUtility();
+        String fileName = aUri.getLastPathSegment();//no .png or .jpg needed
+        PathUtils aPathUtils = new PathUtils();
+        String fullPath = aPathUtils.getPath(context, aUri);
+
+        // формируем объект File, который содержит путь к файлу
+        try {
+            String fileData = "";
+            FileInputStream fIn = context.getApplicationContext().openFileInput(fileName);
+            //InputStreamReader isr = new InputStreamReader(fIn);
+            ByteArrayOutputStream result = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fIn.read(buffer)) != -1) {
+                result.write(buffer, 0, length);
+            }
+            fileData = result.toString("UTF-8");
+
+            bitmap = dbu.convertBase64ToBitmap(DecodeStr(fileData, pswd));
+
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+            //FileOutputStream fo = context.openFileOutput(newFile.getAbsolutePath(), Context.MODE_APPEND);
+            //FileChannel fo = new FileOutputStream(newFile).getChannel();
+            FileOutputStream fo = new FileOutputStream(newFile);
+            fo.write(bytes.toByteArray()); // remember close file output
+            fo.close();
+            //jpgBitmap = bitmap;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+//            Toast.makeText(this, "что-то сломалось" + e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            return true;
+        }
+    }
+
 
     public boolean EncodeFile(Context context, Uri aUri, String pswd){
         DbBitmapUtility dbu = new DbBitmapUtility();

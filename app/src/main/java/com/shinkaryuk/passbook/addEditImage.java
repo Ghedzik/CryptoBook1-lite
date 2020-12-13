@@ -2,6 +2,7 @@ package com.shinkaryuk.passbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +23,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.net.Uri;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class addEditImage extends AppCompatActivity {
 
@@ -672,7 +681,78 @@ public class addEditImage extends AppCompatActivity {
     }
 
     public void exportImgEdit(View v){
+        SnackbarHelper.showL(this, v,"Файл " + strNameImg + ": " + writeImageFileToSD().getAbsolutePath() + " записан на диск!");
+    }
 
+    public File writeImageFileToSD() {
+        // проверяем доступность SD
+        if (!Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            Log.d("", "SD-карта не доступна: " + Environment.getExternalStorageState());
+            return null;
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File export_Img_File = getBackupStorageDir(this, "Backup_PassBook/export_" + timeStamp);
+
+
+        //копируем все файлы с изображениями
+        return exportFilesImg(export_Img_File, new File(strPathImg));
+    }
+
+    //создание каталога бэкапа для записи файла
+    public File getBackupStorageDir(Context context, String dirName) {
+        // Get the directory for the app's private pictures directory.
+        File file = getExternalStoragePublicDirectory(dirName);
+        try {
+            if (!file.mkdirs()) {
+                Log.e("", "Directory not created");
+            }
+        } catch (RuntimeException e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return file;
+    }
+
+    //копируем файлы изображений из приложения во внешнюю папку
+    public File exportFilesImg(File dirBackup, File sourceFileName){
+        DatabaseHelper imgDB;
+        File backupFile = new File(dirBackup.getAbsolutePath(), sourceFileName.getName());
+        File sourceFile = new File(sourceFileName.toString());//appPathFiles + "/" + sourceFileName);
+        try {
+            return this.copyFile(sourceFile, backupFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public File copyFile(File sourceFile, File destFile) throws IOException {
+        SecretHelper sh = new SecretHelper();
+        if(!destFile.exists()) {
+            destFile.createNewFile();
+        }
+        FileChannel source = null;
+        FileChannel destination = null;
+        try {
+            if (!isImgCrypt) {
+                destination = new FileOutputStream(destFile).getChannel();
+                source = new FileInputStream(sourceFile).getChannel();
+                destination.transferFrom(source, 0, source.size());
+            }
+            else {
+                sh.DecodeFileToPath(this, Uri.parse(sourceFile.getAbsolutePath()), ((passApp)getApplicationContext()).getPass(), destFile);
+            }
+        }
+        finally {
+            if(source != null) {
+                source.close();
+            }
+            if(destination != null) {
+                destination.close();
+            }
+            return destFile;
+        }
     }
 
 }

@@ -27,6 +27,14 @@ public class SnackbarHelper {
         ViewCompat.setElevation(snackbar.getView(), 6f);
     }
 
+    public SnackbarHelper(Context context, View v, String msg, Integer isLong){
+        mContext = context;
+        snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_LONG);
+        //addMargins();
+        setRoundBorders();
+        ViewCompat.setElevation(snackbar.getView(), 6f);
+    }
+
     private static void addMargins() {
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) snackbar.getView().getLayoutParams();
         params.setMargins(12, 12, 12, 12);
@@ -50,6 +58,13 @@ public class SnackbarHelper {
 
     public static SnackbarHelper showW(Context context, View v, String msg){
         SnackbarHelper snackHelper = new SnackbarHelper(context, v, msg, true);
+
+        snackHelper.snackbar.show();
+        return snackHelper;
+    }
+
+    public static SnackbarHelper showL(Context context, View v, String msg){
+        SnackbarHelper snackHelper = new SnackbarHelper(context, v, msg, 1);
 
         snackHelper.snackbar.show();
         return snackHelper;
