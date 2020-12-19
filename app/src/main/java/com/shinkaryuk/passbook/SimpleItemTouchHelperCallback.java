@@ -133,8 +133,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         } else {
             mPaint.setColor(Color.WHITE);
             mPaint.setTextSize(40F);//viewHolder.itemView.getHeight()/2);
-            c.drawText(mContext.getResources().getString(R.string.action_swipe_archive), 30F, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
+            c.drawText(mContext.getResources().getString(R.string.action_swipe_export), 30F, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
         }
-        if (dX <= 0) viewHolder.itemView.setTranslationX(dX);
+        /*if (dX <= 0)*/ viewHolder.itemView.setTranslationX(dX);//если условие раскомментировать, то будет двигаться только влево
     }
 }

@@ -390,7 +390,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
-        //SnackbarHelper.show(mContext, viewForSnackbar,"Попытка вправо");
+        SnackbarHelper.show(mContext, viewForSnackbar,"Попытка вправо");
         refreshData();
     }
 

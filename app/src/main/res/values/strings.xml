@@ -20,6 +20,7 @@
     <string name="action_back">Back</string>
     <string name="action_swipe_delete">DELETE</string>
     <string name="action_swipe_archive">ARCHIVE</string>
+    <string name="action_swipe_export">EXPORT</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
