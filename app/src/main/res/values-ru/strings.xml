@@ -20,6 +20,7 @@
     <string name="action_back">Назад</string>
     <string name="action_swipe_delete">УДАЛЕНИЕ</string>
     <string name="action_swipe_archive">АРХИВИРОВАНИЕ</string>
+    <string name="action_swipe_export">ЭКСПОРТ</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -80,7 +81,6 @@
     <string name="control_show">Показать</string>
     <string name="control_yes">Да</string>
     <string name="control_no">Нет</string>
-    <string name="control_export">Выгрузить</string>
 
     <string name="title_activity_preview_image">Просмотр</string>
     <string name="dummy_button">НАЗАД</string>
@@ -175,7 +175,7 @@
     <string name="message_if_successfully_pass">Пароль верен!</string>
 
     <!--Наименования пунктов menu_main-->
-    <string name="favorites_menu_main">Избранные</string>
+    <string name="favorites_menu_main">Избранное</string>
     <string name="search_menu_main">Поиск</string>
     <string name="refresh_menu_main">Обновить</string>
 
