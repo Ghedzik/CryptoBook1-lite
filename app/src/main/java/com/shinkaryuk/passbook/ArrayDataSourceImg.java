@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
         sqliteHelper.close();
     }
 
-    @NonNull
+ //   @NonNull
     public List<images> fillPassArray(){
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
         Cursor cursor = sqliteHelper.getAllImg();
@@ -390,7 +391,12 @@ public class ArrayDataSourceImg extends RecyclerView.Adapter<ArrayDataSourceImg.
 
     public void onItemDismissR(int position) {
         //mItems.remove(position);
-        SnackbarHelper.show(mContext, viewForSnackbar,"Попытка вправо");
+        File exportFile;
+
+        exportFile = ExportImportFileHelper.writeImageFileToSD(mPass.get(position).fileName, mContext, (mPass.get(position).crypt.equals( "1")));
+        if (exportFile != null) {
+            SnackbarHelper.showL(mContext, viewForSnackbar, "Файл " + mPass.get(position).name + " скопирован в " + exportFile.getAbsolutePath());
+        }
         refreshData();
     }
 

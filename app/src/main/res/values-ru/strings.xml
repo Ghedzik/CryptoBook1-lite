@@ -81,6 +81,7 @@
     <string name="control_show">Показать</string>
     <string name="control_yes">Да</string>
     <string name="control_no">Нет</string>
+    <string name="control_export">"Экспорт"</string>
 
     <string name="title_activity_preview_image">Просмотр</string>
     <string name="dummy_button">НАЗАД</string>

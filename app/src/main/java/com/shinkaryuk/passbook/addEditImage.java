@@ -80,6 +80,7 @@ public class addEditImage extends AppCompatActivity {
         });
 
         Button btnDel = (Button) findViewById(R.id.btnDelete);
+        Button btnExport = (Button) findViewById(R.id.btnExportImg);
         CheckBox cbIsCrypto = (CheckBox) findViewById(R.id.cb_IsCryptImg);
 
         intIdImg = getIntent().getExtras().getString("idImg");
@@ -116,6 +117,7 @@ public class addEditImage extends AppCompatActivity {
 
         if (intIdImg.equals("0")){
             btnDel.setVisibility(View.GONE);
+            btnExport.setVisibility(View.GONE);
         }
 //Вычисляем текущую дату и форматируем ее
         Date currentDate = new Date();

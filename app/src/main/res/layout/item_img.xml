@@ -13,9 +13,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="3dp"
-        android:layout_marginTop="2dp"
         android:indeterminate="true"
-        android:visibility="invisible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,8 +93,10 @@
         android:id="@+id/dividerImg"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
+        android:layout_marginStart="1dp"
         android:background="@color/сolorTextBlack"
-        app:layout_constraintTop_toBottomOf="@+id/colNameImg"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintBottom_toTopOf="@+id/pbImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colNameImg" />
 
 </android.support.constraint.ConstraintLayout>

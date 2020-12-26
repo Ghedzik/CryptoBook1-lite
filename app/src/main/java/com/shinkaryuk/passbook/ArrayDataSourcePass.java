@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.HideReturnsTransformationMethod;
@@ -83,7 +83,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         sqliteHelper.close();
     }
 
-    @NonNull
+//    @NonNull
     private List<pass> fillPassArray(){
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
         Integer showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();

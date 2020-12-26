@@ -17,6 +17,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private Context mContext;
     private static int DEL_CANVAS_COLOR = 0;
     Drawable deleteMark;
+    Drawable archiveMark;
 
     public SimpleItemTouchHelperCallback(ArrayDataSourcePass adapter, Context context) {
         passAdapter = adapter;
@@ -38,6 +39,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private void init(){
         deleteMark = mContext.getDrawable(android.R.drawable.ic_menu_delete);
+        archiveMark = mContext.getDrawable(android.R.drawable.ic_menu_upload);
     }
 
     @Override
@@ -100,41 +102,62 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         mRect.bottom = viewHolder.itemView.getBottom();
         Paint mPaint = new Paint();
 
-        int xMarkLeft = mRect.right - marginMark - viewHolder.itemView.getHeight();
-        int xMarkRight = mRect.right - marginMark;
+        int xMarkLeft = 0;
+        int xMarkRight = 0;
         int xMarkTop = viewHolder.itemView.getTop();
         int xMarkBottom = viewHolder.itemView.getBottom();
 
 
         if (dX<=0){
+            xMarkLeft = mRect.right - marginMark - viewHolder.itemView.getHeight();
+            xMarkRight = mRect.right - marginMark;
             if (Math.abs(dX) <= recyclerView.getWidth() / 3) {
                 mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_left_itemholder, null));//Color.RED);
             } else {
                 mPaint.setColor(Color.RED);
             }
-        } else if (Math.abs(dX) <= recyclerView.getWidth() / 3) {
-            mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_right_itemholder, null));
-        } else mPaint.setColor(Color.GREEN);
+
+        } else {
+            xMarkLeft = mRect.left;
+            xMarkRight = mRect.left + marginMark + viewHolder.itemView.getHeight();
+
+            if (Math.abs(dX) <= recyclerView.getWidth() / 3) {
+                mPaint.setColor(mContext.getResources().getColor(R.color.red_swipe_right_itemholder, null));
+            } else mPaint.setColor(Color.GREEN);
+        }
 
         c.drawRect(mRect, mPaint);
         //if (Math.abs(dX) <= recyclerView.getWidth() / 3 * 2) {
             //viewHolder.itemView.setTranslationX(dX);
         //}
 
-         // Определяет размеры квадратой области за сдвинутым элеметом, где будет нарисован xMark
-        deleteMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
-        deleteMark.draw(c); // Рисует иконку удаления
 
         if (dX <= 0) {
+            // Определяет размеры квадратой области за сдвинутым элеметом, где будет нарисован xMark
+            deleteMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
+            deleteMark.draw(c); // Рисует иконку удаления
+
+
             mPaint.setColor(Color.WHITE);
             mPaint.setTextSize(40F);//viewHolder.itemView.getHeight()/2);
             c.drawText(mContext.getResources().getString(R.string.action_swipe_delete), recyclerView.getWidth() - viewHolder.itemView.getHeight() - 220F,
                     viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
         } else {
-            mPaint.setColor(Color.WHITE);
+            // Определяет размеры квадратой области за сдвинутым элеметом, где будет нарисован xMark
+            archiveMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
+            archiveMark.draw(c); // Рисует иконку удаления
+
+            mPaint.setColor(Color.BLACK);
             mPaint.setTextSize(40F);//viewHolder.itemView.getHeight()/2);
-            c.drawText(mContext.getResources().getString(R.string.action_swipe_export), 30F, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
+            c.drawText(mContext.getResources().getString(R.string.action_swipe_export), xMarkRight, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
         }
-        /*if (dX <= 0)*/ viewHolder.itemView.setTranslationX(dX);//если условие раскомментировать, то будет двигаться только влево
+        if (imgAdapter != null) {//чтобы двигался в обе стороны только элемент документов/фото
+            /*if (dX <= 0)*/
+            viewHolder.itemView.setTranslationX(dX);//если условие раскомментировать, то будет двигаться только влево
+        } else if (passAdapter != null) {
+            if (dX <= 0) viewHolder.itemView.setTranslationX(dX);
+        } else if (noteAdapter != null) {
+            if (dX <= 0) viewHolder.itemView.setTranslationX(dX);
+        }
     }
 }

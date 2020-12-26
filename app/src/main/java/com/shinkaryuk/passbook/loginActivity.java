@@ -104,6 +104,7 @@ public class loginActivity extends AppCompatActivity {
 
     public void onClickbtnOK(View v){
         inputCounter += 1;
+        tvForgot = findViewById((R.id.tvForgotPass));
         if (inputCounter > 3){
             SnackbarHelper.showW(this, v,getResources().getString(R.string.message_goodbuy));
             tvForgot.setText(getResources().getString(R.string.message_goodbuy));
@@ -131,7 +132,6 @@ public class loginActivity extends AppCompatActivity {
             finish();
         }
         else if (sh.unHashPass(prefStrPswd, strPswd).equals(sh.getPswd(strPswd))){
-            tvForgot = findViewById((R.id.tvForgotPass));
             tvForgot.setText(getResources().getString(R.string.message_if_successfully_pass));
             tvForgot.setTextColor(Color.GREEN);
             tvForgot.setVisibility(View.VISIBLE);

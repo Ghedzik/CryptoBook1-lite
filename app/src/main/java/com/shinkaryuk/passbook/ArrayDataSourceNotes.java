@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +82,7 @@ public class ArrayDataSourceNotes extends RecyclerView.Adapter<ArrayDataSourceNo
         sqliteHelper.close();
     }
 
-    @NonNull
+//    @NonNull
     private List<note> fillPassArray(){
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
         Integer showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();
