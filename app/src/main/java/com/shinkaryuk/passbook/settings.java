@@ -416,7 +416,6 @@ public class settings extends AppCompatActivity {
 //            Toast.makeText(this, "что-то сломалось" + e.getMessage(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
         }
 
         //deleteAllFiles();
