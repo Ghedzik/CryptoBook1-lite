@@ -48,6 +48,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
     private String strPswd;
     private Animation show_view, hide_view, cl_show, click_button_scale;
     View viewForSnackbar;
+    Boolean isEditInWindow = true;
+    final RegUtils reg;
 
 
     ArrayDataSourcePass(Context context, View v){
@@ -65,6 +67,10 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         cl_show = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.cl_show);
         click_button_scale = AnimationUtils.loadAnimation(parentActivity.getApplication(), R.anim.click_button_scale);
         viewForSnackbar = v;
+
+        //если редактирование в окне, то не надо показывать иконки раскрытия
+        reg = new RegUtils(mContext);
+        //
 
         sh = new SecretHelper();
         strPswd = ((passApp)mContext.getApplicationContext()).getPass();
@@ -340,6 +346,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         holder.nameView.setText(mItem.getName());
         holder.dateCreate.setText(mItem.getDateCreate());
 
+        isEditInWindow = (reg.getHowEdit() == RegUtils.EDIT_IN_WINDOW);
+
         if (mItem.getEditing() == 0) {
             holder.etName.setVisibility(View.GONE);
             holder.etLogin.setVisibility(View.GONE);
@@ -363,6 +371,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             holder.divider3.setVisibility(View.GONE);
 
             //holder.ivExpandItem.startAnimation(rotateCounterClockwise);
+            if (!isEditInWindow) holder.ivExpandItem.setVisibility(View.VISIBLE); else holder.ivExpandItem.setVisibility(View.GONE);
+
             holder.ivExpandItem.setImageResource(R.mipmap.expand_item);
 
             holder.nameView.setTypeface(null, Typeface.NORMAL);
@@ -431,6 +441,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             holder.divider3.startAnimation(show_view);
             holder.divider3.setVisibility(View.VISIBLE);
 
+            if (!isEditInWindow) holder.ivExpandItem.setVisibility(View.VISIBLE); else holder.ivExpandItem.setVisibility(View.GONE);
             //holder.ivExpandItem.startAnimation(rotate180);
             holder.ivExpandItem.setImageResource(R.mipmap.collapse_item);
 

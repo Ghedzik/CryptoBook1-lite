@@ -12,8 +12,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private ArrayDataSourcePass passAdapter;
-    private ArrayDataSourceNotes noteAdapter;
-    private ArrayDataSourceImg imgAdapter;
     private Context mContext;
     private static int DEL_CANVAS_COLOR = 0;
     Drawable deleteMark;
@@ -21,18 +19,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public SimpleItemTouchHelperCallback(ArrayDataSourcePass adapter, Context context) {
         passAdapter = adapter;
-        mContext = context;
-        init();
-    }
-
-    public SimpleItemTouchHelperCallback(ArrayDataSourceNotes adapter, Context context) {
-        noteAdapter = adapter;
-        mContext = context;
-        init();
-    }
-
-    public SimpleItemTouchHelperCallback(ArrayDataSourceImg adapter, Context context) {
-        imgAdapter = adapter;
         mContext = context;
         init();
     }
@@ -63,10 +49,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
         if (passAdapter != null) {
             passAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
-        } else if (noteAdapter != null) {
-            noteAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
-        } else if (imgAdapter != null) {
-            imgAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
         }
         return true;
     }
@@ -76,18 +58,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (direction == 16) {
             if (passAdapter != null) {
                 passAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-            } else if (noteAdapter != null) {
-                noteAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-            } else if (imgAdapter != null) {
-                imgAdapter.onItemDismiss(viewHolder.getAdapterPosition());
             }
         } else if (direction == 32) {
             if (passAdapter != null) {
                 passAdapter.onItemDismissR(viewHolder.getAdapterPosition());
-            } else if (noteAdapter != null) {
-                noteAdapter.onItemDismissR(viewHolder.getAdapterPosition());
-            } else if (imgAdapter != null) {
-                imgAdapter.onItemDismissR(viewHolder.getAdapterPosition());
             }
         }
     }
@@ -151,12 +125,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             mPaint.setTextSize(40F);//viewHolder.itemView.getHeight()/2);
             c.drawText(mContext.getResources().getString(R.string.action_swipe_export), xMarkRight, viewHolder.itemView.getTop() + viewHolder.itemView.getHeight() - 30F, mPaint);
         }
-        if (imgAdapter != null) {//чтобы двигался в обе стороны только элемент документов/фото
-            /*if (dX <= 0)*/
-            viewHolder.itemView.setTranslationX(dX);//если условие раскомментировать, то будет двигаться только влево
-        } else if (passAdapter != null) {
-            if (dX <= 0) viewHolder.itemView.setTranslationX(dX);
-        } else if (noteAdapter != null) {
+        if (passAdapter != null) {
             if (dX <= 0) viewHolder.itemView.setTranslationX(dX);
         }
     }

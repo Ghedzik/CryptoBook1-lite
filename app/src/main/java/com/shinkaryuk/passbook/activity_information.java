@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class activity_information extends AppCompatActivity {
@@ -29,6 +30,24 @@ public class activity_information extends AppCompatActivity {
         TextView tViewPswdNoCrypt = (TextView) findViewById(R.id.tvCountPassNoCrypt);
         TextView tViewNotesNoCrypt = (TextView) findViewById(R.id.tvCountNotesNoCrypt);
         TextView tViewImgNoCrypt = (TextView) findViewById(R.id.tvCountImgNoCrypt);
+
+        //для лайт версии только пароли, остальное не видно
+        TextView labelCountImg = (TextView) findViewById(R.id.labelCountImg);
+        TextView labelCountImgNoCrypt = (TextView) findViewById(R.id.labelCountImgNoCrypt);
+        TextView labelCountNotes = (TextView) findViewById(R.id.labelCountNotes);
+        TextView labelCountNotesNoCrypt = (TextView) findViewById(R.id.labelCountNotesNoCrypt);
+
+        tViewImg.setVisibility(View.GONE);
+        tViewNotes.setVisibility(View.GONE);
+        tViewImgNoCrypt.setVisibility(View.GONE);
+        tViewNotesNoCrypt.setVisibility(View.GONE);
+
+        labelCountImg.setVisibility(View.GONE);
+        labelCountImgNoCrypt.setVisibility(View.GONE);
+        labelCountNotes.setVisibility(View.GONE);
+        labelCountNotesNoCrypt.setVisibility(View.GONE);
+        //конец изменений для лайт версии
+
 
         //создаем базу - класс описан ниже
         passDB = new DatabaseHelper(this, toolbar);
@@ -59,6 +78,8 @@ public class activity_information extends AppCompatActivity {
                         countPassNoCrypt += passCursor.getInt(passCursor.getColumnIndex("cnt"));
                     }
                     break;
+                //для лайт версии только пароли, остальное не видно
+                /*
                 case "img":
                     countImg += passCursor.getInt(passCursor.getColumnIndex("cnt"));
                     if (passCursor.getInt(passCursor.getColumnIndex("isCrypt")) == 0) {
@@ -71,16 +92,26 @@ public class activity_information extends AppCompatActivity {
                         countNotesNoCrypt += passCursor.getInt(passCursor.getColumnIndex("cnt"));
                     }
                     break;
+
+                 */
             }
             passCursor.moveToNext();
         }
         tViewPswd.setText(Integer.toString(countPass));
+        //для лайт версии только пароли, остальное не видно
+        /*
         tViewImg.setText(Integer.toString(countImg));
         tViewNotes.setText(Integer.toString(countNotes));
 
+         */
+
         tViewPswdNoCrypt.setText(Integer.toString(countPassNoCrypt));
+        //для лайт версии только пароли, остальное не видно
+        /*
         tViewImgNoCrypt.setText(Integer.toString(countImgNoCrypt));
         tViewNotesNoCrypt.setText(Integer.toString(countNotesNoCrypt));
+
+         */
 
 /*
         passCursor.moveToFirst();

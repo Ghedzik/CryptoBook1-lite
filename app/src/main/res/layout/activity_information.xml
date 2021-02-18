@@ -84,7 +84,7 @@
         android:textColor="@color/сolorTextFound"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelCountNotes"
+        app:layout_constraintStart_toEndOf="@+id/labelCountPassNoCrypt"
         app:layout_constraintTop_toBottomOf="@+id/tvCountPswd" />
 
     <TextView

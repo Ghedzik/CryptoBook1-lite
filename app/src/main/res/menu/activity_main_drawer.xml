@@ -9,14 +9,6 @@
             android:icon="@mipmap/ic_mn_pswd"
             android:title="@string/main_navigation_drawer_menu_password" />
         <item
-            android:id="@+id/nav_image"
-            android:icon="@mipmap/ic_mn_img"
-            android:title="@string/main_navigation_drawer_menu_images" />
-        <item
-            android:id="@+id/naw_notes"
-            android:icon="@mipmap/ic_mn_notes"
-            android:title="@string/main_navigation_drawer_menu_notes" />
-        <item
             android:id="@+id/menuTest"
             android:title="Test"
             android:visible="false" />

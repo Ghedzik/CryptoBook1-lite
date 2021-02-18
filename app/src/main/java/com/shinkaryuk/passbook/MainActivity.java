@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -26,10 +27,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-
-import static com.shinkaryuk.passbook.imagesActivity.IMG_NEW;
-import static com.shinkaryuk.passbook.notesActivity.NOTES_NEW;
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         SearchView.OnQueryTextListener, SearchView.OnCloseListener{
@@ -137,20 +134,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_pass) {
 
-        } else if (id == R.id.nav_image) {
-            Intent intent = new Intent(MainActivity.this, imagesActivity.class);
-            isDialogMode = false;
-            startActivity(intent);
-            finish();
-
         } else if (id == R.id.nav_manage) {
             ShowDlgSettings();
-
-        } else if (id == R.id.naw_notes) {
-            Intent intent = new Intent(MainActivity.this, notesActivity.class);
-            isDialogMode = false;
-            startActivity(intent);
-            finish();
 
         } else if (id == R.id.nav_info) {
             ShowInfo();
@@ -260,40 +245,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     ((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
                     SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + aName + "'"
-                            + getResources().getString(R.string.message_item_save2));
-                    //showHideMiniFabs();
-                    break;
-                case IMG_NEW:
-                    a_id = Integer.parseInt(data.getExtras().getString("idImgNew"));
-                    String iName = data.getExtras().getString("nameImgNew");
-                    String aPath = data.getExtras().getString("pathImgNew");
-                    String iDateCreate = data.getExtras().getString("dateCreateImgNew");
-                    String iDateChange = data.getExtras().getString("dateChangeImgNew");
-
-                    String aShortPath = "";
-                    if (!aPath.equals("")) {
-                        aShortPath = Uri.parse(Uri.parse(aPath).getLastPathSegment()).getPath();
-                        aShortPath = aShortPath.substring(0, aShortPath.lastIndexOf(".")) + ".jpg";//".bmp";
-                    }
-                    String iComment = data.getExtras().getString("commentImgNew");
-                    //(ArrayDataSourceImg) AddEditRecord
-                    String isCryptoImg = data.getExtras().getString("isCryptoNew");
-                    //(ArrayDataSourceImg) AddEditRecord
-                    DatabaseHelper imgDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
-                    imgDB.insertEditImg(0, iName, aPath, iComment, aShortPath, getFilesDir().getPath() + "/s_" + aShortPath, iDateCreate, iDateChange, isCryptoImg);
-                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + iName + "'"
-                            + getResources().getString(R.string.message_item_save2));
-                    //showHideMiniFabs();
-                    break;
-                case NOTES_NEW:
-                    a_id = Integer.parseInt(data.getExtras().getString("idNotesNew"));
-                    String nName = data.getExtras().getString("notesNoteNew");
-                    String nDateCreate = data.getExtras().getString("notesCreateDateNew");
-                    String nDateChange = data.getExtras().getString("notesChangeDateNew");
-                    String isCrypto = data.getExtras().getString("isCryptoNew");
-                    DatabaseHelper notesDB = new DatabaseHelper(this.getApplicationContext(), recyclerView);
-                    notesDB.insertEditNotes(0, nName, nDateCreate, nDateChange, isCrypto);
-                    SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + nName + "'"
                             + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
                     break;
@@ -412,6 +363,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (v.getId()) {
             case R.id.fab_1:
                 //Toast.makeText(this, "FAB1", Toast.LENGTH_LONG).show();
+                //для лайт версии если паролей больше 7 то ничего не делаем, но предупреждаем
+                if (getCountPass() >= 7) {
+                    showHideMiniFabs();
+                    SnackbarHelper.showW(this, recyclerView,getResources().getString(R.string.message_lite_version));
+                    return;
+                }
                 if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
                     Intent intent = new Intent(MainActivity.this, addEditPass.class);
 
@@ -432,6 +389,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                 }
                 break;
+
+            //для лайт версии только пароли
+            /*
             case R.id.fab_2:
                 //Toast.makeText(this, "FAB2", Toast.LENGTH_LONG).show();
                 Intent intentImgDlg = new Intent(this, addEditImage.class);
@@ -472,6 +432,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     finish();
                 }
                 break;
+
+             */
         }
 
         showHideMiniFabs();
@@ -518,7 +480,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab1.setLayoutParams(layoutParams1);
             fab1.startAnimation(show_fab_1);
 
-            Animation show_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
+            //В версии лайт есть только пароли
+            /*Animation show_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
             layoutParams2.rightMargin += (int) (fab2.getWidth() * 1.5);
             layoutParams2.bottomMargin += (int) (fab2.getHeight() * 1.5);
             fab2.setLayoutParams(layoutParams2);
@@ -528,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             layoutParams3.rightMargin += (int) (fab3.getWidth() * 0.25);
             layoutParams3.bottomMargin += (int) (fab3.getHeight() * 1.7);
             fab3.setLayoutParams(layoutParams3);
-            fab3.startAnimation(show_fab_3);
+            fab3.startAnimation(show_fab_3);*/
         } else {
             fabBase.setImageResource(R.mipmap.ic_add_black_24dp);
             fabBase.setBackgroundColor(getResources().getColor(R.color.сolorTextBlack));
@@ -539,7 +502,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab1.setLayoutParams(layoutParams1);
             fab1.startAnimation(hide_fab_1);
 
-            Animation hide_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
+            //в версии лайт есть только пароли
+            /*Animation hide_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
             layoutParams2.rightMargin += (int) (fab2.getWidth() * -1.5);
             layoutParams2.bottomMargin += (int) (fab2.getHeight() * -1.5);
             fab2.setLayoutParams(layoutParams2);
@@ -549,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             layoutParams3.rightMargin += (int) (fab3.getWidth() * -0.25);
             layoutParams3.bottomMargin += (int) (fab3.getHeight() * -1.7);
             fab3.setLayoutParams(layoutParams3);
-            fab3.startAnimation(hide_fab_3);
+            fab3.startAnimation(hide_fab_3);*/
         }
     }
 
@@ -558,6 +522,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //isDialogMode = false;
         //startActivity(intent);
         //finish();
+    }
+
+    //для лайт версии определение количества записей в таблице
+    public int getCountPass(){
+        DatabaseHelper passDB = new DatabaseHelper(this, recyclerView);
+
+        Cursor passCursor = passDB.getAllPass();
+        return passCursor.getCount();
     }
 
 }

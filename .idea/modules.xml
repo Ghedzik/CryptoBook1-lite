@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CryptoBook1.iml" filepath="$PROJECT_DIR$/CryptoBook1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CryptoBook1.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CryptoBook1.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CryptoBook1_lite.iml" filepath="$PROJECT_DIR$/.idea/modules/CryptoBook1_lite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CryptoBook1_lite.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CryptoBook1_lite.app.iml" />
     </modules>
   </component>
 </project>
