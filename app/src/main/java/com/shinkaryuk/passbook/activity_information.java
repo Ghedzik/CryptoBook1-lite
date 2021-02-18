@@ -41,6 +41,7 @@ public class activity_information extends AppCompatActivity {
         tViewNotes.setVisibility(View.GONE);
         tViewImgNoCrypt.setVisibility(View.GONE);
         tViewNotesNoCrypt.setVisibility(View.GONE);
+        TextView tViewVersionInfo = findViewById(R.id.tvVersionInfo);
 
         labelCountImg.setVisibility(View.GONE);
         labelCountImgNoCrypt.setVisibility(View.GONE);
@@ -163,6 +164,10 @@ public class activity_information extends AppCompatActivity {
             tViewNotes.setText("0");
         }*/
         passCursor.close();
+
+        //выводим версию приложения
+        String versionInfo = tViewVersionInfo.getText().toString() + " " + BuildConfig.VERSION_CODE + "." + BuildConfig.VERSION_NAME;
+        tViewVersionInfo.setText(versionInfo);
     }
 
     @Override

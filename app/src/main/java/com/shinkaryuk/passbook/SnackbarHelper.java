@@ -1,5 +1,6 @@
 package com.shinkaryuk.passbook;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
@@ -68,5 +69,10 @@ public class SnackbarHelper {
 
         snackHelper.snackbar.show();
         return snackHelper;
+    }
+    public static void showAbout(Context context) {
+        String versionInfo = context.getResources().getString(R.string.version_info) + " " + BuildConfig.VERSION_CODE + "." + BuildConfig.VERSION_NAME + "\n\n";
+        new AlertDialog.Builder(context) .setMessage(versionInfo + context.getResources().getString(R.string.about_message)) .setPositiveButton(android.R.string.ok, null) .show();
+        //return null;
     }
 }

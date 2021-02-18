@@ -87,7 +87,7 @@
     <string name="title_activity_preview_image">Preview</string>
     <string name="dummy_button">Back</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="version_info">Version Lite: </string>
 
     <!--Строковые параметры для Activity Camera-->
     <string name="picture">Picture</string>
@@ -98,10 +98,10 @@
 
 
             \t\tThis application save passwords and its information.
-            Lite version save only 7 passwords. For more download full version app.
+            Lite version saves only 7 passwords. For more download full version app.
             The app does not have network tools. It does not send information to network, cloud and any open network services.\n
-            \t\tAll data endocde with AES 265 default. You may to decode any record or file/document/image/photo.
-            You may to create backup or restore data use your password.
+            \t\tAll data endocde with AES 265 default.
+            You may to create backup or restore data using your password.
             Your data under reliable protected!\n
 
 
@@ -117,8 +117,8 @@
             \t\tThis application save passwords and its information.
             Lite version save only 7 passwords. For more download full version app.
             The app does not have network tools. It does not send information to network, to cloud and to any open network services.\n
-            \t\tAll data endocde with AES 265 default. You may to decode any record or file/document/image/photo.
-            You may to create backup or restore data use your password.
+            \t\tAll data endocde with AES 265 default.
+            You may to create backup or restore data using your password.
             Your data under reliable protected!\n\n
 
         ]]>

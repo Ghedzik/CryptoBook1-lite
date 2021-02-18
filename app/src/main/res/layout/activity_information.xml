@@ -128,6 +128,16 @@
         app:titleTextColor="@color/сolorTextBlack"></android.support.v7.widget.Toolbar>
 
     <TextView
+        android:id="@+id/tvVersionInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/version_info"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="@+id/infoToolbar"
+        app:layout_constraintTop_toTopOf="@+id/infoToolbar" />
+
+    <TextView
         android:id="@+id/labelCountPswd"
         android:layout_width="290dp"
         android:layout_height="wrap_content"

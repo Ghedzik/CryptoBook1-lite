@@ -86,6 +86,7 @@
     <string name="title_activity_preview_image">Просмотр</string>
     <string name="dummy_button">НАЗАД</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="version_info">Версия lite: </string>
 
     <!--Строковые параметры для Activity Camera-->
     <string name="picture">Изображение</string>

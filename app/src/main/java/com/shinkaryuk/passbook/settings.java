@@ -95,6 +95,11 @@ public class settings extends AppCompatActivity {
         });
 
         ShowFilesIntenalStorage();
+
+        //выводим версию приложения
+        TextView tViewVersionInfo = findViewById(R.id.tvVersionInfoSettings);
+        String versionInfo = tViewVersionInfo.getText().toString() + " " + BuildConfig.VERSION_CODE + "." + BuildConfig.VERSION_NAME;
+        tViewVersionInfo.setText(versionInfo);
     }
 
     @Override

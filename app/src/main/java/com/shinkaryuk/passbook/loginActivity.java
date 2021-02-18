@@ -173,7 +173,8 @@ public class loginActivity extends AppCompatActivity {
     }
 
     public void onClickInfo(View view) {
-        new AlertDialog.Builder(this) .setMessage(R.string.info_message) .setPositiveButton(android.R.string.ok, null) .show();
+        //new AlertDialog.Builder(this) .setMessage(R.string.info_message) .setPositiveButton(android.R.string.ok, null) .show();
+        SnackbarHelper.showAbout(this);
     }
 
     // Function to check and request permission.
