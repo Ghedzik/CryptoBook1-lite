@@ -560,9 +560,9 @@ public class settings extends AppCompatActivity {
     }
 
     private String getCurrentDate() {
-//Вычисляем текущую дату и форматируем ее
+    //Вычисляем текущую дату и форматируем ее
         Date currentDate = new Date();
-// Форматирование даты как "день.месяц.год"
+    // Форматирование даты как "день.месяц.год"
         DateFormat dateFormat = new java.text.SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         return dateFormat.format(currentDate);
     }
