@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 //import android.support.annotation.NonNull;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.HideReturnsTransformationMethod;
@@ -92,7 +93,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
 //    @NonNull
     private List<pass> fillPassArray(){
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
-        Integer showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();
+        int showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();
+        strPswd = ((passApp)mContext.getApplicationContext()).getPass();//обновляем
         Cursor cursor = sqliteHelper.getAllPass();
         if (mPass.size()>0){
             mPass.clear();
@@ -266,14 +268,13 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         public int getEditing(){
             return editing;
         }
-
         public void setEditing (int value){
             editing = value;
         }
     }
 
     @Override
-    public ArrayDataSourcePass.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArrayDataSourcePass.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = inflater.inflate(R.layout.item, parent, false);
         return new ViewHolder(view);
