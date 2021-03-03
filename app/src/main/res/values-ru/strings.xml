@@ -177,7 +177,8 @@
     <string name="message_if_forgot_pass">Внимание!!! Если Вы забудете пароль, восстановить данные будет невозможно!</string>
     <string name="message_if_successfully_pass">Пароль верен!</string>
     <string name="message_lite_version">Для добавления загрузите полную версию приложения!</string>
-
+    <string name="message_not_possible_restore_backup">Резервная копия была зашифрована другим паролем, восстановление невозможно! Поменяйте пароль и попробуйте снова.</string>
+    <string name="message_permissions_not_granted">Недостаточно прав для чтения/записи данных!</string>
 
     <!--Наименования пунктов menu_main-->
     <string name="favorites_menu_main">Избранное</string>

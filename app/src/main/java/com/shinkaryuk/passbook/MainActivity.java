@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public final static int RESULT_EDIT_DELETE = -2;
     public final static int PASS_NEW = 0;
     public final static int PASS_EDIT = 1;
+    public final static int CB_ACTIVITY_SETTING = 100; //для запуска формы Настройки
     Boolean isDialogMode = false; //данная переменная нужна для того чтобы не закрывать данное окно при вызове редактирования или настроек
 
     private SimpleItemTouchHelperCallback callback;
@@ -268,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((ArrayDataSourcePass)recyclerView.getAdapter()).AddEditRecord(a_id * (-1), "", "", "", "", "", "", "", "");
         }
 
+        ((ArrayDataSourcePass)recyclerView.getAdapter()).refreshData();
         //Toast.makeText(MainActivity.this, language, Toast.LENGTH_LONG).show();
         isDialogMode = false;
     }
@@ -293,10 +295,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void ShowDlgSettings() {
         Intent intent = new Intent(MainActivity.this, settings.class);
-        startActivity(intent);
         isDialogMode = true;
+
+        startActivityForResult(intent, CB_ACTIVITY_SETTING);
         //refreshCursor();
-        ((ArrayDataSourcePass)recyclerView.getAdapter()).refreshData();
+//        ((ArrayDataSourcePass)recyclerView.getAdapter()).refreshData();
     }
 
     public void ShowInfo() {

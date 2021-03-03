@@ -1,16 +1,23 @@
 package com.shinkaryuk.passbook;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 //import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Toast;
 //import android.app.Application;
@@ -27,7 +34,7 @@ import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String dbName = "passDB";
-    public final static int DB_VERSION = 1;
+    public final static int DB_VERSION = 2;
 
     //Таблица паролей
     public static final String passTable = "pass";
@@ -52,6 +59,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Это нужно переделать для того, чтобы пользоваться одним полем и не плодить новых полей. Надо сделать в будущем.
     //Первым будет реализован функционал архивирования
 
+    /*
+    Изображения могут содержать в себе несколько страниц - например несколько страниц паспорта или другого документа.
+    Для этого надо сделать две таблицы: master-detail.
+    В главной хранятся наименования документа, в дочерней - сама информация с названиями.
+    Необходимо добавить новую таблицу images_main, в которой будут следующие поля:
+    */
+    public static final String imgMainTable = "images_main";
+    public static final String colImgMainID = "_id";
+    public static final String colImgMainName = "imgMainName";
+    public static final String colImgMainComment = "imgMainComment";
+    public static final String colImgMainDateCreate = "imgMainDateCreate";
+    public static final String colImgMainDateChange = "imgMainDateChange";
+    public static final String colImgMainIsCrypt = "isCrypt";
+    public static final String colImages_main_id_key = "images_main_id";
+    /*
+    Для этого придется переделать форму отображения, форму для редактирования, возможно добавить форму редактирования
+    основной записи из таблицы images_main, но лучше не добавлять отдельную форму для этого. а редактировать ее прямо
+    на форме отображения, т.к. редактирование будет простым.
+     */
+
     //Таблица изображений
     public static final String imgTable = "images";
     public static final String colImgID = "_id";
@@ -65,6 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public static final String colImgSettings = "settings"; //поле настроек записи, битовая маска 1-й бит - запись - архивная, 2-й бит - избранная, третий бит - шифрованная...
     public static final String colImgSmall = "imgSmallFile";
     public static final String colImgIsCrypt = "isCrypt";
+    public static final String colImages_main_id_fk = "images_main_id_fk";
 
 
     //Таблица заметок
@@ -73,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String colNotes = "notesNoteName";
     public static final String colNoteDateCreate = "notesDateCreate";
     public static final String colNoteDateChange = "notesDateChange";
-    public static final String colNoteIsCrypt = "isCrypt"; //указывает зашифрована ли строка
+    public static final String colNoteIsCrypt = "isCrypt"; //указывает зашифрована ли строк
     //public static final String colNoteSettings = "settings"; //поле настроек записи, битовая маска 1-й бит - запись - архивная, 2-й бит - избранная, третий бит - шифрованная...
 
     //Типы сортировок
@@ -97,6 +125,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String APP_PREFERENCES_PSW = "pswd";
     public static String prefStrPswd = "";
 
+    public static final String CHECK_RECORD_FOR_BACKUP = "Гарантия личной тайны - залог свободы";
+
     private Context mContext;
     View viewForSnackbar;
 
@@ -113,8 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL("ALTER TABLE  " + notesTable + " ADD " + colNoteDateChange +
         //Context context = getApplicationContext();
         //mSettings = PreferenceManager.getDefaultSharedPreferences(this);//SharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-
-        db.execSQL("CREATE TABLE "+passTable+" ("+
+        String strSQL = "CREATE TABLE IF NOT EXISTS "+passTable+" ("+
                 colID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 colName+" TEXT, "+
                 colLogin+" TEXT, "+
@@ -123,9 +152,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 colFavorite+" INTEGER, "+
                 colPassDateCreate+" TEXT, "+
                 colPassDateChange+" TEXT, " +
-                colPassIsCrypt + " INTEGER)");
+                colPassIsCrypt + " INTEGER)";
+        db.execSQL(strSQL);
 
-        db.execSQL("CREATE TABLE "+imgTable+" ("+
+        strSQL = "CREATE TABLE IF NOT EXISTS " + imgTable + " ("+
                 colImgID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 colImgName+" TEXT, "+
                 colImgFileName+" TEXT, "+
@@ -135,14 +165,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 colImgDateCreate+" TEXT, "+
                 colImgDateChange+" TEXT, " +
                 colImgSmall + " TEXT, " +
-                colImgIsCrypt + " INTEGER)");
+                colImgIsCrypt + " INTEGER, " +
+                colImages_main_id_fk + " INTEGER)";
+        db.execSQL(strSQL);
 
-        db.execSQL("CREATE TABLE "+notesTable+" ("+
+        strSQL = "CREATE TABLE IF NOT EXISTS "+imgMainTable+" ("+
+                colImgMainID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                colImgMainName + " TEXT, "+
+                colImgMainComment + " TEXT, "+
+                colImgMainDateCreate + " TEXT, "+
+                colImgMainDateChange + " TEXT, " +
+                colImgMainIsCrypt + " INTEGER, " +
+                colImages_main_id_key + " INTEGER)";
+        db.execSQL(strSQL);
+
+        strSQL = "CREATE TABLE IF NOT EXISTS "+notesTable+" ("+
                 colNotesID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 colNotes+" TEXT, "+
                 colNoteDateCreate+" TEXT, "+
                 colNoteDateChange+" TEXT, " +
-                colNoteIsCrypt + " INTEGER)");
+                colNoteIsCrypt + " INTEGER)";
+        db.execSQL(strSQL);
 
     }
 
@@ -153,7 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //sqLiteDatabase.execSQL("ALTER TABLE  " + passTable + " ADD " + colPassDateCreate + " TEXT");
         //sqLiteDatabase.execSQL("ALTER TABLE  " + passTable + " ADD " + colPassDateChange + " TEXT");
         //sqLiteDatabase.execSQL("ALTER TABLE  " + passTable + " ADD " + colPassIsCrypt + " INTEGER");
-
+/*
         sqLiteDatabase.execSQL("ALTER TABLE " + imgTable + " RENAME TO " + imgTable + "_old;");
         sqLiteDatabase.execSQL("CREATE TABLE "+imgTable+" ("+
                 colImgID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
@@ -171,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS images_old");
         sqLiteDatabase.execSQL("UPDATE images SET isCrypt = 0");
 
-
+*/
         //sqLiteDatabase.execSQL("ALTER TABLE  " + imgTable + " ADD " + colImgDateCreate + " TEXT");
         //sqLiteDatabase.execSQL("ALTER TABLE  " + imgTable + " ADD " + colImgSmall + " TEXT");
         //sqLiteDatabase.execSQL("ALTER TABLE  " + imgTable + " ADD " + colImgLarge + " TEXT");
@@ -181,6 +224,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //sqLiteDatabase.execSQL("ALTER TABLE  " + notesTable + " ADD " + colNoteDateCreate + " TEXT");
         //sqLiteDatabase.execSQL("ALTER TABLE  " + notesTable + " ADD " + colNoteDateChange + " TEXT");
         //sqLiteDatabase.execSQL("ALTER TABLE  " + notesTable + " ADD " + colNoteIsCrypt + " INTEGER");
+
+        //добавляем внешний ключ в images, если такого поля в данной таблице нет
+/*        String sqlStr = "SELECT * FROM sqlite_master";// WHERE name LIKE '%" + colImages_main_id_fk + "%'";
+        Cursor cur = sqLiteDatabase.rawQuery(sqlStr, new String[]{});
+        cur.moveToFirst();
+        while (!cur.isAfterLast()){
+            cur.moveToNext();
+        }
+
+ */
+        try {
+            sqLiteDatabase.execSQL("ALTER TABLE " + imgTable + " ADD " + colImages_main_id_fk + " INTEGER");
+        }
+        catch (Exception e) {
+            SnackbarHelper.show(mContext, viewForSnackbar,"База обновлена");
+        }
+        //конец добавления внешнего ключа
+
+        //создаем новую таблицу images_main если ее нет
+        try {
+            sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + imgMainTable + " (" +
+                    colImgMainID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    colImgMainName + " TEXT, " +
+                    colImgMainComment + " TEXT, " +
+                    colImgMainDateCreate + " TEXT, " +
+                    colImgMainDateChange + " TEXT, " +
+                    colImgMainIsCrypt + " INTEGER, " +
+                    colImages_main_id_key + " INTEGER)");
+            //sqLiteDatabase.execSQL("ALTER TABLE " + imgTable + " ADD " + colImages_main_id_fk + " INTEGER");
+        }
+        catch (Exception e){
+
+        }
+        //конец создания новой таблицы
     }
 
     public void upgradeImages(){
@@ -198,7 +275,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cur.getString(cur.getColumnIndex("imgSmallFileName")),
                     cur.getString(cur.getColumnIndex("imgDateCreate")),
                     cur.getString(cur.getColumnIndex("imgDateChange")),
-                    "0");
+                    "0",
+                    cur.getInt(cur.getColumnIndex(colImages_main_id_fk)));
             cur.moveToNext();
         }
     }
@@ -209,9 +287,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //db = this.getWritableDatabase();
 
         //Вычисляем текущую дату и форматируем ее
-        Date currentDate = new Date();
+//        Date currentDate = new Date();
 // Форматирование даты как "день.месяц.год"
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+/*        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         String dateText = dateFormat.format(currentDate);
 
         sqLiteDatabase.execSQL("UPDATE " + passTable + " SET " + colPassDateCreate +"='" + dateText + "' WHERE " + colPassDateCreate + " IS NULL");
@@ -224,19 +302,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("UPDATE " + notesTable + " SET " + colNoteDateCreate +"='" + dateText + "' WHERE " + colNoteDateCreate + " IS NULL");
         sqLiteDatabase.execSQL("UPDATE " + notesTable + " SET " + colNoteDateChange +"='" + dateText + "' WHERE " + colNoteDateChange + " IS NULL");
         sqLiteDatabase.execSQL("UPDATE " + notesTable + " SET " + colNoteIsCrypt +"=1");
-    }
 
-    public void tmpUpdateTable(){
-        SQLiteDatabase db;
-        db = this.getWritableDatabase();
-        db.execSQL("UPDATE " + passTable + " SET " + colFavorite + " = 0 WHERE " + colFavorite + " IS NULL");
+ */
+        //sqLiteDatabase.execSQL("ALTER TABLE  " + imgMainTable + " ADD " + colImages_main_id + " INTEGER");
+/*        sqLiteDatabase.execSQL("DROP TABLE " + imgMainTable);
+        sqLiteDatabase.execSQL("DROP TABLE " + imgTable);
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + imgTable + " ("+
+                colImgID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                colImgName+" TEXT, "+
+                colImgFileName+" TEXT, "+
+                colImgShortFileName+" TEXT, "+
+                colImgSmallFileName+" TEXT, "+
+                colImgComment+" TEXT, "+
+                colImgDateCreate+" TEXT, "+
+                colImgDateChange+" TEXT, " +
+                colImgSmall + " TEXT, " +
+                colImgIsCrypt + " INTEGER, " +
+                colImages_main_id_fk + " INTEGER)");
+
+        sqLiteDatabase.execSQL("CREATE TABLE "+imgMainTable+" ("+
+                colImgMainID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                colImgMainName + " TEXT, "+
+                colImgMainComment + " TEXT, "+
+                colImgMainDateCreate + " TEXT, "+
+                colImgMainDateChange + " TEXT, " +
+                colImgMainIsCrypt + " INTEGER, " +
+                colImages_main_id_key + " INTEGER)");
+
+        String sqlStr = "DELETE FROM " + imgMainTable;
+        sqLiteDatabase.execSQL(sqlStr);*/
+/*
+        String sqlStr = "INSERT INTO " + imgMainTable + " ("
+                + colImgMainName + ", "
+                + colImgMainComment + ", "
+                + colImgMainDateCreate + ", "
+                + colImgMainDateChange + ", "
+                + colImgMainIsCrypt + ")"
+                + " SELECT "
+                + colImgName + ", "
+                + colImgComment + ", "
+                + colImgDateCreate + ", "
+                + colImgDateChange + ", "
+                + colImgIsCrypt + " FROM " + imgTable;
+        sqLiteDatabase.execSQL(sqlStr);
+
+        sqlStr = "UPDATE " + imgTable + " SET " + colImages_main_id_fk + "=(SELECT " + colImgMainID + " FROM " + imgMainTable + " WHERE " + colImgName + "=" + colImgMainName + ")";
+        sqLiteDatabase.execSQL(sqlStr);
+
+        sqlStr = "UPDATE " + imgMainTable + " SET " + colImages_main_id_key + "=" + colImgMainID;
+        sqLiteDatabase.execSQL(sqlStr);
+
+ */
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+passTable);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+imgTable);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+notesTable);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + passTable);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + imgTable);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + notesTable);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + imgMainTable);
         altertable(sqLiteDatabase);
         updateWholeDB(sqLiteDatabase);
         onCreate(sqLiteDatabase);
@@ -279,11 +404,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //получаем все данные из таблицы изображений
     public Cursor getAllImg()
     {
+        //getAllImgTree();
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cur=db.rawQuery("SELECT * from " + imgTable + " ORDER BY _id", new String[]{});
+        //!!!!!!порядок и названия столбцов в SELECT должен совпадать с порядком столбцов в CREATE TABLE для данной таблицы, иначе бэкап не будет работать!!!!!!!
+        //!!!!!!SELECT * не используется потому что нужна функция IFNULL
+        Cursor cur=db.rawQuery("SELECT "
+                + colImgID + ", "
+                + colImgName + ", "
+                + colImgFileName +", "
+                + colImgShortFileName + ", "
+                + colImgSmallFileName + ", "
+                + colImgComment + ", "
+                + colImgDateCreate + ", "
+                + colImgDateChange + ", "
+                + colImgSmall + ", "
+                + colImgIsCrypt + ", "
+                + "IFNULL(" + colImages_main_id_fk + ", 0) AS " + colImages_main_id_fk //чтобы избежать NULL значений, критичных во время бэкапирования
+                + " FROM " + imgTable + " ORDER BY _id", new String[]{});
         cur.moveToFirst();
         return cur;
     }
+
+    //получаем все данные из таблицы изображений
+    public Cursor getAllImagesMain()
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cur=db.rawQuery("SELECT * from " + imgMainTable + " ORDER BY _id", new String[]{});
+        cur.moveToFirst();
+        return cur;
+    }
+
 
     //еще один способ получения всех данных из таблицы
     public Cursor getPassAllData() {
@@ -338,7 +488,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
-    public void insertEditImg(int id, String name, String img, String comment, String shortImg, String smallImg, String dateCreate, String dateChange, String isCrypto){
+    public int insertEditImg(int id, String name, String img, String comment, String shortImg, String smallImg, String dateCreate, String dateChange, String isCrypto, int images_main_id_fk){
         SQLiteDatabase db = this.getWritableDatabase();
         SQLiteDatabase dbr = this.getReadableDatabase();
         String strSQL = "";
@@ -388,7 +538,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (id == 0) {
             strSQL = "INSERT INTO " + imgTable
-                    + " (imgName, imgFileName, imgComment, imgShortFileName, imgSmallFileName, imgDateCreate, imgDateChange, imgSmallFile, isCrypt) VALUES ('"
+                    + " (" + colImgName + ", "
+                    + colImgFileName + ", "
+                    + colImgComment + ", "
+                    + colImgShortFileName + ", "
+                    + colImgSmallFileName + ", "
+                    + colImgDateCreate + ", "
+                    + colImgDateChange + ", "
+                    + colImgSmall + ", "
+                    + colImgIsCrypt + ", "
+                    + colImages_main_id_fk + ") " +
+                    "VALUES ('"
                     + mName + "', '"
                     + mImg + "', '"
                     + mComment +"', '"
@@ -397,20 +557,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + dateCreate + "', '"
                     + dateChange + "', '"
                     + mSmallFile + "', "
-                    + isCrypto + ")";
+                    + isCrypto + ", "
+                    + String.valueOf(images_main_id_fk) + ")";
         }
         else {
-            if (id > 0) {
+            if (id > 0) { //при апдейте colImages_main_id_fk не меняем, т.к. нет необходимости
                 strSQL = "UPDATE " + imgTable
-                        + " SET imgName = '" + mName
-                        + "', imgFileName = '" + mImg
-                        + "', imgShortFileName = '" + mShortImg
-                        + "', imgSmallFileName = '" + mSmallImg
-                        + "', imgComment = '" + mComment
-                        + "', imgDateCreate = '" + dateCreate
-                        + "', imgDateChange = '" + dateChange
-                        + "', imgSmallFile = '" + mSmallFile
-                        + "', isCrypt = " + isCrypto
+                        + " SET " + colImgName + " = '" + mName
+                        + "', " + colImgFileName + " = '" + mImg
+                        + "', " + colImgShortFileName + " = '" + mShortImg
+                        + "', " + colImgSmallFileName + " = '" + mSmallImg
+                        + "', " + colImgComment + " = '" + mComment
+                        + "', " + colImgDateCreate + " = '" + dateCreate
+                        + "', " + colImgDateChange + " = '" + dateChange
+                        + "', " + colImgSmall + " = '" + mSmallFile
+                        + "', " + colImgIsCrypt + " = " + isCrypto
                         + " WHERE _id = " + Integer.toString(id);
             }
             else {
@@ -431,15 +592,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             //сюда надо добавить удаление временных файлов
         };
+
+        //вычисляем ID последней вставленной записи, если был insert
+        if (id == 0) {
+            strSQL = "SELECT max(_id) FROM " + imgTable;
+            Cursor curGetLastID = db.rawQuery(strSQL, new String[]{});
+            curGetLastID.moveToFirst();
+            return curGetLastID.getInt(0);
+        } else return id;
     }
 
-    public void insertPassForRestore(int id, String name, String img, String comment, String shortImg, String smallImg, String dateCreate, String dateChange, String fileSmall, String isCrypto){
+    public void insertImgForRestore(int id, String name, String img, String comment, String shortImg,
+                                    String smallImg, String dateCreate, String dateChange,
+                                    String fileSmall, String isCrypto, String main_fk){
         SQLiteDatabase db=this.getWritableDatabase();
         String strSQL = "";
 
         DbBitmapUtility dbu = new DbBitmapUtility();
 
-        String mName, mImg, mComment, mShortImg, mSmallImg, mSmallFile;
+        String mName, mImg, mComment, mShortImg, mSmallImg, mSmallFile, mMain_FK;
         if (fileSmall.equals("")) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             Bitmap aBmpSmall = BitmapFactory.decodeFile(/*strPathImg*/ smallImg, options);
@@ -455,12 +626,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mComment = comment;
         mShortImg = shortImg;
         mSmallImg = smallImg;
-        //mSmallFile = fileSmall;
+        mMain_FK = main_fk;
 
 
         if (id == 0) {
             strSQL = "INSERT INTO " + imgTable
-                    + " (imgName, imgFileName, imgComment, imgShortFileName, imgSmallFileName, imgDateCreate, imgDateChange, imgSmallFile, isCrypt) VALUES ('"
+                    + " (imgName, imgFileName, imgComment, imgShortFileName, imgSmallFileName, imgDateCreate, imgDateChange, imgSmallFile, isCrypt, images_main_id_fk) VALUES ('"
                     + mName + "', '"
                     + mImg + "', '"
                     + mComment +"', '"
@@ -469,13 +640,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + dateCreate + "', '"
                     + dateChange + "', '"
                     + mSmallFile + "', "
-                    + isCrypto + ")";
+                    + isCrypto + ", "
+                    + mMain_FK + ")";
         }
         if (db != null & !strSQL.equals("")) {
             db.execSQL(strSQL);
         };
     }
 
+    public void insertImgMainForRestore(int id, String name, String comment, String dateCreate, String dateChange, String isCrypto, String mainKey){
+        SQLiteDatabase db=this.getWritableDatabase();
+        String strSQL = "";
+
+        DbBitmapUtility dbu = new DbBitmapUtility();
+
+        if (id == 0) {
+            strSQL = "INSERT INTO " + imgMainTable
+                    + " ("
+                    + colImgMainName + ", "
+                    + colImgMainComment + ", "
+                    + colImgMainDateCreate + ", "
+                    + colImgMainDateChange + ", "
+                    + colImgMainIsCrypt + ", "
+                    + colImages_main_id_key + ") "
+                    + "VALUES ('"
+                    + name + "', '"
+                    + comment +"', '"
+                    + dateCreate + "', '"
+                    + dateChange + "', "
+                    + isCrypto + ", "
+                    + mainKey + ")";
+        }
+        if (db != null & !strSQL.equals("")) {
+            db.execSQL(strSQL);
+        };
+    }
 
     public void addRec() {
         ContentValues cv = new ContentValues();
@@ -487,27 +686,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(passTable, null, cv);
     }
 
-    public void addRecImg() {
-        ContentValues cv = new ContentValues();
-        cv.put(colImgName, "Почта mail.ru");
-        cv.put(colImgFileName, "");
-        cv.put(colImgShortFileName, "");
-        cv.put(colImgComment, "сайт mail.ru");
-        SQLiteDatabase db=this.getWritableDatabase();
-        db.insert(imgTable, null, cv);
-    }
-
     public String backup_DB_pass(){
-        File sd = Environment.getExternalStorageDirectory();
-        String path = sd + "/" + dbName + ".xml";
+        if ((ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &
+                (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)){
+            File sd = Environment.getExternalStorageDirectory();
+            String path = sd + "/" + dbName + ".xml";
+        } else {
+            SnackbarHelper.showW(mContext, viewForSnackbar, mContext.getString(R.string.message_permissions_not_granted));
+            //new AlertDialog.Builder(mContext) .setMessage(mContext.getString(R.string.message_permissions_not_granted))
+            //        .setIcon(android.R.drawable.ic_dialog_alert)
+            //        .setPositiveButton(android.R.string.ok, null) .show();
+            return "";
+        }
+        //SecretHelper sh = new SecretHelper();
 
         Cursor aCur = getAllPass();
-        String aStr = "";
+        String aStr;
+        //формируем базовый блок информации пока только из одного пункта и одного поля
+        aStr = "<base>\n" + EncodeDecodeStr(CHECK_RECORD_FOR_BACKUP, CRYPTO_ENCODE).replace("\n", strEndRow).replace("\t", strTab) + "\n<endbase/>\n<pass>\n";
+
         String tmpStr = "";
         int aInt = 0, rowCounter = 0;
 
         //сначала пароли
-        aStr = "<pass>" + "\n";
+        //aStr = aStr + "<pass>" + "\n";
         aCur.moveToFirst();
         //while (!aCur.isLast()) { делаем через счетчик строк, потому что если запись одна, то курсор уже стоит в конце и цикл while не выполняется
         for (rowCounter =0; rowCounter < aCur.getCount(); rowCounter++){
@@ -527,7 +729,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             aCur.moveToNext();
         }
         aCur.close();
-
+        aStr = aStr + "<endpass/>";
+/*
         //заметки
         Cursor bCur = getAllNotes();
         aStr = aStr + "<endpass/>\n<notes>\n";
@@ -552,11 +755,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         bCur.close();
 
         //изборажения
-        //заметки
         Cursor cCur = getAllImg();
         aStr = aStr + "<endnotes/>\n<images>\n";
         cCur.moveToFirst();
-//        while (!сCur.isLast()) { делаем через счетчик строк, потому что если запись одна, то курсор уже стоит в конце и цикли while не выполняется
+//        while (!сCur.isLast()) { делаем через счетчик строк, потому что если запись одна, то курсор уже стоит в конце и цикл while не выполняется
         for (rowCounter =0; rowCounter < cCur.getCount(); rowCounter++){
             for (aInt = 0; aInt < cCur.getColumnCount(); aInt++) {
                 if (aInt == 0) {
@@ -566,7 +768,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
                 else {
                     tmpStr = cCur.getString(aInt).replace("\n", strEndRow).replace("\t", strTab);
-                    if (tmpStr.equals("")) {tmpStr = " ";}
+                    if (tmpStr.equals("") & (!cCur.getColumnName(aInt).equals(colImages_main_id_fk))) {
+                        tmpStr = " ";
+                    } else if (tmpStr.equals("") & cCur.getColumnName(aInt).equals(colImages_main_id_fk)) {
+                        tmpStr = "0";
+                    }
                     aStr = aStr + "\t" + tmpStr;
                 }
             }
@@ -574,7 +780,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cCur.moveToNext();
         }
         cCur.close();
-        aStr = aStr + "<endimages/>";
+        //aStr = aStr + "<endimages/>";
+
+        //группы изборажений
+        Cursor dCur = getAllImagesMain();
+        aStr = aStr + "<endimages/>\n<images_main>\n";
+        dCur.moveToFirst();
+//        while (!сCur.isLast()) { делаем через счетчик строк, потому что если запись одна, то курсор уже стоит в конце и цикл while не выполняется
+        for (rowCounter = 0; rowCounter < dCur.getCount(); rowCounter++){
+            for (aInt = 0; aInt < dCur.getColumnCount(); aInt++) {
+                if (aInt == 0) {
+                    tmpStr =  dCur.getString(aInt).replace("\n", strEndRow).replace("\t", strTab);
+                    if (tmpStr.equals("")) {tmpStr = " ";}
+                    aStr = aStr + tmpStr;
+                }
+                else {
+                    tmpStr = dCur.getString(aInt).replace("\n", strEndRow).replace("\t", strTab);
+                    if (tmpStr.equals("")) {tmpStr = " ";}
+                    aStr = aStr + "\t" + tmpStr;
+                }
+            }
+            aStr = aStr + "\n";
+            dCur.moveToNext();
+        }
+        dCur.close();
+        aStr = aStr + "<endimages_main/>";
+*/
         //DatabaseDump databaseDump = new DatabaseDump(this.getReadableDatabase(), this.getWritableDatabase().getPath());
         //databaseDump.exportData();
         return aStr;
@@ -590,6 +821,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();
         String strSQL = "DELETE FROM " + imgTable;
         db.execSQL(strSQL);
+        strSQL = "DELETE FROM " + imgMainTable;
+        db.execSQL(strSQL);
         deleteUnUsedFiles();
     }
 
@@ -598,6 +831,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String strSQL = "DELETE FROM " + notesTable;
         db.execSQL(strSQL);
     }
+
+    public void deleteImagesMainAll(){
+        SQLiteDatabase db=this.getWritableDatabase();
+        String strSQL = "DELETE FROM " + imgMainTable;
+        db.execSQL(strSQL);
+    }
+
 
     //получаем фильтрованные данные из таблицы изображений
     public Cursor getAllImgWhere(String columnName, String strWhere){
@@ -793,16 +1033,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cur;
         if (favValue == whereFav) {
-                cur = db.rawQuery("SELECT * " + "from " + passTable + " WHERE passFavorite = " + Integer.toString(favValue) + " ORDER BY _id", new String[]{});
-            } else {
-                cur = db.rawQuery("SELECT * " + "from " + passTable + " ORDER BY _id", new String[]{});
-            }
+            cur = db.rawQuery("SELECT * " + "from " + passTable + " WHERE passFavorite = " + Integer.toString(favValue) + " ORDER BY _id", new String[]{});
+        } else {
+            cur = db.rawQuery("SELECT * " + "from " + passTable + " ORDER BY _id", new String[]{});
+        }
         cur.moveToFirst();
         return cur;
     }
 
-    public Cursor getAllPassFavWhere(int sortBy, int favValue, String searchText)
-    {
+    public Cursor getAllPassFavWhere(int sortBy, int favValue, String searchText) {
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cur;
         if (sortBy == sortAsc) {
@@ -871,10 +1110,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         commentStr = comment;
 
         strSQL = "INSERT INTO " + passTable + " (passName, passLogin, passPass, passComment, passFavorite, passDateCreate, passDateChange, isCrypt) " +
-                    "VALUES ('" + nameStr + "', '"
-                    + loginStr + "', '"
-                    + passStr + "', '"
-                    + commentStr +"', " + fav +", '" + dateCreate +"', '" + dateChange + "', " + isCrypto +")";
+                "VALUES ('" + nameStr + "', '"
+                + loginStr + "', '"
+                + passStr + "', '"
+                + commentStr +"', " + fav +", '" + dateCreate +"', '" + dateChange + "', " + isCrypto +")";
 
         if (db != null & !strSQL.equals("")) {
             db.execSQL(strSQL);
@@ -886,8 +1125,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();
         String strSQL = "";
         strSQL = "INSERT INTO " + notesTable
-                        + " (notesNoteName, notesDateCreate, notesDateChange, isCrypt) VALUES ('"
-                        + notesNotes + "','" + noteDateCreate + "', '" + noteDateChange + "', " + isCrypto + ")";
+                + " (notesNoteName, notesDateCreate, notesDateChange, isCrypt) VALUES ('"
+                + notesNotes + "','" + noteDateCreate + "', '" + noteDateChange + "', " + isCrypto + ")";
 
         if (db != null & !strSQL.equals("")) {
             db.execSQL(strSQL);
@@ -900,7 +1139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Вся перекодировка делается здесь, без вызова стандартных функций INSERT/UPDATE потому что глобально парлль еще не поменян.
         SQLiteDatabase db=this.getWritableDatabase();
         String strSQL = "";
-        Cursor passCur, notesCur, imgCur;
+        Cursor passCur, notesCur, imgCur, imgMainCur;
         boolean succesTransaction = false;
         SecretHelper sh;
         sh = new SecretHelper();
@@ -913,6 +1152,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         imgCur = db.rawQuery("SELECT * FROM images WHERE isCrypt = 1", new String[]{});
         imgCur.moveToFirst();
+
+        imgMainCur = db.rawQuery("SELECT * FROM images_main WHERE isCrypt = 1", new String[]{});
+        imgMainCur.moveToFirst();
+
         db.beginTransaction();
         try {
             //Код по update таблиц
@@ -935,6 +1178,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL(strSQL);
 
                 notesCur.moveToNext();
+            }
+
+            while (!imgMainCur.isAfterLast()){
+                strSQL = "UPDATE " + imgMainTable + " SET "
+                        + colImgMainName + " = '" + sh.EncodeStr(sh.DecodeStr(imgMainCur.getString(1), oldPass), newPass) + "', "
+                        + colImgMainComment + " = '" + sh.EncodeStr(sh.DecodeStr(imgMainCur.getString(2), oldPass), newPass) + "' "
+                        + " WHERE " + colImgMainID + " = " + imgMainCur.getString(0);
+                db.execSQL(strSQL);
+
+                imgMainCur.moveToNext();
             }
 
             boolean isDecode = true;
@@ -999,6 +1252,157 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 mContext.deleteFile(whereStr);
             }
         }
+    }
+
+    public int insertEditMainImages(int id, String imgMainName, String imgMainComment, String imgMainDateCreate, String imgMainDateChange, String isCrypto, int images_main_id){
+        SQLiteDatabase db=this.getWritableDatabase();
+        String strSQL = "";
+        String nameStr, commentStr;
+        int newKey = -1;
+
+        //проверяем, если надо шифровать, шифруем, в противном случае оставляем тектс открытым
+        if (isCrypto.equals("1")){
+            nameStr = EncodeDecodeStr(imgMainName, CRYPTO_ENCODE);
+            commentStr = EncodeDecodeStr(imgMainComment, CRYPTO_ENCODE);
+        } else {
+            nameStr = imgMainName;
+            commentStr = imgMainComment;
+        }
+
+        if (id == 0) {
+            strSQL = "INSERT INTO " + imgMainTable + " ("
+                    + colImgMainName + ", "
+                    + colImgMainComment + ", "
+                    + colImgMainDateCreate + ", "
+                    + colImgMainDateChange + ", "
+                    + colImgMainIsCrypt + ", "
+                    + colImages_main_id_key + ") " +
+                    "VALUES ('" + nameStr + "', '"
+                    + commentStr +"', '"
+                    + imgMainDateCreate +"', '"
+                    + imgMainDateChange + "', "
+                    + isCrypto + ", "
+                    + images_main_id + ")";
+        }
+        else {
+            if (id > 0) {
+                strSQL = "UPDATE " + imgMainTable + " SET " + colImgMainName + " = '" + nameStr
+                        + "', " + colImgMainComment + "= '" + commentStr
+                        + "', " + colImgMainDateCreate + "= '" + imgMainDateCreate
+                        + "', " + colImgMainDateChange + "= '" + imgMainDateChange
+                        + "', " + colImgMainIsCrypt + "= " + isCrypto
+                        //+ ", " + colImages_main_id_key + "=" + String.valueOf(colImages_main_id_key) //при апдейте ключ не меняем
+                        + " WHERE _id = " + id;
+            }
+            else {
+                if (id < 0){
+                    strSQL = "DELETE FROM " + imgMainTable + " WHERE " + colImgMainID + "="  + String.valueOf(id) + " * (-1)";
+                }
+            }
+        }
+        if (db != null & !strSQL.equals("")) {
+            db.execSQL(strSQL);
+        };
+
+        if (id == 0) {
+            //вычисляем ID последней вставленной записи, если был insert
+            strSQL = "SELECT max(" + colImages_main_id_key +") FROM " + imgMainTable;
+            Cursor curGetLastID = db.rawQuery(strSQL, new String[]{});
+            curGetLastID.moveToFirst();
+            newKey = curGetLastID.getInt(0);
+            newKey = newKey + 1;
+            strSQL = "UPDATE " + imgMainTable + " SET " + colImages_main_id_key + "=" + String.valueOf(newKey)
+                    + " WHERE " + colImages_main_id_key + " IS NULL OR " + colImages_main_id_key + "=-1 OR " + colImages_main_id_key + "=0";
+
+            if (db != null & !strSQL.equals("")) {
+                db.execSQL(strSQL);
+            };
+            //return newKey = curGetLastID.getInt(0);
+        }
+
+        return newKey;
+    }
+
+    public Cursor getAllImgTree(){
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        String strSelect = "SELECT "
+                + colImgMainID + " AS _id_main, "
+                + colImgMainName + ", "
+                + colImgMainComment + ", "
+                + colImgMainDateCreate + ", "
+                + colImgMainDateChange + ", "
+                + colImgMainIsCrypt + " AS " + colImgMainIsCrypt + "_main, "
+                + colImages_main_id_key + ", "
+
+                + "0 AS " + colImgID + ", "
+                + "'' AS " + colImgName + ", "
+                + "'' AS " + colImgFileName + ", "
+                + "'' AS " + colImgShortFileName + ", "
+                + "'' AS " + colImgSmallFileName + ", "
+                + "'' AS " + colImgComment + ", "
+                + "'' AS " + colImgDateCreate + ", "
+                + "'' AS " + colImgDateChange + ", "
+                + "'' AS " + colImgSmall + ", "
+                + "'' AS " + colImgIsCrypt + ", "
+                + colImages_main_id_key + " AS " + colImages_main_id_fk + ", "
+                + " CAST(" + colImages_main_id_key + " AS TEXT) AS part_full_key"
+                + " from " + imgMainTable
+                + " UNION ALL "
+                + "SELECT "
+                + "0 AS " + colImgMainID + "_main, "
+                + "'' AS " + colImgMainName + ", "
+                + "'' AS " + colImgMainComment + ", "
+                + "'' AS " + colImgMainDateCreate + ", "
+                + "'' AS " + colImgMainDateChange + ", "
+                + "0 AS " + colImgMainIsCrypt + "_main, "
+                + colImages_main_id_fk + " AS " + colImages_main_id_key + ", "
+                //
+                + colImgID + ", "
+                + colImgName + ", "
+                + colImgFileName + ", "
+                + colImgShortFileName + ", "
+                + colImgSmallFileName + ", "
+                + colImgComment + ", "
+                + colImgDateCreate + ", "
+                + colImgDateChange + ", "
+                + colImgSmall + ", "
+                + colImgIsCrypt + ", "
+                + colImages_main_id_fk + " AS " + colImages_main_id_fk + ", "
+                + "'Z' AS part_full_key"
+                + " FROM " + imgTable
+                + " WHERE " + colImages_main_id_fk + "<=0 OR " + colImages_main_id_fk + " IS NULL"
+                + " UNION ALL "
+                + "SELECT "
+                + "0 AS " + colImgMainID + "_main, "
+                + "'' AS " + colImgMainName + ", "
+                + "'' AS " + colImgMainComment + ", "
+                + "'' AS " + colImgMainDateCreate + ", "
+                + "'' AS " + colImgMainDateChange + ", "
+                + "0 AS " + colImgMainIsCrypt + "_main, "
+                + colImages_main_id_fk + " AS " + colImages_main_id_key + ", "
+                //
+                + colImgID + ", "
+                + colImgName + ", "
+                + colImgFileName + ", "
+                + colImgShortFileName + ", "
+                + colImgSmallFileName + ", "
+                + colImgComment + ", "
+                + colImgDateCreate + ", "
+                + colImgDateChange + ", "
+                + colImgSmall + ", "
+                + colImgIsCrypt + ", "
+                + colImages_main_id_fk + " AS " + colImages_main_id_fk + ", "
+                + "(CAST(" + colImages_main_id_fk + " AS TEXT) || '.' || CAST(" + colImgID + " AS TEXT)) AS part_full_key"
+                + " FROM " + imgTable
+                + " WHERE " + colImages_main_id_fk + ">0"
+                + " ORDER BY part_full_key";
+        Cursor cur=db.rawQuery(strSelect, new String[]{});
+        cur.moveToFirst();
+        while (!cur.isAfterLast()){
+            cur.moveToNext();
+        }
+        return cur;
     }
 
 }

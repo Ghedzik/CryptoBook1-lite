@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.shinkaryuk.passbook">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".passApp"
         android:allowBackup="true"
@@ -48,6 +51,7 @@
         <activity
             android:name=".settings"
             android:screenOrientation="portrait"
+            android:label="@string/title_activity_settings"
             android:theme="@style/AppDarkTheme.NoActionBar" />
         <activity
             android:name=".changeMainPasswd"

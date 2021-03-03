@@ -1,5 +1,6 @@
 package com.shinkaryuk.passbook;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -112,6 +113,7 @@ public class settings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuBack:
+                setResult(RESULT_OK);
                 finish();
                 return true;
         }
@@ -258,6 +260,9 @@ public class settings extends AppCompatActivity {
             Log.d(LOG_TAG, "SD-карта не доступна: " + Environment.getExternalStorageState());
             return;
         }
+        if (aStrTable.equals("")) {
+            return;
+        }
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File backup_File = getBackupStorageDir(this, "Backup_PassBook/backup_" + timeStamp);
 
@@ -278,7 +283,8 @@ public class settings extends AppCompatActivity {
         }
 
         //копируем все файлы с изображениями
-        backupFilesImg(backup_File);
+        //в lite версии не нужно копировать изображения
+        //backupFilesImg(backup_File); в lite версии не нужно копировать изображения
         SnackbarHelper.show(this, sbLenghtPass,getResources().getString(R.string.message_file_create_successfully1) + sdFile.getAbsolutePath()
                 + getResources().getString(R.string.message_file_create_successfully2));
     }
@@ -314,6 +320,7 @@ public class settings extends AppCompatActivity {
             String imgName, imgFileName, imgShortFileName, imgSmallFileName, imgComment, imgDateCreate, imgDateChange, imgSmallFile, imgLargeFile, imgCrypto;
 
             String blockTag = "";
+            String controlWord = "";
             // читаем содержимое
             while ((aStr = br.readLine()) != null) {
                 if (aStr.equals("<pass>") || aStr.equals("<notes>") || aStr.equals("<images>")) {
@@ -321,6 +328,26 @@ public class settings extends AppCompatActivity {
                 }
 
                 switch (blockTag) {
+                    case "<base>":
+                        while (((aStr = br.readLine()) != null) && (!aStr.equals("<endbase/>"))) {
+                            if (!aStr.equals("")) {
+                                countCols = getCountCols(aStr,"\t");
+
+                                aFields = aStr.split("\t");
+                                controlWord = aFields[0].replace(passDB.strEndRow, "\n").replace(passDB.strTab, "\t");
+                                if (!passDB.EncodeDecodeStr(controlWord, passDB.CRYPTO_DECODE).equals(passDB.CHECK_RECORD_FOR_BACKUP)) {
+                                    new AlertDialog.Builder(this) .setMessage(getResources().getString(R.string.message_not_possible_restore_backup))
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setPositiveButton(android.R.string.ok, null) .show();
+                                    aFR.close();
+                                    br.close();
+                                    return;
+                                };
+
+                            }
+                        }
+                        break;
+
                     case "<pass>":
                         passDB.deletePassAll();
 
@@ -348,7 +375,7 @@ public class settings extends AppCompatActivity {
                             }
                         }
                         break;
-
+/*
                     case "<notes>":
                         passDB.deleteNotesAll();
                         while (((aStr = br.readLine()) != null) && (!aStr.equals("<endnotes/>"))) {
@@ -372,6 +399,9 @@ public class settings extends AppCompatActivity {
                         }
                         break;
 
+ */
+
+/*
                     case "<images>":
                         passDB.deleteImgAll();
                         onClickClearFiles(null);
@@ -406,6 +436,8 @@ public class settings extends AppCompatActivity {
                         }
                         //restoreFilesImg(new File(sdFile.getParent()));
                         break;
+
+ */
                 }
             }
 //            Toast.makeText(this, restoreStr, Toast.LENGTH_LONG).show();

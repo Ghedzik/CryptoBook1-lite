@@ -167,6 +167,8 @@
     <string name="message_if_forgot_pass">Warning!!! If you will forgot your password of this application, then you will cannot restore data.</string>
     <string name="message_if_successfully_pass">Successfully!</string>
     <string name="message_lite_version">Download full version to add a new password!</string>
+    <string name="message_not_possible_restore_backup">The backup was encoded with another password, the restore is not possible! Change the password and try again.</string>
+    <string name="message_permissions_not_granted">Permission for read and write data to file system not granted!</string>
 
     <!--Наименования пунктов menu_main-->
     <string name="favorites_menu_main">Favorites</string>
