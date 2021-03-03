@@ -16,6 +16,8 @@
         android:roundIcon="@drawable/crypto_book_ic_rounded_3"
         android:supportsRtl="true"
         android:theme="@style/AppDarkTheme"
+        android:fullBackupContent="true"
+        android:appCategory="productivity"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
