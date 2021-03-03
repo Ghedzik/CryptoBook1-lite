@@ -17,8 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
+        android:contentDescription="@string/app_name"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/pass_book_li_7_w" />
+        app:srcCompat="@mipmap/crypto_book_rounded_3" />
 
     <TextView
         android:layout_width="261dp"

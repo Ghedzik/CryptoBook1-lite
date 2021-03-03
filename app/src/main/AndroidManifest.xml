@@ -11,9 +11,9 @@
     <application
         android:name=".passApp"
         android:allowBackup="true"
-        android:icon="@mipmap/pass_book_li_7_w"
+        android:icon="@drawable/crypto_book_ic_3"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/pass_book_li_7_w"
+        android:roundIcon="@drawable/crypto_book_ic_rounded_3"
         android:supportsRtl="true"
         android:theme="@style/AppDarkTheme"
         tools:ignore="GoogleAppIndexingWarning">
