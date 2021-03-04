@@ -1,13 +1,17 @@
 package com.shinkaryuk.passbook;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -228,15 +232,11 @@ public class settings extends AppCompatActivity {
     }
 
     /* Проверяет, доступно ли external storage как минимум для чтения */
-    public boolean isExternalStorageReadable()
-    {
+    public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-        {
-            return true;
-        }
-        return false;
+        return (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) &
+                (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
     //создание каталога для записи бэкапа корне внешнего хранилища
@@ -315,16 +315,23 @@ public class settings extends AppCompatActivity {
             String passNameFld, passLoginFld, passPassFld, passCommentFld, passFavorites, passDateCreate, passDateChange, isCrypt;
             String aFields[];
 
-            String notesName, notesDateCreate, notesDateChange, notesCrypto;
+//            String notesName, notesDateCreate, notesDateChange, notesCrypto;
 
-            String imgName, imgFileName, imgShortFileName, imgSmallFileName, imgComment, imgDateCreate, imgDateChange, imgSmallFile, imgLargeFile, imgCrypto;
+//            String imgName, imgFileName, imgShortFileName, imgSmallFileName, imgComment, imgDateCreate, imgDateChange, imgSmallFile, imgLargeFile, imgCrypto;
+
+            boolean baseExist = false;
 
             String blockTag = "";
             String controlWord = "";
+
+
             // читаем содержимое
             while ((aStr = br.readLine()) != null) {
-                if (aStr.equals("<pass>") || aStr.equals("<notes>") || aStr.equals("<images>")) {
+                if (aStr.equals("<pass>") || aStr.equals("<notes>") || aStr.equals("<images>") || aStr.equals("<images_main>") || aStr.equals("<base>")) {
                     blockTag = aStr;
+                    if (blockTag.equals("<base>")) {
+                        baseExist = true;
+                    }
                 }
 
                 switch (blockTag) {
@@ -338,6 +345,7 @@ public class settings extends AppCompatActivity {
                                 if (!passDB.EncodeDecodeStr(controlWord, passDB.CRYPTO_DECODE).equals(passDB.CHECK_RECORD_FOR_BACKUP)) {
                                     new AlertDialog.Builder(this) .setMessage(getResources().getString(R.string.message_not_possible_restore_backup))
                                             .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setCancelable(false)
                                             .setPositiveButton(android.R.string.ok, null) .show();
                                     aFR.close();
                                     br.close();
@@ -349,6 +357,12 @@ public class settings extends AppCompatActivity {
                         break;
 
                     case "<pass>":
+                        if (!baseExist)
+                            new AlertDialog.Builder(this) .setMessage(getResources().getString(R.string.alert_restore_backup))
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .setCancelable(false)
+                                    .setPositiveButton(android.R.string.ok, null) .show();
+
                         passDB.deletePassAll();
 
                         while (((aStr = br.readLine()) != null) && (!aStr.equals("<endpass/>"))) {
@@ -451,7 +465,7 @@ public class settings extends AppCompatActivity {
         }
 
         //deleteAllFiles();
-        restoreFilesImg(new File(sdFile.getParent()));
+        //restoreFilesImg(new File(sdFile.getParent()));
     }
 
     public void onClickChangePasswd(View v){

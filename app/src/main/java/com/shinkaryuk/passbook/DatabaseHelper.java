@@ -1147,6 +1147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         passCur = db.rawQuery("SELECT * FROM pass WHERE isCrypt = 1", new String[]{});
         passCur.moveToFirst();
 
+/* для lite версии нам не нужно менять что-либо в других таблицах
         notesCur = db.rawQuery("SELECT * FROM notes WHERE isCrypt = 1", new String[]{});
         notesCur.moveToFirst();
 
@@ -1155,6 +1156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         imgMainCur = db.rawQuery("SELECT * FROM images_main WHERE isCrypt = 1", new String[]{});
         imgMainCur.moveToFirst();
+
+ */
 
         db.beginTransaction();
         try {
@@ -1171,6 +1174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 passCur.moveToNext();
             }
 
+/* для lite версии нам не нужно менять что-либо в других таблицах
             while (!notesCur.isAfterLast()){
                 strSQL = "UPDATE notes SET "
                         + "notesNoteName = '" + sh.EncodeStr(sh.DecodeStr(notesCur.getString(1), oldPass), newPass) + "'"
@@ -1206,10 +1210,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL(strSQL);
                 imgCur.moveToNext();
             }
+
+ */
+/* для lite версии нам не нужно менять что-либо в других таблицах
             if (isDecode && isEncode) {
+
+ */
                 db.setTransactionSuccessful();
                 succesTransaction = true;
+/* для lite версии нам не нужно менять что-либо в других таблицах
             }
+
+ */
         }
         finally {
             db.endTransaction();

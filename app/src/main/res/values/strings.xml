@@ -97,7 +97,7 @@
 
 
             \t\tThis application save passwords and its information.
-            Lite version saves only 7 passwords. For more download full version app.
+            Lite version saves only 10 passwords. For more download full version app.
             The app does not have network tools. It does not send information to network, cloud and any open network services.\n
             \t\tAll data endocde with AES 265 default.
             You may to create backup or restore data using your password.
@@ -114,9 +114,9 @@
             2017\n\n
 
             \t\tThis application save passwords and its information.
-            Lite version save only 7 passwords. For more download full version app.
+            Lite version save only 10 passwords. For more download full version app.
             The app does not have network tools. It does not send information to network, to cloud and to any open network services.\n
-            \t\tAll data endocde with AES 265 default.
+            \t\tAll data encode with AES 265 default.
             You may to create backup or restore data using your password.
             Your data under reliable protected!\n\n
 
@@ -136,6 +136,10 @@
     <string name="alert_delete">Delete!</string>
     <string name="alert_do_delete">Delete </string>
     <string name="alert_record_deleted">Item deleted!</string>
+    <string name="alert_restore_backup">This backup was probably encrypted with different password! But I wiil try…</string>
+    <string name="alert_restore_title">Restore backup</string>
+
+
 
 <!--Сообщения для Toast и Snackbar-->
     <string name="message_file_not_found">File not found!</string>

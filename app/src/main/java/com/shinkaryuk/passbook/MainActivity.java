@@ -216,14 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Нажатие на fabAddPass
     public void onClickShowDlgAddPass(View v) {
-        showDlgAddPass();
-    }
-
-    //Вызов диалога по созданию новой записи
-    public void showDlgAddPass() {
-        showHideMiniFabs();
-/*
-*/
+        onClickMiniFAB(v);
     }
 
     @Override
@@ -310,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void ShowAbout() {
-        new AlertDialog.Builder(this) .setMessage(R.string.about_message) .setPositiveButton(android.R.string.ok, null) .show();
+        SnackbarHelper.showAbout(this);
         isDialogMode = true;
     }
 
@@ -362,162 +355,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void onClickMiniFAB(View v){
-
-        switch (v.getId()) {
-            case R.id.fab_1:
-                //Toast.makeText(this, "FAB1", Toast.LENGTH_LONG).show();
-                //для лайт версии если паролей больше 7 то ничего не делаем, но предупреждаем
-                if (getCountPass() >= 7) {
-                    showHideMiniFabs();
-                    SnackbarHelper.showW(this, recyclerView,getResources().getString(R.string.message_lite_version));
-                    return;
-                }
-                if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
-                    Intent intent = new Intent(MainActivity.this, addEditPass.class);
-
-                    intent.putExtra("idPass", "0");
-                    intent.putExtra("namePass", "");
-                    intent.putExtra("loginPass", "");
-                    intent.putExtra("passPass", "");
-                    intent.putExtra("commentPass", "");
-                    intent.putExtra("dateCreatePass", "");
-                    intent.putExtra("dateChangePass", "");
-                    intent.putExtra("isCryptoPass", "");
-
-                    isDialogMode = true;
-                    startActivityForResult(intent, PASS_NEW);
-                    //showHideMiniFabs();
-                } else {
-                    ((ArrayDataSourcePass) recyclerView.getAdapter()).addNewEmptyItem(v);
-                    recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
-                }
-                break;
-
-            //для лайт версии только пароли
-            /*
-            case R.id.fab_2:
-                //Toast.makeText(this, "FAB2", Toast.LENGTH_LONG).show();
-                Intent intentImgDlg = new Intent(this, addEditImage.class);
-
-                intentImgDlg.putExtra("idImg", "0");
-                intentImgDlg.putExtra("nameImg", "");
-                intentImgDlg.putExtra("pathImg", "");
-                intentImgDlg.putExtra("commentImg", "");
-                intentImgDlg.putExtra("dateCreateImg", "");
-                intentImgDlg.putExtra("dateChangeImg", "");
-                intentImgDlg.putExtra("isCryptoImg", "0");
-
-                isDialogMode = true;
-                startActivityForResult(intentImgDlg, IMG_NEW);
-                //showHideMiniFabs();
-
-                break;
-            case R.id.fab_3:
-                //Toast.makeText(this, "FAB3", Toast.LENGTH_LONG).show();
-
-                if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
-                    Intent intentNoteDlg = new Intent(this, addEditNotes.class);
-
-                    intentNoteDlg.putExtra("idNotes", "0");
-                    intentNoteDlg.putExtra("notesNote", "");
-                    intentNoteDlg.putExtra("dateCreateNote", "");
-                    intentNoteDlg.putExtra("dateChangeNote", "");
-                    intentNoteDlg.putExtra("isCryptoNote", "");
-
-                    isDialogMode = true;
-                    startActivityForResult(intentNoteDlg, NOTES_NEW);
-                    //showHideMiniFabs();
-                } else {
-                    Intent intent = new Intent(MainActivity.this, notesActivity.class);
-                    intent.putExtra("showAndNew", "1");
-                    isDialogMode = false;
-                    startActivity(intent);
-                    finish();
-                }
-                break;
-
-             */
-        }
-
-        showHideMiniFabs();
-    }
-
-    private void showHideMiniFabs(){
-        isShowMiniFabs = !isShowMiniFabs;
+        //isShowMiniFabs = !isShowMiniFabs;
 
         FloatingActionButton fabBase = (FloatingActionButton) findViewById(R.id.fabAddPass_rv);
         Animation fabBaseAnim = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_main_anim);
         fabBase.startAnimation(fabBaseAnim);
-        //fabBase.setBackgroundResource(R.mipmap.ic_minus_black_24dp);
 
-        View.OnClickListener clickFabMini = new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                onClickMiniFAB(v);
-            }
-        };
+        //Toast.makeText(this, "FAB1", Toast.LENGTH_LONG).show();
+        //для лайт версии если паролей больше 7 то ничего не делаем, но предупреждаем
+        if (getCountPass() >= 10) {
 
-
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab_1);
-        fab1.setOnClickListener(clickFabMini);
-        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) fab1.getLayoutParams();
-        fab1.setClickable(true);
-
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_2);
-        fab2.setOnClickListener(clickFabMini);
-        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) fab2.getLayoutParams();
-        fab2.setClickable(true);
-
-        FloatingActionButton fab3 = (FloatingActionButton) findViewById(R.id.fab_3);
-        fab3.setOnClickListener(clickFabMini);
-        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) fab3.getLayoutParams();
-        fab3.setClickable(true);
-
-        if (isShowMiniFabs) {
-            fabBase.setImageResource(R.mipmap.ic_minus_black_24dp);
-            fabBase.setBackgroundColor(getResources().getColor(R.color.сolorFABDown));
-
-            Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
-            layoutParams1.rightMargin += (int) (fab1.getWidth() * 1.7);
-            layoutParams1.bottomMargin += (int) (fab1.getHeight() * 0.25);
-            fab1.setLayoutParams(layoutParams1);
-            fab1.startAnimation(show_fab_1);
-
-            //В версии лайт есть только пароли
-            /*Animation show_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
-            layoutParams2.rightMargin += (int) (fab2.getWidth() * 1.5);
-            layoutParams2.bottomMargin += (int) (fab2.getHeight() * 1.5);
-            fab2.setLayoutParams(layoutParams2);
-            fab2.startAnimation(show_fab_2);
-
-            Animation show_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_show);
-            layoutParams3.rightMargin += (int) (fab3.getWidth() * 0.25);
-            layoutParams3.bottomMargin += (int) (fab3.getHeight() * 1.7);
-            fab3.setLayoutParams(layoutParams3);
-            fab3.startAnimation(show_fab_3);*/
-        } else {
-            fabBase.setImageResource(R.mipmap.ic_add_black_24dp);
-            fabBase.setBackgroundColor(getResources().getColor(R.color.сolorTextBlack));
-
-            Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
-            layoutParams1.rightMargin += (int) (fab1.getWidth() * -1.7);
-            layoutParams1.bottomMargin += (int) (fab1.getHeight() * -0.25);
-            fab1.setLayoutParams(layoutParams1);
-            fab1.startAnimation(hide_fab_1);
-
-            //в версии лайт есть только пароли
-            /*Animation hide_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
-            layoutParams2.rightMargin += (int) (fab2.getWidth() * -1.5);
-            layoutParams2.bottomMargin += (int) (fab2.getHeight() * -1.5);
-            fab2.setLayoutParams(layoutParams2);
-            fab2.startAnimation(hide_fab_2);
-
-            Animation hide_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_hide);
-            layoutParams3.rightMargin += (int) (fab3.getWidth() * -0.25);
-            layoutParams3.bottomMargin += (int) (fab3.getHeight() * -1.7);
-            fab3.setLayoutParams(layoutParams3);
-            fab3.startAnimation(hide_fab_3);*/
+            //showHideMiniFabs();
+            SnackbarHelper.showW(this, recyclerView,getResources().getString(R.string.message_lite_version));
+            return;
         }
+        if (mRegUtils.getHowEdit() == RegUtils.EDIT_IN_WINDOW) {
+            Intent intent = new Intent(MainActivity.this, addEditPass.class);
+
+            intent.putExtra("idPass", "0");
+            intent.putExtra("namePass", "");
+            intent.putExtra("loginPass", "");
+            intent.putExtra("passPass", "");
+            intent.putExtra("commentPass", "");
+            intent.putExtra("dateCreatePass", "");
+            intent.putExtra("dateChangePass", "");
+            intent.putExtra("isCryptoPass", "");
+
+            isDialogMode = true;
+            startActivityForResult(intent, PASS_NEW);
+            //showHideMiniFabs();
+        } else {
+            ((ArrayDataSourcePass) recyclerView.getAdapter()).addNewEmptyItem(v);
+            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+        }
+
+        //showHideMiniFabs();
     }
 
     public void ShowTestActivity() {
