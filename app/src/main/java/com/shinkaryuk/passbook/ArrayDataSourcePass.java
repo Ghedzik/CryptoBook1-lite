@@ -92,6 +92,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
 
 //    @NonNull
     private List<pass> fillPassArray(){
+        DateTimeHelper dth = new DateTimeHelper();
         String strSearch = ((passApp)mContext.getApplicationContext()).getSearchStr();
         int showFav = ((passApp)mContext.getApplicationContext()).getShowFavorites();
         strPswd = ((passApp)mContext.getApplicationContext()).getPass();//обновляем
@@ -124,8 +125,8 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
                                 sh.DecodeStr(cursor.getString(cursor.getColumnIndex("passPass")), strPswd),
                                 sh.DecodeStr(cursor.getString(cursor.getColumnIndex("passComment")), strPswd),
                                 cursor.getString(cursor.getColumnIndex("passFavorite")),
-                                cursor.getString(cursor.getColumnIndex("passDateCreate")),
-                                cursor.getString(cursor.getColumnIndex("passDateChange")),
+                                dth.convertNormalDateToSQLite(cursor.getString(cursor.getColumnIndex("passDateCreate"))),
+                                dth.convertNormalDateToSQLite(cursor.getString(cursor.getColumnIndex("passDateChange"))),
                                 cursor.getString(cursor.getColumnIndex("isCrypt")));
                     }
                     //item.setDataPass(cursor); //в методе парсим поля курсора в объект
@@ -346,8 +347,22 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         final pass mItem = mPass.get(position);
         holder.nameView.setText(mItem.getName());
         holder.dateCreate.setText(mItem.getDateCreate());
+        holder.etName.setText(mItem.getName());
+        holder.etLogin.setText(mItem.getLogin());
+        holder.etPass.setText(mItem.getPassword());
+        holder.etComment.setText(mItem.getComment());
+        holder.tvCreate2.setText(mItem.getDateCreate());
+        holder.tvChange2.setText(mItem.getDateChange());
 
         isEditInWindow = (reg.getHowEdit() == RegUtils.EDIT_IN_WINDOW);
+
+        holder.imageFav.setTag(position);
+        holder.btOk.setTag(position);
+        holder.btCancel.setTag(position);
+        holder.btEditInWindow.setTag(position);
+        holder.ivExpandItem.setTag(position);
+        holder.imageCrypt.setTag(position);
+        holder.nameView.setTag(position);
 
         if (mItem.getEditing() == 0) {
             holder.etName.setVisibility(View.GONE);
@@ -449,12 +464,6 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             holder.nameView.setTypeface(null, Typeface.BOLD);
             holder.nameView.setTextColor(Color.WHITE);
         }
-
-        holder.imageFav.setTag(position);
-        holder.btOk.setTag(position);
-        holder.btCancel.setTag(position);
-        holder.btEditInWindow.setTag(position);
-        holder.ivExpandItem.setTag(position);
 
         holder.ibKeyGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -603,7 +612,6 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             }
         });
 
-        holder.imageCrypt.setTag(position);
         holder.imageCrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -623,7 +631,6 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
             }
         });
 
-        holder.nameView.setTag(position);
         if (!strSearch.isEmpty() && !strSearch.equals("")) {
             int aIndex = holder.nameView.getText().toString().toLowerCase().indexOf(strSearch.toLowerCase());
             if (aIndex >= 0){
@@ -634,13 +641,6 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
         } else {
             holder.nameView.setTextColor(mContext.getResources().getColor(R.color.сolorTextBlack, null));
         }
-
-        holder.etName.setText(mItem.getName());
-        holder.etLogin.setText(mItem.getLogin());
-        holder.etPass.setText(mItem.getPassword());
-        holder.etComment.setText(mItem.getComment());
-        holder.tvCreate2.setText(mItem.getDateCreate());
-        holder.tvChange2.setText(mItem.getDateChange());
 
         holder.nameView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -770,7 +770,7 @@ public class ArrayDataSourcePass extends RecyclerView.Adapter<ArrayDataSourcePas
     }
 
     public void AddEditRecord(int id, String name, String login, String pass, String comment, String fav, String dateCreate, String dateChange, String isCrypto){
-        sqliteHelper.insertEditPass(id, name, login, pass, comment, fav, dateCreate, dateChange, isCrypto);
+        sqliteHelper.insertEditPass(id, name, login, pass, comment, fav, "", "", isCrypto);
         refreshData();
     }
 

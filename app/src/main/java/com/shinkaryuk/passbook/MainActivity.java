@@ -233,11 +233,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String aLogin = data.getExtras().getString("loginPassNew");
                     String aPass = data.getExtras().getString("passPassNew");
                     String aComment = data.getExtras().getString("commentPassNew");
-                    String aDateCreate = data.getExtras().getString("dateCreatePassNew");
-                    String aDateChange = data.getExtras().getString("dateChangePassNew");
+ //                   String aDateCreate = data.getExtras().getString("dateCreatePassNew");
+ //                   String aDateChange = data.getExtras().getString("dateChangePassNew");
                     int isCrypt = data.getExtras().getInt("isCryptoPass");
 
-                    ((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", aDateCreate, aDateChange, Integer.toString(isCrypt));
+                    ((ArrayDataSourcePass) recyclerView.getAdapter()).AddEditRecord(0, aName, aLogin, aPass, aComment, "0", "", "", Integer.toString(isCrypt));
                     SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + aName + "'"
                             + getResources().getString(R.string.message_item_save2));
                     //showHideMiniFabs();
@@ -248,11 +248,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String eLogin = data.getExtras().getString("loginPassNew");
                     String ePass = data.getExtras().getString("passPassNew");
                     String eComment = data.getExtras().getString("commentPassNew");
-                    String eDateCreate = data.getExtras().getString("dateCreatePassNew");
-                    String eDateChange = data.getExtras().getString("dateChangePassNew");
+ //                   String eDateCreate = data.getExtras().getString("dateCreatePassNew");
+ //                   String eDateChange = data.getExtras().getString("dateChangePassNew");
                     int isCryptE = data.getExtras().getInt("isCryptoPass");
 
-                    ((ArrayDataSourcePass)recyclerView.getAdapter()).AddEditRecord(a_id, eName, eLogin, ePass, eComment, "", eDateCreate, eDateChange, Integer.toString(isCryptE));
+                    ((ArrayDataSourcePass)recyclerView.getAdapter()).AddEditRecord(a_id, eName, eLogin, ePass, eComment, "", "", "", Integer.toString(isCryptE));
                     SnackbarHelper.show(this, recyclerView,getResources().getString(R.string.message_item_save1) + "'" + eName + "'"
                             + getResources().getString(R.string.message_item_save2));
                     break;

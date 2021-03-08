@@ -155,7 +155,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etLoginPass" />
 
     <TextView
-        android:id="@+id/tvDateCreateNote"
+        android:id="@+id/tvDateCreate"
         android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_marginStart="12dp"
@@ -163,7 +163,7 @@
         android:text="tvDateCreate"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/tvLabelDateCreate"
         app:layout_constraintTop_toBottomOf="@+id/addEditPassToolbar" />
 
     <TextView
@@ -179,7 +179,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addEditPassToolbar" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvLabelDateCreate"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
@@ -190,7 +190,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addEditPassToolbar" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvLabelDateChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -233,7 +233,7 @@
         android:background="@color/сolorPrimaryDarkBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateCreateNote" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDateCreate" />
 
     <View
         android:id="@+id/divider6"

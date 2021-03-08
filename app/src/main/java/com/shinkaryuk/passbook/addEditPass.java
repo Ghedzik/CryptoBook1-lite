@@ -12,12 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
-
-import java.util.Date;
-import java.util.Locale;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class addEditPass extends AppCompatActivity {
     public final static int RESULT_EDIT_OK = 1;
@@ -44,7 +40,7 @@ public class addEditPass extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Button btnDel = (Button) findViewById(R.id.btnDelete);
-        CheckBox cbIsCrypto = (CheckBox) findViewById(R.id.cb_IsCryptPass);
+        CheckBox cbIsCrypto = findViewById(R.id.cb_IsCryptPass);
 
         intIdPass = getIntent().getExtras().getString("idPass");
         strNamePass = getIntent().getExtras().getString("namePass");
@@ -53,7 +49,7 @@ public class addEditPass extends AppCompatActivity {
         strCommentPass = getIntent().getExtras().getString("commentPass");
 
         strDateCreate = getIntent().getExtras().getString("dateCreatePass");
-        strDateChange = getIntent().getExtras().getString("dateChangePass");
+        if (!strDateCreate.isEmpty()) strDateCreate = new DateTimeHelper().convertNormalDateToSQLite(strDateCreate);
 
         cbIsCrypto.setChecked((getIntent().getExtras().getString("isCryptoPass").equals("1")) ||
                 intIdPass.equals("0"));//флаг шифровать или нет
@@ -69,39 +65,41 @@ public class addEditPass extends AppCompatActivity {
         TextView tvLoginPass = (TextView)findViewById(R.id.etLoginPass);
         tvLoginPass.setText(strLoginPass);
 
-        TextView tvPassPass = (TextView)findViewById(R.id.etPassPass);
-        tvPassPass.setText(strPassPass);
+        final EditText etPasswd = findViewById(R.id.etPassPass);
+        etPasswd.setText(strPassPass);
 
         TextView tvCommentPass = (TextView)findViewById(R.id.etCommentPass);
         tvCommentPass.setText(strCommentPass);
 
-        TextView tvDateCreate = (TextView) findViewById(R.id.tvDateCreateNote);
+        TextView tvDateCreate = (TextView) findViewById(R.id.tvDateCreate);
         TextView tvDateChange = (TextView) findViewById(R.id.tvDateChange);
+        TextView tvLabelDateCreate = findViewById(R.id.tvLabelDateCreate);
+        TextView tvLabelDateChange = findViewById(R.id.tvLabelDateChange);
+        View divider4 = findViewById(R.id.divider4);
 
-//Вычисляем текущую дату и форматируем ее
-        Date currentDate = new Date();
-// Форматирование даты как "день.месяц.год"
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        String dateText = dateFormat.format(currentDate);
+        String dateText = (new DateTimeHelper().getCurrentDateLikeSQLite());
+        strDateChange = dateText;
 
-        if ((strDateCreate.isEmpty()) || (strDateCreate =="")) {
+        if (intIdPass.equals("0")) {
             tvDateCreate.setText(dateText);
             tvDateChange.setText(dateText);
+
+            //прячем элементы с датами, т.к. при создании они не имеют смысла
+/*            tvDateCreate.setVisibility(View.GONE);
+            tvDateChange.setVisibility(View.GONE);
+            tvLabelDateCreate.setVisibility(View.GONE);
+            tvLabelDateChange.setVisibility(View.GONE);
+            divider4.setVisibility(View.GONE);*/
 
             strDateCreate = dateText;
             strDateChange = dateText;
         }
         else {
             tvDateCreate.setText(strDateCreate);
-            tvDateChange.setText(dateText);
-
-            strDateChange = dateText;
+            tvDateChange.setText(strDateChange);
         }
 
         //Показываем или скрываем пароль
-        final EditText etPasswd = (EditText) findViewById(R.id.etPassPass);
-
-
         // get the show/hide password Checkbox
         CheckBox cbShowPassswb = (CheckBox) findViewById(R.id.cb_ShowPasswd);
 
@@ -149,10 +147,10 @@ public class addEditPass extends AppCompatActivity {
         answerIntent.putExtra("passPassNew", tvPassPass.getText().toString());
         answerIntent.putExtra("commentPassNew", tvCommentPass.getText().toString());
 
-        TextView tvDateCreate = (TextView) findViewById(R.id.tvDateCreateNote);
-        TextView tvDateChange = (TextView) findViewById(R.id.tvDateChange);
-        answerIntent.putExtra("dateCreatePassNew", strDateCreate);//tvDateCreate.getText().toString());
-        answerIntent.putExtra("dateChangePassNew", strDateChange);//tvDateChange.getText().toString());
+//        TextView tvDateCreate = (TextView) findViewById(R.id.tvDateCreate);
+//        TextView tvDateChange = (TextView) findViewById(R.id.tvDateChange);
+//        answerIntent.putExtra("dateCreatePassNew", strDateCreate);//tvDateCreate.getText().toString());
+//        answerIntent.putExtra("dateChangePassNew", strDateChange);//tvDateChange.getText().toString());
 
         if (cbIsCrypto.isChecked()){
             answerIntent.putExtra("isCryptoPass", 1);

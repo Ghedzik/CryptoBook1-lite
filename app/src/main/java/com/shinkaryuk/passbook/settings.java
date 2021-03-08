@@ -25,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +75,7 @@ public class settings extends AppCompatActivity {
 
         TextView tvLenghtPass = (TextView) findViewById(R.id.tvLenghtPass);
         sbLenghtPass = (SeekBar) findViewById(R.id.sbLenghtPass);
-        CheckBox cbEditOnlyWin = (CheckBox) findViewById(R.id.cbEditOnlyWindow);
+        Switch cbEditOnlyWin = findViewById(R.id.sbEditInWindow);
         //textLenPass = tvLenghtPass.getText().toString();
 
         sbLenghtPass.setOnSeekBarChangeListener(seekBarChangeListener);

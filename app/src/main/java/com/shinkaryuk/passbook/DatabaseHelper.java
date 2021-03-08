@@ -234,51 +234,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
  */
-        try {
-            sqLiteDatabase.execSQL("ALTER TABLE " + imgTable + " ADD " + colImages_main_id_fk + " INTEGER");
-        }
-        catch (Exception e) {
-            SnackbarHelper.show(mContext, viewForSnackbar,"База обновлена");
-        }
-        //конец добавления внешнего ключа
-
-        //создаем новую таблицу images_main если ее нет
-        try {
-            sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + imgMainTable + " (" +
-                    colImgMainID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    colImgMainName + " TEXT, " +
-                    colImgMainComment + " TEXT, " +
-                    colImgMainDateCreate + " TEXT, " +
-                    colImgMainDateChange + " TEXT, " +
-                    colImgMainIsCrypt + " INTEGER, " +
-                    colImages_main_id_key + " INTEGER)");
-            //sqLiteDatabase.execSQL("ALTER TABLE " + imgTable + " ADD " + colImages_main_id_fk + " INTEGER");
-        }
-        catch (Exception e){
-
-        }
-        //конец создания новой таблицы
-    }
-
-    public void upgradeImages(){
-        //делаем update таблицы для начала работы системы по принципу хранения изображений в БД
-        SQLiteDatabase db;
-        db = this.getWritableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM images", new String[]{});
-        cur.moveToFirst();
-        while (!cur.isAfterLast()){
-            insertEditImg(cur.getInt(cur.getColumnIndex("_id")),
-                    cur.getString(cur.getColumnIndex("imgName")),
-                    cur.getString(cur.getColumnIndex("imgFileName")),
-                    cur.getString(cur.getColumnIndex("imgComment")),
-                    cur.getString(cur.getColumnIndex("imgShortFileName")),
-                    cur.getString(cur.getColumnIndex("imgSmallFileName")),
-                    cur.getString(cur.getColumnIndex("imgDateCreate")),
-                    cur.getString(cur.getColumnIndex("imgDateChange")),
-                    "0",
-                    cur.getInt(cur.getColumnIndex(colImages_main_id_fk)));
-            cur.moveToNext();
-        }
     }
 
     public void updateWholeDB(SQLiteDatabase sqLiteDatabase){
@@ -381,7 +336,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cur;
-        cur = db.rawQuery("SELECT * " + "from " + passTable + " ORDER BY _id", new String[]{});
+        cur = db.rawQuery("SELECT * " + "from " + passTable + " ORDER BY " + colPassDateChange + " DESC", new String[]{});
         /*if (sortBy == sortAsc) {
             cur = db.rawQuery("SELECT "
                     + colID + ", "
@@ -400,40 +355,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cur.moveToFirst();
         return cur;
     }
-
-    //получаем все данные из таблицы изображений
-    public Cursor getAllImg()
-    {
-        //getAllImgTree();
-        SQLiteDatabase db=this.getReadableDatabase();
-        //!!!!!!порядок и названия столбцов в SELECT должен совпадать с порядком столбцов в CREATE TABLE для данной таблицы, иначе бэкап не будет работать!!!!!!!
-        //!!!!!!SELECT * не используется потому что нужна функция IFNULL
-        Cursor cur=db.rawQuery("SELECT "
-                + colImgID + ", "
-                + colImgName + ", "
-                + colImgFileName +", "
-                + colImgShortFileName + ", "
-                + colImgSmallFileName + ", "
-                + colImgComment + ", "
-                + colImgDateCreate + ", "
-                + colImgDateChange + ", "
-                + colImgSmall + ", "
-                + colImgIsCrypt + ", "
-                + "IFNULL(" + colImages_main_id_fk + ", 0) AS " + colImages_main_id_fk //чтобы избежать NULL значений, критичных во время бэкапирования
-                + " FROM " + imgTable + " ORDER BY _id", new String[]{});
-        cur.moveToFirst();
-        return cur;
-    }
-
-    //получаем все данные из таблицы изображений
-    public Cursor getAllImagesMain()
-    {
-        SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cur=db.rawQuery("SELECT * from " + imgMainTable + " ORDER BY _id", new String[]{});
-        cur.moveToFirst();
-        return cur;
-    }
-
 
     //еще один способ получения всех данных из таблицы
     public Cursor getPassAllData() {
@@ -482,194 +403,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     strSQL = "DELETE FROM " + passTable + " WHERE _id = " + id + " * (-1)";
                 }
             }
-        }
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        };
-    }
-
-    public int insertEditImg(int id, String name, String img, String comment, String shortImg, String smallImg, String dateCreate, String dateChange, String isCrypto, int images_main_id_fk){
-        SQLiteDatabase db = this.getWritableDatabase();
-        SQLiteDatabase dbr = this.getReadableDatabase();
-        String strSQL = "";
-
-        DbBitmapUtility dbBmp = new DbBitmapUtility();
-        Bitmap aBmpSmall;
-        String mName, mImg, mComment, mShortImg, mSmallImg, mSmallFile = "";
-
-        if (id == 0) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            aBmpSmall = BitmapFactory.decodeFile(/*strPathImg*/ smallImg, options);
-            if (isCrypto.equals("1")) {
-                mSmallFile = EncodeDecodeStr(dbBmp.convertBitmapToBase64(aBmpSmall), CRYPTO_ENCODE);
-            } else {
-                mSmallFile = dbBmp.convertBitmapToBase64(aBmpSmall);
-            }
-        } else if (id > 0){
-            Cursor tmpCur = getAllImgWhere(id);//dbr.rawQuery("SELECT imgSmallFile, isCrypt from images", new String[]{});
-            Integer tmpCrypt = tmpCur.getInt(tmpCur.getColumnIndex("isCrypt"));
-            mSmallFile = tmpCur.getString(tmpCur.getColumnIndex("imgSmallFile"));
-            tmpCur.moveToFirst();
-            if (tmpCrypt == Integer.parseInt(isCrypto)){
-//                mSmallFile = tmpCur.getString(tmpCur.getColumnIndex("imgSmallFile"));
-            } else if (isCrypto.equals("1")){
-                mSmallFile = EncodeDecodeStr(mSmallFile, CRYPTO_ENCODE);
-            } else if (isCrypto.equals("0")){
-                mSmallFile = EncodeDecodeStr(mSmallFile, CRYPTO_DECODE);
-            }
-        }
-
-
-        if (isCrypto.equals("1")) {
-            mName = EncodeDecodeStr(name, CRYPTO_ENCODE);
-            mImg = img;
-            mComment = EncodeDecodeStr(comment, CRYPTO_ENCODE);
-            mShortImg = shortImg;
-            mSmallImg = smallImg;
-
-        } else {
-            mName = name;
-            mImg = img;
-            mComment = comment;
-            mShortImg = shortImg;
-            mSmallImg = smallImg;
-
-        }
-
-        if (id == 0) {
-            strSQL = "INSERT INTO " + imgTable
-                    + " (" + colImgName + ", "
-                    + colImgFileName + ", "
-                    + colImgComment + ", "
-                    + colImgShortFileName + ", "
-                    + colImgSmallFileName + ", "
-                    + colImgDateCreate + ", "
-                    + colImgDateChange + ", "
-                    + colImgSmall + ", "
-                    + colImgIsCrypt + ", "
-                    + colImages_main_id_fk + ") " +
-                    "VALUES ('"
-                    + mName + "', '"
-                    + mImg + "', '"
-                    + mComment +"', '"
-                    + mShortImg +"', '"
-                    + mSmallImg + "', '"
-                    + dateCreate + "', '"
-                    + dateChange + "', '"
-                    + mSmallFile + "', "
-                    + isCrypto + ", "
-                    + String.valueOf(images_main_id_fk) + ")";
-        }
-        else {
-            if (id > 0) { //при апдейте colImages_main_id_fk не меняем, т.к. нет необходимости
-                strSQL = "UPDATE " + imgTable
-                        + " SET " + colImgName + " = '" + mName
-                        + "', " + colImgFileName + " = '" + mImg
-                        + "', " + colImgShortFileName + " = '" + mShortImg
-                        + "', " + colImgSmallFileName + " = '" + mSmallImg
-                        + "', " + colImgComment + " = '" + mComment
-                        + "', " + colImgDateCreate + " = '" + dateCreate
-                        + "', " + colImgDateChange + " = '" + dateChange
-                        + "', " + colImgSmall + " = '" + mSmallFile
-                        + "', " + colImgIsCrypt + " = " + isCrypto
-                        + " WHERE _id = " + Integer.toString(id);
-            }
-            else {
-                if (id < 0){
-                    strSQL = "DELETE FROM " + imgTable + " WHERE _id = " + Integer.toString(id * (-1));
-                }
-            }
-        }
-        if (db != null & !strSQL.equals("")) {
-            try {
-                db.execSQL(strSQL);
-                deleteUnUsedFiles();
-            }catch (Exception e) {
-                e.printStackTrace();
-                String msg = e.getMessage();
-                Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
-            }
-
-            //сюда надо добавить удаление временных файлов
-        };
-
-        //вычисляем ID последней вставленной записи, если был insert
-        if (id == 0) {
-            strSQL = "SELECT max(_id) FROM " + imgTable;
-            Cursor curGetLastID = db.rawQuery(strSQL, new String[]{});
-            curGetLastID.moveToFirst();
-            return curGetLastID.getInt(0);
-        } else return id;
-    }
-
-    public void insertImgForRestore(int id, String name, String img, String comment, String shortImg,
-                                    String smallImg, String dateCreate, String dateChange,
-                                    String fileSmall, String isCrypto, String main_fk){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-
-        DbBitmapUtility dbu = new DbBitmapUtility();
-
-        String mName, mImg, mComment, mShortImg, mSmallImg, mSmallFile, mMain_FK;
-        if (fileSmall.equals("")) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            Bitmap aBmpSmall = BitmapFactory.decodeFile(/*strPathImg*/ smallImg, options);
-            mSmallFile = dbu.convertBitmapToBase64(aBmpSmall);
-            if (isCrypto.equals("1")){
-                mSmallFile = EncodeDecodeStr(dbu.convertBitmapToBase64(aBmpSmall), CRYPTO_ENCODE);
-            }
-        } else {
-            mSmallFile = fileSmall;
-        }
-        mName = name;
-        mImg = img;
-        mComment = comment;
-        mShortImg = shortImg;
-        mSmallImg = smallImg;
-        mMain_FK = main_fk;
-
-
-        if (id == 0) {
-            strSQL = "INSERT INTO " + imgTable
-                    + " (imgName, imgFileName, imgComment, imgShortFileName, imgSmallFileName, imgDateCreate, imgDateChange, imgSmallFile, isCrypt, images_main_id_fk) VALUES ('"
-                    + mName + "', '"
-                    + mImg + "', '"
-                    + mComment +"', '"
-                    + mShortImg +"', '"
-                    + mSmallImg + "', '"
-                    + dateCreate + "', '"
-                    + dateChange + "', '"
-                    + mSmallFile + "', "
-                    + isCrypto + ", "
-                    + mMain_FK + ")";
-        }
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        };
-    }
-
-    public void insertImgMainForRestore(int id, String name, String comment, String dateCreate, String dateChange, String isCrypto, String mainKey){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-
-        DbBitmapUtility dbu = new DbBitmapUtility();
-
-        if (id == 0) {
-            strSQL = "INSERT INTO " + imgMainTable
-                    + " ("
-                    + colImgMainName + ", "
-                    + colImgMainComment + ", "
-                    + colImgMainDateCreate + ", "
-                    + colImgMainDateChange + ", "
-                    + colImgMainIsCrypt + ", "
-                    + colImages_main_id_key + ") "
-                    + "VALUES ('"
-                    + name + "', '"
-                    + comment +"', '"
-                    + dateCreate + "', '"
-                    + dateChange + "', "
-                    + isCrypto + ", "
-                    + mainKey + ")";
         }
         if (db != null & !strSQL.equals("")) {
             db.execSQL(strSQL);
@@ -817,40 +550,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(strSQL);
     }
 
-    public void deleteImgAll(){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "DELETE FROM " + imgTable;
-        db.execSQL(strSQL);
-        strSQL = "DELETE FROM " + imgMainTable;
-        db.execSQL(strSQL);
-        deleteUnUsedFiles();
-    }
-
-    public void deleteNotesAll(){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "DELETE FROM " + notesTable;
-        db.execSQL(strSQL);
-    }
-
-    public void deleteImagesMainAll(){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "DELETE FROM " + imgMainTable;
-        db.execSQL(strSQL);
-    }
-
-
     //получаем фильтрованные данные из таблицы изображений
     public Cursor getAllImgWhere(String columnName, String strWhere){
         SQLiteDatabase db=this.getReadableDatabase();
         String strSelect = "SELECT * from "+imgTable + " WHERE " + columnName + " LIKE '%" + strWhere + "%'" + " ORDER BY _id";
-        Cursor cur=db.rawQuery(strSelect, new String[]{});
-        cur.moveToFirst();
-        return cur;
-    }
-
-    public Cursor getAllImgWhere(Integer id){
-        SQLiteDatabase db=this.getReadableDatabase();
-        String strSelect = "SELECT * from "+imgTable + " WHERE _id = " + Integer.toString(id);
         Cursor cur=db.rawQuery(strSelect, new String[]{});
         cur.moveToFirst();
         return cur;
@@ -870,54 +573,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cur=db.rawQuery(strSelect, new String[]{});
         cur.moveToFirst();
         return cur;
-    }
-
-    public Cursor getAllNotes(){
-        SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cur=db.rawQuery("SELECT * "+"from "+ notesTable + " ORDER BY _id", new String[]{});
-        cur.moveToFirst();
-        return cur;
-    }
-
-    public void insertEditNotes(int notesID, String notesNotes, String noteDateCreate, String noteDateChange, String isCrypto){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-        if (notesID == 0) {
-            if (isCrypto.equals("1")) {
-                strSQL = "INSERT INTO " + notesTable
-                        + " (notesNoteName, notesDateCreate, notesDateChange, isCrypt) VALUES ('"
-                        + EncodeDecodeStr(notesNotes, CRYPTO_ENCODE) + "','" + noteDateCreate + "', '" + noteDateChange + "', " + isCrypto + ")";
-            } else {
-                strSQL = "INSERT INTO " + notesTable
-                        + " (notesNoteName, notesDateCreate, notesDateChange, isCrypt) VALUES ('"
-                        + notesNotes + "','" + noteDateCreate + "', '" + noteDateChange + "', " + isCrypto + ")";
-            }
-        }
-        else {
-            if (notesID > 0) {
-                if (isCrypto.equals("1")) {
-                    strSQL = "UPDATE " + notesTable + " SET notesNoteName = '" + EncodeDecodeStr(notesNotes, CRYPTO_ENCODE)
-                            + "', notesDateCreate = '" + noteDateCreate
-                            + "', notesDateChange = '" + noteDateChange
-                            + "', isCrypt = " + isCrypto
-                            + " WHERE _id = " + Integer.toString(notesID);
-                } else {
-                    strSQL = "UPDATE " + notesTable + " SET notesNoteName = '" + notesNotes
-                            + "', notesDateCreate = '" + noteDateCreate
-                            + "', notesDateChange = '" + noteDateChange
-                            + "', isCrypt = " + isCrypto
-                            + " WHERE _id = " + Integer.toString(notesID);
-                }
-            }
-            else {
-                if (notesID < 0){
-                    strSQL = "DELETE FROM " + notesTable + " WHERE _id = " + Integer.toString(notesID * (-1));
-                }
-            }
-        }
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        };
     }
 
     public void updateFavoritePass(int passID, int passFavorite){
@@ -954,77 +609,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "', passLogin = '" + loginStr
                 + "', passPass = '" + passStr
                 + "', passComment = '" + commentStr
-                + "', passDateChange = '" + getCurDate()
-                + "', isCrypt = " + Integer.toString(passCrypto)
+                + "', passDateChange = datetime('now')"
+                + ", isCrypt = " + Integer.toString(passCrypto)
                 + " WHERE _id = " + Integer.toString(passID);
 
         if (db != null & !strSQL.equals("")) {
             db.execSQL(strSQL);
         };
-    }
-
-    public void updateIsCryptoNotes(int noteID, int noteCrypto){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-        String nameStr;
-        Cursor aCur = sqlQuery("SELECT notesNoteName FROM notes WHERE _id = " + Integer.toString(noteID));
-        aCur.moveToFirst();
-
-        //проверяем, если надо шифровать, шифруем, в противном случае оставляем текст открытым
-        if (noteCrypto ==1){
-            nameStr = EncodeDecodeStr(aCur.getString(0), CRYPTO_ENCODE);
-
-        } else {
-            nameStr = EncodeDecodeStr(aCur.getString(0), CRYPTO_DECODE);
-        }
-
-        strSQL = "UPDATE " + notesTable + " SET notesNoteName = '" + nameStr
-                + "', notesDateChange = '" + getCurDate()
-                + "', isCrypt = " + Integer.toString(noteCrypto)
-                + " WHERE _id = " + Integer.toString(noteID);
-
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        };
-    }
-
-    public void updateIsCryptoImg(int imgID, int imgCrypto){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-        String nameImg, imgComment, imgSmallFile, fileName;
-        Cursor aCur = sqlQuery("SELECT imgName, imgFileName, imgShortFileName, imgSmallFileName, imgComment, imgSmallFile FROM images WHERE _id = " + Integer.toString(imgID));
-        aCur.moveToFirst();
-
-        fileName = aCur.getString(aCur.getColumnIndex("imgFileName"));
-        //проверяем, если надо шифровать, шифруем, в противном случае оставляем текст открытым
-        if (imgCrypto ==1){
-            nameImg = EncodeDecodeStr(aCur.getString(aCur.getColumnIndex("imgName")), CRYPTO_ENCODE);
-            imgComment = EncodeDecodeStr(aCur.getString(aCur.getColumnIndex("imgComment")), CRYPTO_ENCODE);
-            imgSmallFile = EncodeDecodeStr(aCur.getString(aCur.getColumnIndex("imgSmallFile")), CRYPTO_ENCODE);
-        } else {
-            nameImg = EncodeDecodeStr(aCur.getString(aCur.getColumnIndex("imgName")), CRYPTO_DECODE);
-            imgComment = EncodeDecodeStr(aCur.getString(aCur.getColumnIndex("imgComment")), CRYPTO_DECODE);
-            imgSmallFile = EncodeDecodeStr(aCur.getString(aCur.getColumnIndex("imgSmallFile")), CRYPTO_DECODE);
-        }
-
-        strSQL = "UPDATE " + imgTable + " SET imgName = '" + nameImg
-                + "', imgComment = '" + imgComment
-                + "', imgSmallFile = '" + imgSmallFile
-                + "', imgDateChange = '" + getCurDate()
-                + "', isCrypt = " + Integer.toString(imgCrypto)
-                + " WHERE _id = " + Integer.toString(imgID);
-
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        }
-
-        if (imgCrypto == 1) {
-            SecretHelper sh = new SecretHelper();
-            sh.EncodeFile(mContext, Uri.parse(fileName), ((passApp)mContext).getPass());
-        } else {
-            SecretHelper sh = new SecretHelper();
-            sh.DecodeFile(mContext, Uri.parse(fileName), ((passApp)mContext).getPass());
-        }
     }
 
     //получаем все отсортированные данные из таблицы паролей
@@ -1049,35 +640,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String strSQL = "SELECT * " + "from " + passTable
                         + " WHERE passFavorite = " + Integer.toString(favValue)
                         + " AND (passName LIKE '%" + searchText + "%'" + " OR passComment LIKE '%" + searchText +"%')"
-                        + " ORDER BY UPPER(" + colName +")";
+                        + " ORDER BY " + colPassDateChange +" DESC";
                 cur = db.rawQuery(strSQL, new String[]{});
             } else {
                 String strSQL = "SELECT * " + "from " + passTable
                         + " WHERE (passName LIKE '%" + searchText + "%'" + " OR passComment LIKE '%" + searchText +"%')"
-                        + " ORDER BY UPPER(" + colName + ")";
+                        + " ORDER BY " + colPassDateChange + " DESC";
                 cur = db.rawQuery(strSQL, new String[]{});
             }
         } else {
             if (favValue == whereFav) {
                 String strSQL = "SELECT * " + "from " + passTable
                         + " WHERE (passName LIKE '%" + searchText + "%'" + " OR passComment LIKE '%" + searchText +"%')"
-                        + " AND passFavorite = " + Integer.toString(favValue) + " ORDER BY UPPER(" + colName + ") DESC";
+                        + " AND passFavorite = " + Integer.toString(favValue) + " ORDER BY " + colPassDateChange + " DESC";
                 cur = db.rawQuery(strSQL, new String[]{});
             } else {
                 String strSQL = "SELECT * " + "from " + passTable
                         + " WHERE (passName LIKE '%" + searchText + "%'" + " OR passComment LIKE '%" + searchText +"%')"
-                        + " ORDER BY UPPER(" + colName + ") DESC";
+                        + " ORDER BY " + colPassDateChange + " DESC";
                 cur = db.rawQuery(strSQL, new String[]{});
             }
         }
-        cur.moveToFirst();
-        return cur;
-    }
-
-    public Cursor getAllNotesWhere(String searchText){
-        SQLiteDatabase db=this.getReadableDatabase();
-        String strSQL = "SELECT * "+"from " + notesTable + " WHERE notesNoteName LIKE '%" + searchText + "%'" + " ORDER BY _id";
-        Cursor cur=db.rawQuery(strSQL, new String[]{});
         cur.moveToFirst();
         return cur;
     }
@@ -1120,18 +703,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
-    public void insertNotesForRestore(int notesID, String notesNotes, String noteDateCreate, String noteDateChange, String isCrypto){
-        //Отдельная функция для создания записей из бэкапа. Тут надо восстановить ровно так как есть в бэкапе, без шифрования/дешифрования
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-        strSQL = "INSERT INTO " + notesTable
-                + " (notesNoteName, notesDateCreate, notesDateChange, isCrypt) VALUES ('"
-                + notesNotes + "','" + noteDateCreate + "', '" + noteDateChange + "', " + isCrypto + ")";
-
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        }
-    }
 
     public boolean changePassword(String oldPass, String newPass){
         //При смене пароля надо перешифровать все данные в БД. Чтобы была возможность в случае неуспеха откатить изменения будем делать все в рамках одной транзакции.
@@ -1246,175 +817,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         String dateText = dateFormat.format(currentDate);
         return dateText;
-    }
-
-    public void deleteUnUsedFiles(){
-        //SQLiteDatabase imgDB = this.getWritableDatabase();
-        String[] fList = mContext.fileList();;
-        Cursor whereCursor;
-        String whereStr = "";
-        String[] fldList = new String[3];
-        fldList[0] = this.colImgSmallFileName;
-        fldList[1] = this.colImgFileName;
-        fldList[2] = this.colImgShortFileName;
-        for (int i  = 0; i <= fList.length - 1; i++){
-            whereStr = fList[i];
-            whereCursor = this.getAllImgWhere(fldList, whereStr);
-            if (whereCursor.getCount() == 0){
-                mContext.deleteFile(whereStr);
-            }
-        }
-    }
-
-    public int insertEditMainImages(int id, String imgMainName, String imgMainComment, String imgMainDateCreate, String imgMainDateChange, String isCrypto, int images_main_id){
-        SQLiteDatabase db=this.getWritableDatabase();
-        String strSQL = "";
-        String nameStr, commentStr;
-        int newKey = -1;
-
-        //проверяем, если надо шифровать, шифруем, в противном случае оставляем тектс открытым
-        if (isCrypto.equals("1")){
-            nameStr = EncodeDecodeStr(imgMainName, CRYPTO_ENCODE);
-            commentStr = EncodeDecodeStr(imgMainComment, CRYPTO_ENCODE);
-        } else {
-            nameStr = imgMainName;
-            commentStr = imgMainComment;
-        }
-
-        if (id == 0) {
-            strSQL = "INSERT INTO " + imgMainTable + " ("
-                    + colImgMainName + ", "
-                    + colImgMainComment + ", "
-                    + colImgMainDateCreate + ", "
-                    + colImgMainDateChange + ", "
-                    + colImgMainIsCrypt + ", "
-                    + colImages_main_id_key + ") " +
-                    "VALUES ('" + nameStr + "', '"
-                    + commentStr +"', '"
-                    + imgMainDateCreate +"', '"
-                    + imgMainDateChange + "', "
-                    + isCrypto + ", "
-                    + images_main_id + ")";
-        }
-        else {
-            if (id > 0) {
-                strSQL = "UPDATE " + imgMainTable + " SET " + colImgMainName + " = '" + nameStr
-                        + "', " + colImgMainComment + "= '" + commentStr
-                        + "', " + colImgMainDateCreate + "= '" + imgMainDateCreate
-                        + "', " + colImgMainDateChange + "= '" + imgMainDateChange
-                        + "', " + colImgMainIsCrypt + "= " + isCrypto
-                        //+ ", " + colImages_main_id_key + "=" + String.valueOf(colImages_main_id_key) //при апдейте ключ не меняем
-                        + " WHERE _id = " + id;
-            }
-            else {
-                if (id < 0){
-                    strSQL = "DELETE FROM " + imgMainTable + " WHERE " + colImgMainID + "="  + String.valueOf(id) + " * (-1)";
-                }
-            }
-        }
-        if (db != null & !strSQL.equals("")) {
-            db.execSQL(strSQL);
-        };
-
-        if (id == 0) {
-            //вычисляем ID последней вставленной записи, если был insert
-            strSQL = "SELECT max(" + colImages_main_id_key +") FROM " + imgMainTable;
-            Cursor curGetLastID = db.rawQuery(strSQL, new String[]{});
-            curGetLastID.moveToFirst();
-            newKey = curGetLastID.getInt(0);
-            newKey = newKey + 1;
-            strSQL = "UPDATE " + imgMainTable + " SET " + colImages_main_id_key + "=" + String.valueOf(newKey)
-                    + " WHERE " + colImages_main_id_key + " IS NULL OR " + colImages_main_id_key + "=-1 OR " + colImages_main_id_key + "=0";
-
-            if (db != null & !strSQL.equals("")) {
-                db.execSQL(strSQL);
-            };
-            //return newKey = curGetLastID.getInt(0);
-        }
-
-        return newKey;
-    }
-
-    public Cursor getAllImgTree(){
-        SQLiteDatabase db=this.getReadableDatabase();
-
-        String strSelect = "SELECT "
-                + colImgMainID + " AS _id_main, "
-                + colImgMainName + ", "
-                + colImgMainComment + ", "
-                + colImgMainDateCreate + ", "
-                + colImgMainDateChange + ", "
-                + colImgMainIsCrypt + " AS " + colImgMainIsCrypt + "_main, "
-                + colImages_main_id_key + ", "
-
-                + "0 AS " + colImgID + ", "
-                + "'' AS " + colImgName + ", "
-                + "'' AS " + colImgFileName + ", "
-                + "'' AS " + colImgShortFileName + ", "
-                + "'' AS " + colImgSmallFileName + ", "
-                + "'' AS " + colImgComment + ", "
-                + "'' AS " + colImgDateCreate + ", "
-                + "'' AS " + colImgDateChange + ", "
-                + "'' AS " + colImgSmall + ", "
-                + "'' AS " + colImgIsCrypt + ", "
-                + colImages_main_id_key + " AS " + colImages_main_id_fk + ", "
-                + " CAST(" + colImages_main_id_key + " AS TEXT) AS part_full_key"
-                + " from " + imgMainTable
-                + " UNION ALL "
-                + "SELECT "
-                + "0 AS " + colImgMainID + "_main, "
-                + "'' AS " + colImgMainName + ", "
-                + "'' AS " + colImgMainComment + ", "
-                + "'' AS " + colImgMainDateCreate + ", "
-                + "'' AS " + colImgMainDateChange + ", "
-                + "0 AS " + colImgMainIsCrypt + "_main, "
-                + colImages_main_id_fk + " AS " + colImages_main_id_key + ", "
-                //
-                + colImgID + ", "
-                + colImgName + ", "
-                + colImgFileName + ", "
-                + colImgShortFileName + ", "
-                + colImgSmallFileName + ", "
-                + colImgComment + ", "
-                + colImgDateCreate + ", "
-                + colImgDateChange + ", "
-                + colImgSmall + ", "
-                + colImgIsCrypt + ", "
-                + colImages_main_id_fk + " AS " + colImages_main_id_fk + ", "
-                + "'Z' AS part_full_key"
-                + " FROM " + imgTable
-                + " WHERE " + colImages_main_id_fk + "<=0 OR " + colImages_main_id_fk + " IS NULL"
-                + " UNION ALL "
-                + "SELECT "
-                + "0 AS " + colImgMainID + "_main, "
-                + "'' AS " + colImgMainName + ", "
-                + "'' AS " + colImgMainComment + ", "
-                + "'' AS " + colImgMainDateCreate + ", "
-                + "'' AS " + colImgMainDateChange + ", "
-                + "0 AS " + colImgMainIsCrypt + "_main, "
-                + colImages_main_id_fk + " AS " + colImages_main_id_key + ", "
-                //
-                + colImgID + ", "
-                + colImgName + ", "
-                + colImgFileName + ", "
-                + colImgShortFileName + ", "
-                + colImgSmallFileName + ", "
-                + colImgComment + ", "
-                + colImgDateCreate + ", "
-                + colImgDateChange + ", "
-                + colImgSmall + ", "
-                + colImgIsCrypt + ", "
-                + colImages_main_id_fk + " AS " + colImages_main_id_fk + ", "
-                + "(CAST(" + colImages_main_id_fk + " AS TEXT) || '.' || CAST(" + colImgID + " AS TEXT)) AS part_full_key"
-                + " FROM " + imgTable
-                + " WHERE " + colImages_main_id_fk + ">0"
-                + " ORDER BY part_full_key";
-        Cursor cur=db.rawQuery(strSelect, new String[]{});
-        cur.moveToFirst();
-        while (!cur.isAfterLast()){
-            cur.moveToNext();
-        }
-        return cur;
     }
 
 }

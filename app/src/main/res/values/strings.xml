@@ -69,8 +69,8 @@
     <string name="control_cancel">Cancel</string>
     <string name="control_encode">Encode</string>
     <string name="control_create_backup">Create backup</string>
-    <string name="control_restore_backup">Restore</string>
-    <string name="control_change_password">Change password</string>
+    <string name="control_restore_backup">Restore                 ...</string>
+    <string name="control_change_password">Change password                ...</string>
     <string name="control_create">New password</string>
     <string name="control_ok">OK</string>
     <string name="control_generate_password">Generate password</string>

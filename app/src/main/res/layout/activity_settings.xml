@@ -9,42 +9,52 @@
 
     <Button
         android:id="@+id/btnChangeAppPass"
-        android:layout_width="121dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/сolorBackgroundBlack"
         android:onClick="onClickChangePasswd"
         android:text="@string/control_change_password"
+        android:textAlignment="textStart"
         android:textColor="@color/сolorTextBlack"
-        app:layout_constraintStart_toEndOf="@+id/btnImportData"
-        app:layout_constraintTop_toBottomOf="@+id/settingsToolbar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnImportData" />
 
     <Button
         android:id="@+id/btnExportData"
-        android:layout_width="121dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/сolorBackgroundBlack"
         android:onClick="onClick"
         android:text="@string/control_create_backup"
+        android:textAlignment="textStart"
         android:textColor="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settingsToolbar" />
 
     <Button
         android:id="@+id/btnImportData"
-        android:layout_width="121dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/сolorBackgroundBlack"
         android:onClick="onClickRestoreBackup"
         android:text="@string/control_restore_backup"
+        android:textAlignment="textStart"
         android:textColor="@color/сolorTextBlack"
-        app:layout_constraintStart_toEndOf="@+id/btnExportData"
-        app:layout_constraintTop_toBottomOf="@+id/settingsToolbar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnExportData" />
 
     <Button
         android:id="@+id/btnClearFiles"
@@ -55,25 +65,28 @@
         android:onClick="onClickClearFiles"
         android:text="@string/control_delete_unused_files"
         android:textColor="@color/сolorTextBlack"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/btnDelAllData"
-        android:layout_width="121dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/сolorBackgroundBlack"
         android:elevation="@dimen/margin_tiny"
+        android:onClick="onClickClearDB"
         android:shadowColor="@color/сolorFABDown"
         android:text="Удалить данные"
         android:textColor="@color/сolorTextBlack"
-        android:visibility="invisible"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnExportData" />
+        app:layout_constraintTop_toBottomOf="@+id/upgradeDB" />
 
     <ListView
         android:id="@+id/lvFileList"
@@ -85,42 +98,44 @@
         android:dividerHeight="1dp"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btnClearFiles"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbEditOnlyWindow" />
+        app:layout_constraintTop_toBottomOf="@+id/sbEditInWindow" />
 
     <Button
         android:id="@+id/upgradeDB"
-        android:layout_width="121dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/сolorBackgroundBlack"
         android:onClick="onClickUpgradeDB"
         android:text="Upgrade DB"
         android:textColor="@color/сolorTextBlack"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/btnDelAllData"
-        app:layout_constraintTop_toBottomOf="@+id/btnImportData" />
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChangeAppPass" />
 
     <TextView
         android:id="@+id/tvLenghtPass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:clickable="false"
         android:focusable="false"
         android:onClick="onClickForVisibleFiles"
         android:text="@string/label_length_of_generate_password"
         android:textAlignment="center"
         android:textColor="@color/сolorTextBlack"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView9"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/btnDelAllData" />
 
     <SeekBar
@@ -129,7 +144,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:max="20"
         android:min="8"
@@ -143,36 +158,23 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="8"
         android:textColor="@color/сolorTextBlack"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLenghtPass" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDelAllData" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="55dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="20"
         android:textColor="@color/сolorTextBlack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLenghtPass" />
-
-    <CheckBox
-        android:id="@+id/cbEditOnlyWindow"
-        android:layout_width="309dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/control_edit_in_window"
-        android:textColor="@color/сolorTextBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbLenghtPass" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDelAllData" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/settingsToolbar"
@@ -195,5 +197,18 @@
         android:textColor="@color/сolorTextBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/sbEditInWindow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/control_edit_in_window"
+        android:textColor="@color/сolorTextBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sbLenghtPass" />
 
 </android.support.constraint.ConstraintLayout>
