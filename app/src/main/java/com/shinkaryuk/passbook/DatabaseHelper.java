@@ -385,7 +385,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "VALUES ('" + nameStr + "', '"
                     + loginStr + "', '"
                     + passStr + "', '"
-                    + commentStr +"', " + fav +", '" + dateCreate +"', '" + dateChange + "', " + isCrypto +")";
+                    + commentStr +"', "
+                    + fav +", DATETIME('now'), DATETIME('now'), "
+                    + isCrypto +")";
         }
         else {
             if (id > 0) {
@@ -393,9 +395,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + "', passLogin = '" + loginStr
                         + "', passPass = '" + passStr
                         + "', passComment = '" + commentStr
-                        + "', passDateCreate = '" + dateCreate
-                        + "', passDateChange = '" + dateChange
-                        + "', isCrypt = " + isCrypto
+                        //+ "', passDateCreate = '" + dateCreate
+                        + "', passDateChange = DATETIME('now')"
+                        + ", isCrypt = " + isCrypto
                         + " WHERE _id = " + id;
             }
             else {
@@ -550,31 +552,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(strSQL);
     }
 
-    //получаем фильтрованные данные из таблицы изображений
-    public Cursor getAllImgWhere(String columnName, String strWhere){
-        SQLiteDatabase db=this.getReadableDatabase();
-        String strSelect = "SELECT * from "+imgTable + " WHERE " + columnName + " LIKE '%" + strWhere + "%'" + " ORDER BY _id";
-        Cursor cur=db.rawQuery(strSelect, new String[]{});
-        cur.moveToFirst();
-        return cur;
-    }
-
-    public Cursor getAllImgWhere(String[] columnName, String strWhere){
-        SQLiteDatabase db=this.getReadableDatabase();
-        String aWhere = "";
-        for (int i  = 0; i <= columnName.length - 1; i++){
-            if (aWhere.equals("")){
-                aWhere = " WHERE " + columnName[i] + " LIKE '%" + strWhere + "%'" ;
-            } else {
-                aWhere = aWhere + " OR " +columnName[i] + " LIKE '%" + strWhere + "%'" ;
-            }
-        }
-        String strSelect = "SELECT * from " + imgTable  + aWhere + " ORDER BY _id";
-        Cursor cur=db.rawQuery(strSelect, new String[]{});
-        cur.moveToFirst();
-        return cur;
-    }
-
     public void updateFavoritePass(int passID, int passFavorite){
         SQLiteDatabase db = this.getWritableDatabase();
         String strSQL = "";
@@ -609,8 +586,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "', passLogin = '" + loginStr
                 + "', passPass = '" + passStr
                 + "', passComment = '" + commentStr
-                + "', passDateChange = datetime('now')"
-                + ", isCrypt = " + Integer.toString(passCrypto)
+                + "', isCrypt = " + Integer.toString(passCrypto)
                 + " WHERE _id = " + Integer.toString(passID);
 
         if (db != null & !strSQL.equals("")) {

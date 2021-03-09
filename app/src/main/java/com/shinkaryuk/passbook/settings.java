@@ -475,7 +475,7 @@ public class settings extends AppCompatActivity {
 
     }
 
-    public void onClickClearFiles(View v){
+/*    public void onClickClearFiles(View v){ для lite версии не надо
         DatabaseHelper imgDB;
         imgDB = new DatabaseHelper(this, v);
         Cursor whereCursor;
@@ -492,7 +492,7 @@ public class settings extends AppCompatActivity {
             }
         }
         ShowFilesIntenalStorage();
-    }
+    }*/
 
 //удаляем все файлы внутреннего хранилища перед восстановлением из бэкапа
     public void deleteAllFiles(){
@@ -508,7 +508,7 @@ public class settings extends AppCompatActivity {
 
 
     //копируем файлы изображений из приложения во внешнюю папку
-    public void backupFilesImg(File dirBackup){
+/*    public void backupFilesImg(File dirBackup){для lite версии не нужно
         DatabaseHelper imgDB;
         imgDB = new DatabaseHelper(this, sbLenghtPass);
         Cursor whereCursor;
@@ -528,7 +528,7 @@ public class settings extends AppCompatActivity {
         }
 
         ShowFilesIntenalStorage();
-    }
+    }*/
 
     //копируем файлы изображений из внешней папки в приложение
     public void restoreFilesImg(File dirBackup){
